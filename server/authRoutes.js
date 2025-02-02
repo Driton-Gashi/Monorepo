@@ -10,18 +10,24 @@ router.post("/register", async (req, res) => {
   const { name, lastname, email, password } = req.body;
 
   try {
+    // Check if user already exists
     const [rows] = await db.execute("SELECT * FROM users WHERE email = ?", [email]);
 
     if (rows.length > 0) {
       return res.status(400).json({ message: "User already exists." });
     }
 
+    // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Insert new user into the database (including lastname)
     await db.execute("INSERT INTO users (name, lastname, email, password) VALUES (?, ?, ?, ?)", 
       [name, lastname, email, hashedPassword]);
 
+    // Generate JWT token
     const token = jwt.sign({ email }, "your-secret-key", { expiresIn: "1h" });
 
+    // Respond with success message and token
     res.status(201).json({ message: "User registered successfully", token });
 
   } catch (error) {
@@ -30,26 +36,29 @@ router.post("/register", async (req, res) => {
   }
 });
 
-// User login endpoint
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
   try {
+    // Check if the user exists
     const [rows] = await db.execute("SELECT * FROM users WHERE email = ?", [email]);
 
     if (rows.length === 0) {
       return res.status(400).json({ message: "User does not exist." });
     }
 
+    // Compare password with hashed password in database
     const user = rows[0];
+    const isPasswordValid = await bcrypt.compare(password, user.password);
 
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return res.status(400).json({ message: "Invalid password." });
+    if (!isPasswordValid) {
+      return res.status(400).json({ message: "Incorrect password." });
     }
 
-    const token = jwt.sign({ email: user.email }, "your-secret-key", { expiresIn: "1h" });
+    // Generate JWT token
+    const token = jwt.sign({ email: user.email, id: user.id }, "your-secret-key", { expiresIn: "1h" });
 
+    // Respond with success and token
     res.status(200).json({ message: "Login successful", token });
 
   } catch (error) {
@@ -57,5 +66,6 @@ router.post("/login", async (req, res) => {
     res.status(500).json({ message: "Server error." });
   }
 });
+
 
 module.exports = router;
