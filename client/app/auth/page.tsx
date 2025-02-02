@@ -1,0 +1,123 @@
+"use client";
+import { useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import Link from 'next/link';
+
+const AuthPage = () => {
+  const isLogin = useSearchParams().get('mode') === 'login';
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: ''
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prevData => ({
+      ...prevData,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const url = isLogin ? 'http://localhost:5000/api/login' : 'http://localhost:5000/api/register';
+    
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    });
+
+    const result = await response.json();
+    if (result.success) {
+      console.log('Authentication successful');
+      // Handle redirect or update UI
+    } else {
+      console.log('Authentication failed:', result.message);
+    }
+  };
+
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <div className="bg-white p-8 rounded-lg shadow-md w-96">
+        <h2 className="text-2xl font-bold mb-6 text-center">
+          {isLogin ? 'Login' : 'Register'}
+        </h2>
+        <form onSubmit={handleSubmit}>
+          {!isLogin && (
+            <div className="mb-4">
+              <label className="block text-sm font-medium mb-2" htmlFor="name">
+                Name
+              </label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                className="w-full p-2 border border-gray-300 rounded-lg"
+                placeholder="Enter your name"
+                value={formData.name}
+                onChange={handleChange}
+              />
+            </div>
+          )}
+          <div className="mb-4">
+            <label className="block text-sm font-medium mb-2" htmlFor="email">
+              Email
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              className="w-full p-2 border border-gray-300 rounded-lg"
+              placeholder="Enter your email"
+              value={formData.email}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="mb-6">
+            <label className="block text-sm font-medium mb-2" htmlFor="password">
+              Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              className="w-full p-2 border border-gray-300 rounded-lg"
+              placeholder="Enter your password"
+              value={formData.password}
+              onChange={handleChange}
+            />
+          </div>
+          <button
+            type="submit"
+            className="w-full bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600 transition duration-200"
+          >
+            {isLogin ? 'Login' : 'Register'}
+          </button>
+        </form>
+        <p className="mt-4 text-center">
+          {isLogin ? "Don't have an account? " : "Already have an account? "}
+          <Link
+          onClick={() => {
+            setFormData({
+              name: '', 
+              email: '',
+              password: ''
+            });
+          }}
+            href={`?mode=${isLogin ? 'signup' : 'login'}`}
+            className="text-blue-500 hover:underline focus:outline-none"
+          >
+            {isLogin ? 'Register' : 'Login'}
+          </Link>
+        </p>
+      </div>
+    </div>
+  );
+};
+
+export default AuthPage;
