@@ -1,7 +1,7 @@
-import { findFoodByName, createFood, getAllFoods} from "../models/foodModel.js";
+import { findFoodByName, createFood, getAllFoods, getAllCategories} from "../models/foodModel.js";
 
 export const createNewFood = async (req, res) => {
-  const { name, price, category, image_url} = req.body;
+  const { name, price, image_url, category_id} = req.body;
 
   try {
     // Check if food exists
@@ -11,7 +11,7 @@ export const createNewFood = async (req, res) => {
     }
 
     // Create user
-    await createFood(name, price, category, image_url);
+    await createFood(name, price, image_url, category_id);
     
     res.status(200).json({ message: "Food was added successfuly"});
   } catch (error) {
@@ -19,6 +19,22 @@ export const createNewFood = async (req, res) => {
     res.status(500).json({ message: "Server error." });
   }
 };
+
+export const getCategories =async (req, res)=>{
+
+  try{
+    const categories = await getAllCategories();
+    if (!categories) {
+      return res.status(400).json({ message: "There's no categories in database" });
+    }
+
+    res.status(200).json(categories)
+  }catch(error){
+    console.error(error);
+    res.status(500).json({ message: "Server error." });
+  }
+
+}
 
 export const getFoods = async (req, res) => {
   try {

@@ -69,7 +69,7 @@ export default function Home() {
             <div className="flex flex-wrap">
               {foods.map((element) => (
                 <div className="w-1/3" key={element.food_id}>
-                  <img src={element.image_url} alt="" />
+                  <img src={`https://${process.env.NEXT_PUBLIC_GATEWAY_URL}/ipfs/${element.image_url}`} alt="" />
                   <h2>{element.name}</h2>
                   <h2 className="text-red-600 font-bold my-2">
                     {element.price}€

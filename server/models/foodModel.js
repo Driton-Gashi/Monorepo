@@ -10,9 +10,14 @@ export const getAllFoods = async () =>{
   return rows;
 }
 
-export const createFood = async (name, price, category, image_url) => {
+export const getAllCategories = async () =>{
+  const [rows] = await db.execute("SELECT * FROM categories");
+  return rows;
+}
+
+export const createFood = async (name, price, image_url, category_id) => {
   await db.execute(
-    "INSERT INTO foods (name, price, category, image_url) VALUES (?, ?, ?, ?)",
-    [name, price, category, image_url]
+    "INSERT INTO foods (name, price, image_url, category_id) VALUES ( ?, ?, ?, ?)",
+    [name, price, image_url, category_id]
   );
 };

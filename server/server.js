@@ -14,7 +14,6 @@ app.use(express.json()); // Parse JSON bodies
 // Use authentication routes
 app.use("/api/", authRoutes);
 app.use("/api/", foodRoutes);
-app.use("/api/", foodRoutes)
 
 const PORT = process.env.PORT || 5000;
 
