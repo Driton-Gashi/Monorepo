@@ -2,9 +2,12 @@
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-
+import { redirect } from "next/navigation";
+import { useUser } from "@/app/context/UserContext";
 const AuthPage = () => {
   const isLogin = useSearchParams().get("mode") === "login";
+  const { setLoggedInUserData } = useUser();
+  
   const [formData, setFormData] = useState({
     name: "",
     lastname: "",
@@ -22,11 +25,9 @@ const AuthPage = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    const url = isLogin
-      ? "http://localhost:5000/api/login"
-      : "http://localhost:5000/api/register";
-
+  
+    const url = isLogin ? `${process.env.NEXT_PUBLIC_API_URL}/api/login` : `${process.env.NEXT_PUBLIC_API_URL}/api/register`;
+  
     const response = await fetch(url, {
       method: "POST",
       headers: {
@@ -34,11 +35,14 @@ const AuthPage = () => {
       },
       body: JSON.stringify(formData),
     });
-
+  
     const result = await response.json();
-    if (result.success) {
-      console.log("Authentication successful");
-      // Handle redirect or update UI
+
+    if (response.ok) {
+      setLoggedInUserData({
+        ...result.userData
+      })
+      redirect("/dashboard")
     } else {
       console.log("Authentication failed:", result.message);
     }
@@ -50,7 +54,7 @@ const AuthPage = () => {
         <h2 className="text-2xl font-bold mb-6 text-center">
           {isLogin ? "Login" : "Register"}
         </h2>
-        <form onSubmit={handleSubmit}>
+        <form autoComplete={"off"} onSubmit={handleSubmit}>
           {!isLogin && (
             <div className="flex gap-4">
               <div className="mb-4">

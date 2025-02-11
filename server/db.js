@@ -1,5 +1,9 @@
-const mysql = require("mysql2");
-require("dotenv").config();
+import mysql from "mysql2";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+// Hostinger Database
 const pool = mysql.createPool({
   host: process.env.DATABASE_HOST,
   user: process.env.DATABASE_USER,
@@ -7,4 +11,15 @@ const pool = mysql.createPool({
   database: process.env.DATABASE_NAME,
 });
 
-module.exports = pool.promise();
+// Local Database
+// const pool = mysql.createPool({
+//   host: "localhost",
+//   user: 'root',
+//   password: '',
+//   database: 'foodApp',
+// });
+
+const db = pool.promise();
+
+export default db;
+

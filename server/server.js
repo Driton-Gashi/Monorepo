@@ -1,16 +1,20 @@
-const express = require("express");
-const app = express();
-const cors = require("cors");
-const dotenv = require("dotenv");
-const authRoutes = require("./authRoutes");
-
+import express from "express";
+import dotenv from "dotenv";
+import cors from "cors";
+import authRoutes from "./routes/authRoutes.js";
+import foodRoutes from "./routes/foodRoutes.js"
 dotenv.config();
 
-app.use(cors());
-app.use(express.json()); // to parse JSON bodies
+const app = express();
 
-// Add "/api" prefix to all auth routes
-app.use("/api", authRoutes);
+app.use(cors());
+app.use(express.json()); // Parse JSON bodies
+
+
+// Use authentication routes
+app.use("/api/", authRoutes);
+app.use("/api/", foodRoutes);
+app.use("/api/", foodRoutes)
 
 const PORT = process.env.PORT || 5000;
 
