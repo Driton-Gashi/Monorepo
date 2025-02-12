@@ -1,6 +1,7 @@
 "use client";
 import { useUser } from "./context/UserContext";
 import { useState, useEffect } from "react";
+import FoodCard from "./components/foodCard/FoodCard";
 
 interface Food {
   food_id: number;
@@ -14,7 +15,6 @@ export default function Home() {
   const { loggedInUserData } = useUser();
   const [foods, setFoods] = useState<Food[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchFoods = async () => {
@@ -64,20 +64,32 @@ export default function Home() {
             <button>Category</button>
           </div>
           {loading ? (
-            <div>Loading...</div>
+            <div
+              role="status"
+              className="space-y-8 animate-pulse w-1/3 rtl:space-x-reverse"
+            >
+              <div className="flex items-center justify-center w-full h-48 bg-gray-300 rounded-sm  dark:bg-gray-700">
+                <svg
+                  className="w-10 h-10 text-gray-200 dark:text-gray-600"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  viewBox="0 0 20 18"
+                >
+                  <path d="M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm4.376 10.481A1 1 0 0 1 16 15H4a1 1 0 0 1-.895-1.447l3.5-7A1 1 0 0 1 7.468 6a.965.965 0 0 1 .9.5l2.775 4.757 1.546-1.887a1 1 0 0 1 1.618.1l2.541 4a1 1 0 0 1 .028 1.011Z" />
+                </svg>
+              </div>
+              <div className="w-full">
+                <div className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-48 mb-4"></div>
+                <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[80px] mb-4"></div>
+                <div className="h-6 bg-gray-200 rounded-full dark:bg-gray-700 w-full mb-2.5"></div>
+              </div>
+              <span className="sr-only">Loading...</span>
+            </div>
           ) : (
-            <div className="flex flex-wrap">
-              {foods.map((element) => (
-                <div className="w-1/3" key={element.food_id}>
-                  <img src={`https://${process.env.NEXT_PUBLIC_GATEWAY_URL}/ipfs/${element.image_url}`} alt="" />
-                  <h2>{element.name}</h2>
-                  <h2 className="text-red-600 font-bold my-2">
-                    {element.price}€
-                  </h2>
-                  <button className="py-2 w-full tex-sm text-red-600 rounded-3xl bg-transparent border-2 border-red-600 transition-colors hover:bg-red-600 hover:text-white">
-                    Shto ne Shporte
-                  </button>
-                </div>
+            <div className="flex flex-wrap gap-[8%]">
+              {foods.map((food) => (
+                <FoodCard className="w-1/4" name={food.name} price={food.price} imageUrl={food.image_url} key={food.food_id}/>
               ))}
             </div>
           )}

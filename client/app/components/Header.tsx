@@ -1,5 +1,5 @@
 "use client";
-import {  useState } from "react";
+import { useState } from "react";
 import {
   Dialog,
   DialogPanel,
@@ -19,7 +19,6 @@ import {
   FingerPrintIcon,
   SquaresPlusIcon,
   XMarkIcon,
-  
 } from "@heroicons/react/24/outline";
 import {
   ChevronDownIcon,
@@ -29,7 +28,6 @@ import {
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { useUser } from "@/app/context/UserContext";
-
 
 const products = [
   {
@@ -71,10 +69,9 @@ const callsToAction = [
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
   const { loggedInUserData, setLoggedInUserData } = useUser();
-  
   const logout = (): void => {
     setLoggedInUserData(false);
-    redirect("/auth?mode=login")
+    redirect("/auth?mode=login");
   };
 
   return (
@@ -86,11 +83,7 @@ export default function Header() {
         <div className="flex lg:flex-1">
           <Link href="/" className="-m-1.5 p-1.5">
             <span className="sr-only">Your Company</span>
-            <img
-              alt=""
-              src="/logo.webp"
-              className="h-8 w-auto"
-            />
+            <img alt="" src="/logo.webp" className="h-8 w-auto" />
           </Link>
         </div>
         <div className="flex lg:hidden">
@@ -103,106 +96,107 @@ export default function Header() {
             <Bars3Icon aria-hidden="true" className="size-6" />
           </button>
         </div>
-        {loggedInUserData &&
-         <PopoverGroup className="hidden lg:flex lg:gap-x-12">
-         <Link href="/" className="text-sm/6 font-semibold text-gray-900">
-           Home
-         </Link>
-         <Link href="#" className="text-sm/6 font-semibold text-gray-900">
-           Order
-         </Link>
-         <Link href="#" className="text-sm/6 font-semibold text-gray-900">
-           Checkout
-         </Link>
+        
+          <PopoverGroup className="hidden lg:flex lg:gap-x-12">
+            <Link href="/" className="text-sm/6 font-semibold text-gray-900">
+              Home
+            </Link>
+            <Link href="#" className="text-sm/6 font-semibold text-gray-900">
+              Order
+            </Link>
+            <Link href="#" className="text-sm/6 font-semibold text-gray-900">
+              Checkout
+            </Link>
+            {true && (
+            <Popover className="relative">
+              <PopoverButton className="flex items-center gap-x-1 text-sm/6 font-semibold text-gray-900">
+                Admin
+                <ChevronDownIcon
+                  aria-hidden="true"
+                  className="size-5 flex-none text-gray-400"
+                />
+              </PopoverButton>
 
-         {/* Dropdown Menu */}
-         <Popover className="relative">
-           <PopoverButton className="flex items-center gap-x-1 text-sm/6 font-semibold text-gray-900">
-             Admin
-             <ChevronDownIcon
-               aria-hidden="true"
-               className="size-5 flex-none text-gray-400"
-             />
-           </PopoverButton>
-
-           <PopoverPanel
-             transition
-             className="absolute top-full -left-8 z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white ring-1 shadow-lg ring-gray-900/5 transition data-closed:translate-y-1 data-closed:opacity-0 data-enter:duration-200 data-enter:ease-out data-leave:duration-150 data-leave:ease-in"
-           >
-             <div className="p-4">
-               {products.map((item) => (
-                 <div
-                   key={item.name}
-                   className="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm/6 hover:bg-gray-50"
-                 >
-                   <div className="flex size-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
-                     <item.icon
-                       aria-hidden="true"
-                       className="size-6 text-gray-600 group-hover:text-indigo-600"
-                     />
-                   </div>
-                   <div className="flex-auto">
-                     <a
-                       href={item.href}
-                       className="block font-semibold text-gray-900"
-                     >
-                       {item.name}
-                       <span className="absolute inset-0" />
-                     </a>
-                     <p className="mt-1 text-gray-600">{item.description}</p>
-                   </div>
-                 </div>
-               ))}
-             </div>
-             <div className="grid grid-cols-2 divide-x divide-gray-900/5 bg-gray-50">
-               {callsToAction.map((item) => (
-                 <a
-                   key={item.name}
-                   href={item.href}
-                   className="flex items-center justify-center gap-x-2.5 p-3 text-sm/6 font-semibold text-gray-900 hover:bg-gray-100"
-                 >
-                   <item.icon
-                     aria-hidden="true"
-                     className="size-5 flex-none text-gray-400"
-                   />
-                   {item.name}
-                 </a>
-               ))}
-             </div>
-           </PopoverPanel>
-         </Popover>
-       </PopoverGroup>
-        }
+              <PopoverPanel
+                transition
+                className="absolute top-full -left-8 z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white ring-1 shadow-lg ring-gray-900/5 transition data-closed:translate-y-1 data-closed:opacity-0 data-enter:duration-200 data-enter:ease-out data-leave:duration-150 data-leave:ease-in"
+              >
+                <div className="p-4">
+                  {products.map((item) => (
+                    <div
+                      key={item.name}
+                      className="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm/6 hover:bg-gray-50"
+                    >
+                      <div className="flex size-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
+                        <item.icon
+                          aria-hidden="true"
+                          className="size-6 text-gray-600 group-hover:text-indigo-600"
+                        />
+                      </div>
+                      <div className="flex-auto">
+                        <a
+                          href={item.href}
+                          className="block font-semibold text-gray-900"
+                        >
+                          {item.name}
+                          <span className="absolute inset-0" />
+                        </a>
+                        <p className="mt-1 text-gray-600">{item.description}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className="grid grid-cols-2 divide-x divide-gray-900/5 bg-gray-50">
+                  {callsToAction.map((item) => (
+                    <a
+                      key={item.name}
+                      href={item.href}
+                      className="flex items-center justify-center gap-x-2.5 p-3 text-sm/6 font-semibold text-gray-900 hover:bg-gray-100"
+                    >
+                      <item.icon
+                        aria-hidden="true"
+                        className="size-5 flex-none text-gray-400"
+                      />
+                      {item.name}
+                    </a>
+                  ))}
+                </div>
+              </PopoverPanel>
+            </Popover>
+)}
+          </PopoverGroup>
        
+
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           {loggedInUserData ? (
             <>
-            <Link href="/dashboard"
-              className="text-sm/6 font-semibold text-gray-900 mr-4 border-r border-blue-950 pr-4 border-opacity-50"
-            >
-              Dashboard
-            </Link>
-            <button
-             onClick={logout}
-              className="text-sm/6 font-semibold text-gray-900"
-            >
-              Logout <span aria-hidden="true">&rarr;</span>
-            </button>
-            
+              <Link
+                href="/dashboard"
+                className="text-sm/6 font-semibold text-gray-900 mr-4 border-r border-blue-950 pr-4 border-opacity-50"
+              >
+                Dashboard
+              </Link>
+              <button
+                onClick={logout}
+                className="text-sm/6 font-semibold text-gray-900"
+              >
+                Logout <span aria-hidden="true">&rarr;</span>
+              </button>
             </>
           ) : (
             <>
-            <Link href="/dashboard"
-              className="text-sm/6 font-semibold text-gray-900 mr-4 border-r border-blue-950 pr-4 border-opacity-50"
-            >
-              Dashboard
-            </Link>
-            <Link
-              href="/auth?mode=login"
-              className="text-sm/6 font-semibold text-gray-900"
-            >
-              Log in <span aria-hidden="true">&rarr;</span>
-            </Link>
+              <Link
+                href="/dashboard"
+                className="text-sm/6 font-semibold text-gray-900 mr-4 border-r border-blue-950 pr-4 border-opacity-50"
+              >
+                Dashboard
+              </Link>
+              <Link
+                href="/auth?mode=login"
+                className="text-sm/6 font-semibold text-gray-900"
+              >
+                Log in <span aria-hidden="true">&rarr;</span>
+              </Link>
             </>
           )}
         </div>
