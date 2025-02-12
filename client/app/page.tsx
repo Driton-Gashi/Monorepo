@@ -1,7 +1,7 @@
 "use client";
 import { useUser } from "./context/UserContext";
 import { useState, useEffect } from "react";
-import FoodCard from "./components/foodCard/FoodCard";
+import FoodCard from "./components/FoodCard";
 
 interface Food {
   food_id: number;

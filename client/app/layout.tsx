@@ -3,7 +3,7 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import Header from "@/app/components/Header";
 import { UserProvider } from "@/app/context/UserContext";
-import { Toaster, toast } from 'sonner'
+import { Toaster} from 'sonner'
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -22,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${poppins.variable} antialiased`}>
+      <body className={`${poppins.variable} antialiased relative`}>
         <UserProvider>
           <Header />
           {children}

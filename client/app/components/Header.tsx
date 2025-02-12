@@ -26,7 +26,7 @@ import {
   PlayCircleIcon,
 } from "@heroicons/react/20/solid";
 import Link from "next/link";
-import { redirect } from "next/navigation";
+import { redirect, usePathname } from "next/navigation";
 import { useUser } from "@/app/context/UserContext";
 
 const products = [
@@ -69,10 +69,14 @@ const callsToAction = [
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
   const { loggedInUserData, setLoggedInUserData } = useUser();
+  const pathname = usePathname()
+  const isDashboard = pathname.includes("/dashboard")
   const logout = (): void => {
     setLoggedInUserData(false);
     redirect("/auth?mode=login");
   };
+  
+  if(isDashboard) return null;
 
   return (
     <header className="bg-white">
