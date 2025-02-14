@@ -9,11 +9,3 @@ export interface inputDataType {
     id:number;
     name: string;
   }
-
- export interface ModalAlertProps {
-    type: "info" | "error" | "success" | "default";
-    message: string;
-    isOpen: boolean;
-    link?: string;
-    linkText?: string;
-  }
