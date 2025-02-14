@@ -7,17 +7,18 @@ CREATE TABLE users
      password VARCHAR(255) NOT NULL
   ); 
 
-CREATE TABLE foods
-  (
-     id          INT NOT NULL auto_increment PRIMARY KEY,
-     name        VARCHAR(50) NOT NULL,
-     description VARCHAR(300) NOT NULL,
-     price       FLOAT NOT NULL,
-     category    VARCHAR(255) NOT NULL DEFAULT 'others',
-  )
-
 CREATE TABLE categories (
-  id INT auto_increment PRIMARY KEY,
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(50) NOT NULL UNIQUE
+);
+
+CREATE TABLE foods (
+  food_id INT AUTO_INCREMENT PRIMARY KEY,
+  image_url VARCHAR(500) NOT NULL,
   name VARCHAR(50) NOT NULL,
-)
+  description VARCHAR(300) NOT NULL,
+  price FLOAT NOT NULL,
+  category_id INT NOT NULL,
+  FOREIGN KEY (category_id) REFERENCES categories(id)
+);
 

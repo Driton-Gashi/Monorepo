@@ -6,7 +6,12 @@ export const findFoodByName = async (foodName) => {
 };
 
 export const getAllFoods = async () =>{
-  const [rows] = await db.execute("SELECT * FROM foods");
+  const [rows] = await db.execute(`
+    SELECT foods.food_id, foods.image_url, foods.name, foods.description, foods.price, categories.name AS category_name
+    FROM foods
+    JOIN categories ON foods.category_id = categories.id;
+`);
+console.log(rows)
   return rows;
 }
 

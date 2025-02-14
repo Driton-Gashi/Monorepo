@@ -3,14 +3,7 @@ import { useUser } from "./context/UserContext";
 import { useState, useEffect } from "react";
 import FoodCard from "./components/global/FoodCard";
 import FoodCardSkeleton from "./components/global/FoodCardSkeleton";
-
-interface Food {
-  food_id: number;
-  name: string;
-  price: number;
-  category: string;
-  image_url: string;
-}
+import type {Food} from "@/app/utils/types"
 
 export default function Home() {
   const { loggedInUserData } = useUser();
