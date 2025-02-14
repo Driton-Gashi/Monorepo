@@ -7,17 +7,17 @@ CREATE TABLE users
      password VARCHAR(255) NOT NULL
   ); 
 
-CREATE TABLE `foodapp`.`foods`
+CREATE TABLE foods
   (
-     `id`       INT NOT NULL auto_increment,
-     `name`     VARCHAR(50) NOT NULL,
-     `price`    FLOAT NOT NULL,
-     `category` VARCHAR(255) NOT NULL DEFAULT 'others',
-     PRIMARY KEY (`id`)
+     id          INT NOT NULL auto_increment PRIMARY KEY,
+     name        VARCHAR(50) NOT NULL,
+     description VARCHAR(300) NOT NULL,
+     price       FLOAT NOT NULL,
+     category    VARCHAR(255) NOT NULL DEFAULT 'others',
   )
-engine = innodb; 
 
 CREATE TABLE categories (
   id INT auto_increment PRIMARY KEY,
   name VARCHAR(50) NOT NULL,
 )
+

@@ -1,8 +1,7 @@
 import { findFoodByName, createFood, getAllFoods, getAllCategories} from "../models/foodModel.js";
 
 export const createNewFood = async (req, res) => {
-  const { name, price, image_url, category_id} = req.body;
-
+  const { name, description, price, image_url, category_id} = req.body;
   try {
     // Check if food exists
     const existingFoodName = await findFoodByName(name);
@@ -11,7 +10,7 @@ export const createNewFood = async (req, res) => {
     }
 
     // Create user
-    await createFood(name, price, image_url, category_id);
+    await createFood(name, description, price, image_url, category_id);
     
     res.status(200).json({ message: `${name} - ${price}€ was added successfully`});
   } catch (error) {

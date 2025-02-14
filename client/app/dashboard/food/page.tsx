@@ -3,8 +3,7 @@ import { useUser } from "@/app/context/UserContext";
 import { useState, useEffect } from "react";
 import { pinata } from "@/app/utils/pinata";
 import type {
-  inputDataType,
-  categoryType,
+  inputDataType
 } from "@/app/utils/types";
 import { toast } from "sonner";
 import CreateFoodForm from "@/app/components/dashboard/CreateFoodForm";
@@ -13,6 +12,7 @@ const Dashboard = () => {
  
   const [formData, setFormData] = useState<inputDataType>({
     name: "",
+    description: "",
     price: 0.0,
     category_id: 0,
     image: null,
@@ -41,6 +41,10 @@ const Dashboard = () => {
         toast.error("Name field is Empty!");
         return;
       }
+      if(!formData.description){
+        toast.error("Description is Empty!");
+        return;
+      }
       if (formData.price == 0) {
         toast.error("Price can't be 0!");
         return;
@@ -59,6 +63,7 @@ const Dashboard = () => {
 
       const foodData = {
         name: formData.name,
+        description: formData.description,
         price: formData.price,
         category_id: formData.category_id,
         image_url: image,
@@ -85,8 +90,6 @@ const Dashboard = () => {
       toast.error(`Failed to create food:${error}`);
     }
   };
-
-
 
   return (
     <>

@@ -15,9 +15,9 @@ export const getAllCategories = async () =>{
   return rows;
 }
 
-export const createFood = async (name, price, image_url, category_id) => {
+export const createFood = async (name, description, price, image_url, category_id) => {
   await db.execute(
-    "INSERT INTO foods (name, price, image_url, category_id) VALUES ( ?, ?, ?, ?)",
-    [name, price, image_url, category_id]
+    "INSERT INTO foods (name, description, price, image_url, category_id) VALUES (?, ?, ?, ?, ?)",
+    [name, description, price, image_url, category_id]
   );
 };

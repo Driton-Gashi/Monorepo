@@ -73,7 +73,7 @@ export default function Home() {
           ) : (
             <div className="flex flex-wrap gap-[8%]">
               {foods.map((food) => (
-                <FoodCard className="w-1/4" name={food.name} price={food.price} imageUrl={food.image_url} key={food.food_id}/>
+                <FoodCard  className="w-1/4" id={food.food_id} name={food.name} price={food.price} imageUrl={food.image_url} key={food.food_id}/>
               ))}
             </div>
           )}
