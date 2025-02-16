@@ -11,7 +11,6 @@ export const getAllFoods = async () =>{
     FROM foods
     JOIN categories ON foods.category_id = categories.id;
 `);
-console.log(rows)
   return rows;
 }
 

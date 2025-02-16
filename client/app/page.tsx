@@ -3,32 +3,62 @@ import { useUser } from "./context/UserContext";
 import { useState, useEffect } from "react";
 import FoodCard from "./components/global/FoodCard";
 import FoodCardSkeleton from "./components/global/FoodCardSkeleton";
-import type {Food} from "@/app/utils/types"
+import type {Food, categoryType} from "@/app/utils/types"
 
 export default function Home() {
   const { loggedInUserData } = useUser();
   const [foods, setFoods] = useState<Food[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState({
+    foodError: "",
+    categoryError: "",
+  });
+  const [categories, setCategories] = useState<categoryType[]>([]);
 
   useEffect(() => {
-    const fetchFoods = async () => {
+    const fetchData = async () => {
       try {
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}/api/food`
         );
+        const responseCategories = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/categories`)
         if (!response.ok) {
+          setError((prevState)=>(
+            {
+              ...prevState,
+              foodError: "Failed to fetch foods"
+            }
+          ));
           throw new Error("Failed to fetch foods");
+          
         }
+        if(!responseCategories.ok){
+          setError((prevState)=>(
+            {
+              ...prevState,
+              categoryError: "Failed to fetch foods"
+            }));
+          throw new Error("Failed to fetch Categories");
+        }
+
         const data = await response.json();
+        const data2 = await responseCategories.json();
+        setCategories(data2)
         setFoods(data);
       } catch (error) {
         console.error(error);
+       setError(
+        {
+          foodError: error as string,
+          categoryError: error as string,
+        }
+       )
       } finally {
         setLoading(false);
       }
     };
 
-    fetchFoods();
+    fetchData();
   }, []);
 
   return (
@@ -46,27 +76,36 @@ export default function Home() {
             placeholder="Search..."
             className="border w-full p-4 rounded-lg text-sm bg-no-repeat p"
           />
-          <div className="flex flex-wrap gap-2 p-4">
-            <button>Category</button>
-            <button>Category</button>
-            <button>Category</button>
-            <button>Category</button>
-            <button>Category</button>
-            <button>Category</button>
-            <button>Category</button>
-            <button>Category</button>
-            <button>Category</button>
+          <div className="flex flex-wrap gap-2 py-4">
+           {error.categoryError ?
+           `Couldn't get categories because: ${error.categoryError}`
+           : 
+            categories.map((category)=>(
+              <button key={category.id}>
+                {category.name}
+              </button>
+            ))
+          }
           </div>
-          {loading ? (
+          {error.foodError ? (
+            "Couldn't get Foods because: "+error.foodError
+          ) : loading ? (
             <div className="flex flex-wrap gap-[8%]">
-            <FoodCardSkeleton/>
-            <FoodCardSkeleton/>
-            <FoodCardSkeleton/>
+              <FoodCardSkeleton />
+              <FoodCardSkeleton />
+              <FoodCardSkeleton />
             </div>
           ) : (
             <div className="flex flex-wrap gap-[8%]">
               {foods.map((food) => (
-                <FoodCard  className="w-1/4" id={food.food_id} name={food.name} price={food.price} imageUrl={food.image_url} key={food.food_id}/>
+                <FoodCard
+                  className="w-1/4"
+                  id={food.food_id}
+                  name={food.name}
+                  price={food.price}
+                  imageUrl={food.image_url}
+                  key={food.food_id}
+                />
               ))}
             </div>
           )}
