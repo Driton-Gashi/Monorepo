@@ -1,6 +1,6 @@
 "use client";
-import { useUser } from "@/app/context/UserContext";
-import { useState, useEffect } from "react";
+// import { useUser } from "@/app/context/UserContext";
+import { useState } from "react";
 import { pinata } from "@/app/utils/pinata";
 import type {
   inputDataType
@@ -8,7 +8,7 @@ import type {
 import { toast } from "sonner";
 import CreateFoodForm from "@/app/components/dashboard/CreateFoodForm";
 const DashboardFoodCreate = () => {
-  const { loggedInUserData } = useUser();
+  // const { loggedInUserData } = useUser();
  
   const [formData, setFormData] = useState<inputDataType>({
     name: "",

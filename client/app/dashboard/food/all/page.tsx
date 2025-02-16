@@ -1,6 +1,7 @@
 "use client"
 import { useState, useEffect } from "react";
 import type {Food, TableRowType} from "@/app/utils/types"
+import Image from "next/image";
 
 const TableHead = ()=>{
   const thClass = "px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase"
@@ -36,7 +37,7 @@ const TableRow = ({
       <label htmlFor="hs-table-search-checkbox-1" className="sr-only">Checkbox</label>
     </div>
   </td>
-  <td className={tableDataClass}><img width={40} src={imageUrl && `https://${process.env.NEXT_PUBLIC_GATEWAY_URL}/ipfs/${imageUrl}`}/></td>
+  <td className={tableDataClass}><Image width={40} height={40} src={imageUrl && `https://${process.env.NEXT_PUBLIC_GATEWAY_URL}/ipfs/${imageUrl}`} alt=""/></td>
   <td className={tableDataClass}>{name}</td>
   <td className={tableDataClass}>{price}€</td>
   <td className={tableDataClass}>{category}</td>
@@ -48,7 +49,7 @@ const TableRow = ({
 
 const DashboardFoodAll = () => {
   const [foods, setFoods] = useState<Food[]>([]);
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchFoods = async () => {
@@ -64,7 +65,7 @@ const DashboardFoodAll = () => {
       } catch (error) {
         console.error(error);
       } finally {
-        setLoading(false);
+        // setLoading(false);
       }
     };
 

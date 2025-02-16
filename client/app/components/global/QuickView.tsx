@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { Dialog, DialogBackdrop, DialogPanel, Radio, RadioGroup } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { StarIcon } from '@heroicons/react/20/solid'
+import Image from 'next/image'
 
 const product = {
   name: 'Basic Tee 6-Pack ',
@@ -30,7 +31,7 @@ const product = {
   ],
 }
 
-function classNames(...classes: any) {
+function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
 }
 
@@ -63,9 +64,11 @@ export default function Example() {
               </button>
 
               <div className="grid w-full grid-cols-1 items-start gap-x-6 gap-y-8 sm:grid-cols-12 lg:gap-x-8">
-                <img
+                <Image
                   alt={product.imageAlt}
                   src={product.imageSrc}
+                  width={494}
+                  height={742}
                   className="aspect-2/3 w-full rounded-lg bg-gray-100 object-cover sm:col-span-4 lg:col-span-5"
                 />
                 <div className="sm:col-span-8 lg:col-span-7">

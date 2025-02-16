@@ -1,5 +1,5 @@
 interface FoodCardType {
-  readonly id: number;
+  // readonly id: number;
     readonly name: string;
     readonly imageUrl: string;
     readonly price: number;
@@ -7,7 +7,7 @@ interface FoodCardType {
 }
 
 const FoodCard = ({
-    id,
+    // id,
     name,
     imageUrl,
     price,

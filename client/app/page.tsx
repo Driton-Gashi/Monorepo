@@ -1,12 +1,13 @@
 "use client";
-import { useUser } from "./context/UserContext";
+// import { useUser } from "./context/UserContext";
 import { useState, useEffect } from "react";
 import FoodCard from "./components/global/FoodCard";
 import FoodCardSkeleton from "./components/global/FoodCardSkeleton";
 import type { Food, categoryType } from "@/app/utils/types";
+import Image from "next/image";
 
 export default function Home() {
-  const { loggedInUserData } = useUser();
+  // const { loggedInUserData } = useUser();
   const [foods, setFoods] = useState<Food[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<{
@@ -21,13 +22,11 @@ export default function Home() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch both APIs in parallel
         const [foodResponse, categoryResponse] = await Promise.all([
           fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/food`),
           fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/categories`),
         ]);
 
-        // Handle food response
         if (!foodResponse.ok) {
           setError((prevState) => ({
             ...prevState,
@@ -38,7 +37,6 @@ export default function Home() {
         const foodData = await foodResponse.json();
         setFoods(foodData);
 
-        // Handle category response
         if (!categoryResponse.ok) {
           setError((prevState) => ({
             ...prevState,
@@ -64,12 +62,13 @@ export default function Home() {
 
   return (
     <div className="container m-auto p-6">
-      <img
-        className="rounded-3xl shadow"
-        width="100%"
+      <Image
+        className="rounded-3xl shadow w-full"
         src="/Banner_Pizza.jpg"
         alt="Pizza Banner"
-      />
+        width={976}
+        height={226}
+        />
       <div className="flex pt-6 pb-6">
         <div className="w-2/3 p-6">
           <input
@@ -99,7 +98,7 @@ export default function Home() {
               {foods.map((food) => (
                 <FoodCard
                   className="w-1/4"
-                  id={food.food_id}
+                  // id={food.food_id}
                   name={food.name}
                   price={food.price}
                   imageUrl={food.image_url}
@@ -113,12 +112,14 @@ export default function Home() {
           <div className="border-2 border-red-700 rounded-2xl p-6">
             <div className="flex justify-between">
               <h2 className="text-red-600 text-xl font-bold">Porosia Juaj</h2>
-              <img width="50px" src="/cart.png" alt="Shopping Cart" />
+              <Image width={50} height={50} src="/cart.png" alt="Shopping Cart" />
             </div>
-            <img
+            <Image
               className="m-auto mt-10 mb-10"
               src="/box.png"
               alt="Empty Cart"
+              width={100}
+              height={100}
             />
             <h4 className="text-center mb-6">Ska produkte ne shporte</h4>
             <hr className="w-20 m-auto border-black" />
