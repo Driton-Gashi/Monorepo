@@ -3,11 +3,13 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import Header from "@/app/components/global/Header";
 import { UserProvider } from "@/app/context/UserContext";
-import { Toaster} from 'sonner'
+import { Toaster } from "sonner";
 
 const poppins = Poppins({
+  weight: ["400", "500", "600", "700"],
+  subsets: ["latin", "latin-ext"],
   variable: "--font-poppins",
-  weight: "400",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -26,7 +28,7 @@ export default function RootLayout({
         <UserProvider>
           <Header />
           {children}
-        <Toaster position="top-center" richColors/>
+          <Toaster position="top-center" richColors />
         </UserProvider>
       </body>
     </html>
