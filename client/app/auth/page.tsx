@@ -1,11 +1,12 @@
 "use client";
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { useUser } from "@/app/context/UserContext";
 const AuthPage = () => {
-  const isLogin = useSearchParams().get("mode") === "login";
+  const searchParams = useSearchParams();
+  const isLogin = searchParams.get("mode") === "login";
   const { setLoggedInUserData } = useUser();
   
   const [formData, setFormData] = useState({
@@ -153,4 +154,10 @@ const AuthPage = () => {
   );
 };
 
-export default AuthPage;
+export default function AuthPageWrapper() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <AuthPage />
+    </Suspense>
+  );
+}
