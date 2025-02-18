@@ -26,8 +26,8 @@ const AuthPage = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-  
-    const url = isLogin ? `${process.env.NEXT_PUBLIC_API_URL}/api/login` : `${process.env.NEXT_PUBLIC_API_URL}/api/register`;
+    const fetchPath = process.env.NEXT_PUBLIC_API_URL ?? '';
+    const url = isLogin ? `${fetchPath}/api/login` : `${fetchPath}/api/register`;
   
     const response = await fetch(url, {
       method: "POST",

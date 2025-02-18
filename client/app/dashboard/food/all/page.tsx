@@ -53,9 +53,10 @@ const DashboardFoodAll = () => {
 
   useEffect(() => {
     const fetchFoods = async () => {
+      const fetchPath = process.env.NEXT_PUBLIC_API_URL ?? '';
       try {
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/food`
+          `${fetchPath}/api/food`
         );
         if (!response.ok) {
           throw new Error("Failed to fetch foods");

@@ -18,8 +18,9 @@ const CreateFoodForm = ({
 
      useEffect(() => {
         const fetchCategories = async () => {
+          const fetchPath = process.env.NEXT_PUBLIC_API_URL ?? '';
           const response = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/api/categories`
+            `${fetchPath}/api/categories`
           );
           const data = await response.json();
           setCategories(data);

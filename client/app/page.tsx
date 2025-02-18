@@ -21,10 +21,11 @@ export default function Home() {
 
   useEffect(() => {
     const fetchData = async () => {
+      const fetchPath = process.env.NEXT_PUBLIC_API_URL ?? '';
       try {
         const [foodResponse, categoryResponse] = await Promise.all([
-          fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/food`),
-          fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/categories`),
+          fetch(`${fetchPath}/api/food`),
+          fetch(`${fetchPath}/api/categories`),
         ]);
 
         if (!foodResponse.ok) {

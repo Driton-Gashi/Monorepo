@@ -69,7 +69,8 @@ const DashboardFoodCreate = () => {
         image_url: image,
       };
 
-      const url = `${process.env.NEXT_PUBLIC_API_URL}/api/food`;
+      const fetchPath = process.env.NEXT_PUBLIC_API_URL ?? '';
+      const url = `${fetchPath}/api/food`;
       const response = await fetch(url, {
         method: "POST",
         headers: {
