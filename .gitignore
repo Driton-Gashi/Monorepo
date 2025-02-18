@@ -35,10 +35,6 @@ pnpm-debug.log*
 # Environment files
 .env*
 
-# Vercel (for deployments)
-vercel.json
-
 # TypeScript
 *.tsbuildinfo
 client/next-env.d.ts
-dist/
