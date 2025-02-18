@@ -37,7 +37,7 @@ const TableRow = ({
       <label htmlFor="hs-table-search-checkbox-1" className="sr-only">Checkbox</label>
     </div>
   </td>
-  <td className={tableDataClass}><Image width={40} height={40} src={imageUrl && `https://${process.env.NEXT_PUBLIC_GATEWAY_URL}/ipfs/${imageUrl}`} alt=""/></td>
+  <td className={tableDataClass}><Image priority width={40} height={40} src={imageUrl && `https://${process.env.NEXT_PUBLIC_GATEWAY_URL}/ipfs/${imageUrl}`} alt=""/></td>
   <td className={tableDataClass}>{name}</td>
   <td className={tableDataClass}>{price}€</td>
   <td className={tableDataClass}>{category}</td>

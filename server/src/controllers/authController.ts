@@ -1,9 +1,9 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { findUserByEmail, createUser } from "../models/userModel.js";
-
+import { findUserByEmail, createUser } from "../models/userModel";
+import type express from "express";
 // Register new user
-export const registerUser = async (req, res) => {
+export const registerUser = async (req: express.Request, res: express.Response): Promise<any> => {
   const { name, lastname, email, password } = req.body;
 
   try {
@@ -19,9 +19,9 @@ export const registerUser = async (req, res) => {
     // Create user
     await createUser(name, lastname, email, hashedPassword);
 
-    const token = jwt.sign({ email, name }, process.env.JWT_SECRET, { expiresIn: "1h" });
+    const token = jwt.sign({ email, name }, process.env.JWT_SECRET ?? '', { expiresIn: "1h" });
     
-    res.status(201).json({ message: "User registered successfully", userData: jwt.verify(token, process.env.JWT_SECRET ) });
+    res.status(201).json({ message: "User registered successfully", userData: jwt.verify(token, process.env.JWT_SECRET  ?? '' ) });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error." });
@@ -29,7 +29,7 @@ export const registerUser = async (req, res) => {
 };
 
 // Login user
-export const loginUser = async (req, res) => {
+export const loginUser = async (req: express.Request, res:express.Response): Promise<any> => {
   const { email, password } = req.body;
 
   try {
@@ -44,10 +44,10 @@ export const loginUser = async (req, res) => {
     }
 
     // Create token with only the user ID (not userData)
-    const token = jwt.sign({ id: user.id,name: user.name, lastname: user.lastname,email: user.email }, process.env.JWT_SECRET, { expiresIn: "1h" });
+    const token = jwt.sign({ id: user.id,name: user.name, lastname: user.lastname,email: user.email }, process.env.JWT_SECRET ?? '', { expiresIn: "1h" });
 
     // Only return the token here
-    res.status(200).json({ message: "Login successful", userData: jwt.verify(token,process.env.JWT_SECRET )});
+    res.status(200).json({ message: "Login successful", userData: jwt.verify(token,process.env.JWT_SECRET ?? '' )});
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error." });

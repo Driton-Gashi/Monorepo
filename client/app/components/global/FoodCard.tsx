@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 interface FoodCardType {
   // readonly id: number;
     readonly name: string;
@@ -19,10 +21,14 @@ const FoodCard = ({
   
   return (
     <div {...otherProps}>
-      <img
+      <Image
+      width={120}
+      height={120}
         className="h-32"
         src={`https://${process.env.NEXT_PUBLIC_GATEWAY_URL}/ipfs/${imageUrl}`}
         loading="eager"
+        alt=""
+        priority
       />
       <h2>{name}</h2>
       <h2 className="text-red-600 font-bold my-2">{price}€</h2>

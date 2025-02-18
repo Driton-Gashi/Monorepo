@@ -1,6 +1,6 @@
-import { findFoodByName, createFood, getAllFoods, getAllCategories} from "../models/foodModel.js";
+import { findFoodByName, createFood, getAllFoods, getAllCategories} from "../models/foodModel";
 
-export const createNewFood = async (req, res) => {
+export const createNewFood = async (req: any, res: any) => {
   const { name, description, price, image_url, category_id} = req.body;
   try {
     // Check if food exists
@@ -19,7 +19,7 @@ export const createNewFood = async (req, res) => {
   }
 };
 
-export const getCategories =async (req, res)=>{
+export const getCategories =async (req: any, res: any)=>{
 
   try{
     const categories = await getAllCategories();
@@ -35,7 +35,7 @@ export const getCategories =async (req, res)=>{
 
 }
 
-export const getFoods = async (req, res) => {
+export const getFoods = async (req: any, res: any) => {
   try {
     // Check if food exists
     const foods = await getAllFoods();

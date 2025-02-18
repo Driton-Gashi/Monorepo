@@ -1,7 +1,7 @@
-import db from "../db.js";
+import db from "../db";
 
-export const findFoodByName = async (foodName) => {
-  const [rows] = await db.execute("SELECT * FROM foods WHERE name = ?", [foodName]);
+export const findFoodByName = async (foodName: string) => {
+  const [rows]: any = await db.execute("SELECT * FROM foods WHERE name = ?", [foodName]);
   return rows[0];
 };
 
@@ -19,7 +19,7 @@ export const getAllCategories = async () =>{
   return rows;
 }
 
-export const createFood = async (name, description, price, image_url, category_id) => {
+export const createFood = async (name: string, description: string, price: number, image_url: string, category_id: number) => {
   await db.execute(
     "INSERT INTO foods (name, description, price, image_url, category_id) VALUES (?, ?, ?, ?, ?)",
     [name, description, price, image_url, category_id]
