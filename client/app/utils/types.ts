@@ -5,18 +5,19 @@ export interface inputDataType {
     category_id: number;
     image: File | null;
   }
-  
+
  export interface categoryType{
     id:number;
     name: string;
   }
 
 export interface Food {
-  food_id: number;
+  food_id?: number;
   name: string;
   price: number;
-  category_name: string;
-  image_url: string;
+  category_name?: string;
+  image_url?: string;
+  className?: string;
 }
 
 export interface TableRowType{
@@ -25,4 +26,8 @@ export interface TableRowType{
   price: number;
   category: string;
   action: () => void;
+}
+
+export interface layoutType{
+  children: React.ReactNode;
 }

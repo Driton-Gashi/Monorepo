@@ -1,6 +1,12 @@
 import db from "../db";
 
-export const findFoodByName = async (foodName: string) => {
+export const getFoodsByCategory = async (category_id: number) => {
+  const [rows]: any = await db.execute("SELECT * FROM foods WHERE category_id = ?", [category_id]);
+  return rows;
+};
+ 
+
+export const getFoodByName = async (foodName: string) => {
   const [rows]: any = await db.execute("SELECT * FROM foods WHERE name = ?", [foodName]);
   return rows[0];
 };

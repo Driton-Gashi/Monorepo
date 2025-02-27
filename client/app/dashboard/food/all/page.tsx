@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import type {Food, TableRowType} from "@/app/utils/types"
 import Image from "next/image";
+import { fetchInProdAndDev } from "@/app/utils/helpfulFunctions";
 
 const TableHead = ()=>{
   const thClass = "px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase"
@@ -53,10 +54,9 @@ const DashboardFoodAll = () => {
 
   useEffect(() => {
     const fetchFoods = async () => {
-      const fetchPath = process.env.NEXT_PUBLIC_API_URL ?? '';
       try {
         const response = await fetch(
-          `${fetchPath}/api/food`
+          fetchInProdAndDev("/api/food")
         );
         if (!response.ok) {
           throw new Error("Failed to fetch foods");
@@ -100,7 +100,7 @@ const DashboardFoodAll = () => {
             <TableHead/>
             <tbody className="divide-y divide-gray-200">
               {foods.map((food) => (
-              <TableRow key={food.food_id} imageUrl={food.image_url} name={food.name} price={food.price} category={food.category_name} action={()=> alert("Hello WOrld")}/>
+              <TableRow key={food.food_id} imageUrl={food.image_url ?? ''} name={food.name} price={food.price} category={food.category_name ?? ''} action={()=> alert("Hello WOrld")}/>
             ))}
             </tbody>
           </table>

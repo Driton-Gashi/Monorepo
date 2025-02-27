@@ -7,6 +7,8 @@ import type {
 } from "@/app/utils/types";
 import { toast } from "sonner";
 import CreateFoodForm from "@/app/components/dashboard/CreateFoodForm";
+import { fetchInProdAndDev } from "@/app/utils/helpfulFunctions";
+
 const DashboardFoodCreate = () => {
   // const { loggedInUserData } = useUser();
  
@@ -69,9 +71,7 @@ const DashboardFoodCreate = () => {
         image_url: image,
       };
 
-      const fetchPath = process.env.NEXT_PUBLIC_API_URL ?? '';
-      const url = `${fetchPath}/api/food`;
-      const response = await fetch(url, {
+      const response = await fetch(fetchInProdAndDev("/api/food"), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

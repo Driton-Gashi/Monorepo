@@ -1,10 +1,10 @@
 import Header from "../components/dashboard/Header";
 import Sidebar from "../components/dashboard/Sidebar";
+import type { layoutType } from "../utils/types";
+
 export default function DashboardLayout({
   children,
-}: {
-  children: React.ReactNode;
-}) {
+}: layoutType) {
   return (
     <div className="relative min-h-screen">
       <Header className="z-[2] fixed right-0 top-0 left-[30vw] py-3 px-4 h-16 border-b bg-white"/>

@@ -4,6 +4,8 @@ import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { useUser } from "@/app/context/UserContext";
+import { fetchInProdAndDev } from "../utils/helpfulFunctions";
+
 const AuthPage = () => {
   const searchParams = useSearchParams();
   const isLogin = searchParams.get("mode") === "login";
@@ -26,8 +28,8 @@ const AuthPage = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const fetchPath = process.env.NEXT_PUBLIC_API_URL ?? '';
-    const url = isLogin ? `${fetchPath}/api/login` : `${fetchPath}/api/register`;
+    
+    const url = isLogin ? fetchInProdAndDev("/api/login") : fetchInProdAndDev("/api/register");
   
     const response = await fetch(url, {
       method: "POST",

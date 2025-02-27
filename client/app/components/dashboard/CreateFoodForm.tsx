@@ -1,5 +1,6 @@
 import type { inputDataType, categoryType } from "@/app/utils/types";
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
+import { fetchInProdAndDev } from "@/app/utils/helpfulFunctions";
 
 interface P{
     formData: inputDataType;
@@ -18,10 +19,7 @@ const CreateFoodForm = ({
 
      useEffect(() => {
         const fetchCategories = async () => {
-          const fetchPath = process.env.NEXT_PUBLIC_API_URL ?? '';
-          const response = await fetch(
-            `${fetchPath}/api/categories`
-          );
+          const response = await fetch(fetchInProdAndDev("/api/categories"));
           const data = await response.json();
           setCategories(data);
         };
