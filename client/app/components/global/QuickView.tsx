@@ -12,7 +12,7 @@ const product = {
   rating: 3.9,
   reviewCount: 117,
   href: '#',
-  imageSrc: 'https://tailwindui.com/plus-assets/img/ecommerce-images/product-quick-preview-02-detail.jpg',
+  imageSrc: '/window.svg',
   imageAlt: 'Two each of gray, white, and black shirts arranged on table.',
   colors: [
     { name: 'White', class: 'bg-white', selectedClass: 'ring-gray-400' },
@@ -35,8 +35,8 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function Example() {
-  const [open, setOpen] = useState(false)
+export default function QuickView() {
+  const [open, setOpen] = useState(true)
   const [selectedColor, setSelectedColor] = useState(product.colors[0])
   const [selectedSize, setSelectedSize] = useState(product.sizes[2])
 

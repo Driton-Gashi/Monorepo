@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import type {Food, TableRowType} from "@/app/utils/types"
 import Image from "next/image";
 import { fetchInProdAndDev } from "@/app/utils/helpfulFunctions";
+import { toast } from 'sonner';
 
 const TableHead = ()=>{
   const thClass = "px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase"
@@ -72,6 +73,40 @@ const DashboardFoodAll = () => {
 
     fetchFoods();
   }, []);
+
+  const deleteFood = async (id: number) => {
+    toast('Are you sure you want to delete this Food!', {
+      action: {
+        label: 'Yes',
+        onClick: async() => {
+          try {
+            const response = await fetch(fetchInProdAndDev(`/api/deleteFood/${id}`), {
+              method: 'DELETE',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            });
+        
+            if (!response.ok) {
+              toast.success("Food wasn't found!, try again later");
+            }
+        
+            const result = await response.json();
+      
+            toast.success(result.message);
+
+            const updatedFoods = foods.filter((food)=> food.food_id != id)
+            setFoods(updatedFoods)
+          } catch (error) {
+            toast.error(error as string)
+          }
+        },
+      },
+    });
+    
+    
+  };
+
   return (
     <>
     <div className="border-t w-full">
@@ -100,7 +135,7 @@ const DashboardFoodAll = () => {
             <TableHead/>
             <tbody className="divide-y divide-gray-200">
               {foods.map((food) => (
-              <TableRow key={food.food_id} imageUrl={food.image_url ?? ''} name={food.name} price={food.price} category={food.category_name ?? ''} action={()=> alert("Hello WOrld")}/>
+              <TableRow key={food.food_id} imageUrl={food.image_url ?? ''} name={food.name} price={food.price} category={food.category_name ?? ''} action={()=>deleteFood(food.food_id ?? 0)}/>
             ))}
             </tbody>
           </table>

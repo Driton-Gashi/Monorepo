@@ -188,20 +188,12 @@ export default function Header() {
               </button>
             </>
           ) : (
-            <>
-              <Link
-                href="/dashboard"
-                className="text-sm/6 font-semibold text-gray-900 mr-4 border-r border-blue-950 pr-4 border-opacity-50"
-              >
-                Dashboard
-              </Link>
               <Link
                 href="/auth?mode=login"
                 className="text-sm/6 font-semibold text-gray-900"
               >
                 Log in <span aria-hidden="true">&rarr;</span>
               </Link>
-            </>
           )}
         </div>
       </nav>

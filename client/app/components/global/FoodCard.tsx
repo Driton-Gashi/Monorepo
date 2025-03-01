@@ -8,25 +8,29 @@ interface foodCard extends Food {
 
 const FoodCard = ({ name, image_url, price, className, food_id, setProduktetNeShporte }: foodCard) => {
   const addToCartArray = (food: Food) => {
-    setProduktetNeShporte((prevState) => [...prevState, food]);
+    // Retrieve cart items from localStorage
+    const cartItems: Food[] = JSON.parse(localStorage.getItem("cartItems") || "[]");
 
-    // Ensure cartItems exists in localStorage
-    if (!localStorage.getItem("cartItems")) {
-      localStorage.setItem("cartItems", JSON.stringify([]));
+    // Check if the food item already exists in the cart
+    const foodExists: boolean = cartItems.some(item => item.food_id === food.food_id);
+
+    // If the food item already exists, return early
+    if (foodExists) {
+      return;
     }
 
-    // Retrieve cart items safely
-    const cartItems: Food[] = JSON.parse(localStorage.getItem("cartItems") || "[]");
-    
-    cartItems.push(food);
-    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+    // Add the new food item to the cart
+    const updatedCartItems = [...cartItems, food];
+
+    // Update localStorage with the new cart items
+    localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
+
+    // Update the state with the new cart items
+    setProduktetNeShporte(updatedCartItems);
   };
 
   const addToCart = (): void => {
-    console.log(food_id);
-    
     const food: Food = { food_id, name, price, image_url };
-
     addToCartArray(food);
   };
 

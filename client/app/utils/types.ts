@@ -16,6 +16,7 @@ export interface Food {
   name: string;
   price: number;
   category_name?: string;
+  category_id?: number;
   image_url?: string;
   className?: string;
 }
