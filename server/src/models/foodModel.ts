@@ -10,6 +10,11 @@ export const getFoodByName = async (foodName: string) => {
   return rows[0];
 };
 
+export const getFoodFromID = async (id: number) => {
+  const [rows]: any = await db.execute("SELECT * FROM foods WHERE food_id = ?", [id]);
+  return rows[0];
+};
+
 export const getAllFoods = async () =>{
   const [rows] = await db.execute(`
     SELECT foods.food_id, foods.image_url, foods.name, foods.description, foods.price, foods.category_id, categories.name AS category_name

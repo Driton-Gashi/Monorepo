@@ -5,6 +5,7 @@ import {
   getAllCategories,
   getFoodsByCategory,
   deleteFood,
+  getFoodFromID
 } from "../models/foodModel";
 import { Request, Response } from "express";
 
@@ -116,3 +117,28 @@ export const deleteFoodByID = async (req: Request, res: Response): Promise<any> 
     res.status(500).json({ message: `Server error: ${error}` });
   }
 };
+
+export const getFoodByID = async (req: Request, res: Response): Promise<any> => {
+  try {
+    const { id } = req.params;
+
+    if (!id) {
+      return res.status(400).json({ message: "Food ID is required" });
+    }
+
+    const foodId = parseInt(id as string, 10);
+
+    if (isNaN(foodId)) {
+      return res.status(400).json({ message: "Invalid Food ID" });
+    }
+
+    const result = await getFoodFromID(foodId);
+
+    return res.status(200).json(result);
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: `Server error: ${error}` });
+  }
+};
+

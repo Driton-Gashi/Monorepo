@@ -1,14 +1,15 @@
+"use client"; 
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
-const DashboardFoodEdit = () => {
-  return (
-    <>
-    <div className="border-t w-full">
-          <h2 className="mt-8 text-center text-2xl/9 font-bold tracking-tight text-gray-900">
-            Edit
-          </h2>
-        </div>
-    </>
-  )
-}
+const EditPage = () => {
+  const router = useRouter();
 
-export default DashboardFoodEdit
+  useEffect(() => {
+    router.push("/dashboard/food/all");
+  }, [router]);
+
+  return <p className="pt-2">Redirecting...</p>;
+};
+
+export default EditPage;

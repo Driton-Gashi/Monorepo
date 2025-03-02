@@ -17,10 +17,9 @@ const NavLink = ({
   ...rest
 }: P) => {
   const pathname = usePathname();
-  const isActive = pathname.startsWith(href); // Check if pathname starts with href
+  const isActive = pathname.startsWith(href);
 
-  const newClassName = `${isActive ? activeClassName : ""} ${className}`.trim(); // Remove extra spaces
-
+  const newClassName = `${isActive ? activeClassName : ""} ${className}`.trim();
   return (
     <Link href={href} className={newClassName} {...rest}>
       {children}

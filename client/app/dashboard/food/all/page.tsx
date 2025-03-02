@@ -4,6 +4,7 @@ import type {Food, TableRowType} from "@/app/utils/types"
 import Image from "next/image";
 import { fetchInProdAndDev } from "@/app/utils/helpfulFunctions";
 import { toast } from 'sonner';
+import ActionDropdown from "@/app/components/dashboard/ActionDropdown";
 
 const TableHead = ()=>{
   const thClass = "px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase"
@@ -25,11 +26,12 @@ const TableHead = ()=>{
 }
 
 const TableRow = ({
+  id,
   imageUrl,
   name,
   price,
   category,
-  action
+  deleteFunction,
 }:TableRowType)=>{
   const tableDataClass = "px-6 py-4 whitespace-nowrap text-sm text-gray-800"
   return <tr>
@@ -44,7 +46,7 @@ const TableRow = ({
   <td className={tableDataClass}>{price}€</td>
   <td className={tableDataClass}>{category}</td>
   <td className={`${tableDataClass} text-end`}>
-    <button onClick={action} type="button" className="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 focus:outline-none focus:text-blue-800 disabled:opacity-50 disabled:pointer-events-none">Delete</button>
+    <ActionDropdown deleteFunction={deleteFunction} id={id}/>
   </td>
 </tr>
 }
@@ -115,7 +117,7 @@ const DashboardFoodAll = () => {
           </h2>
     </div>
     
-  <div className="overflow-x-auto m-auto max-w-2xl">
+  <div className="m-auto max-w-2xl">
     <div className="p-1.5 min-w-full inline-block align-middle">
       <div className="border rounded-lg divide-y divide-gray-200">
         <div className="py-3 px-4">
@@ -130,12 +132,12 @@ const DashboardFoodAll = () => {
             </div>
           </div>
         </div>
-        <div className="overflow-hidden">
+        <div className="overflow-visible">
           <table className="min-w-full divide-y divide-gray-200">
             <TableHead/>
             <tbody className="divide-y divide-gray-200">
               {foods.map((food) => (
-              <TableRow key={food.food_id} imageUrl={food.image_url ?? ''} name={food.name} price={food.price} category={food.category_name ?? ''} action={()=>deleteFood(food.food_id ?? 0)}/>
+              <TableRow key={food.food_id} id={food.food_id} imageUrl={food.image_url ?? ''} name={food.name} price={food.price} category={food.category_name ?? ''} deleteFunction={()=>deleteFood(food.food_id ?? 0)}/>
             ))}
             </tbody>
           </table>

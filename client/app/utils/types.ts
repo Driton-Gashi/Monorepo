@@ -1,9 +1,11 @@
 export interface inputDataType {
+    imageUrl?: string,
+    id?: number,
     name: string;
     description: string;
     price: number;
     category_id: number;
-    image: File | null;
+    image?: File | null;
   }
 
  export interface categoryType{
@@ -22,11 +24,12 @@ export interface Food {
 }
 
 export interface TableRowType{
+  id?: number;
   imageUrl: string;
   name: string;
   price: number;
   category: string;
-  action: () => void;
+  deleteFunction: () => void;
 }
 
 export interface layoutType{

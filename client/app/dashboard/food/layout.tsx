@@ -11,7 +11,7 @@ export default function DashboardFoodLayout({
     <>
       <div className="flex mt-6">
         <NavLink className={baseClass} href="/dashboard/food/all">
-          All
+          View All
         </NavLink>
         <NavLink className={baseClass} href="/dashboard/food/create">
           Create
