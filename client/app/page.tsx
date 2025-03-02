@@ -5,7 +5,6 @@ import FoodCardSkeleton from "./components/global/FoodCardSkeleton";
 import type { Food, categoryType } from "@/app/utils/types";
 import Image from "next/image";
 import { apiHandler } from "./utils/helpfulFunctions";
-import QuickView from "@/app/components/global/QuickView";
 
 interface errorType {
   foodError: string;
