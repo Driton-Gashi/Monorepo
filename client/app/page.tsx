@@ -4,7 +4,7 @@ import FoodCard from "./components/global/FoodCard";
 import FoodCardSkeleton from "./components/global/FoodCardSkeleton";
 import type { Food, categoryType } from "@/app/utils/types";
 import Image from "next/image";
-import { fetchInProdAndDev } from "./utils/helpfulFunctions";
+import { apiHandler } from "./utils/helpfulFunctions";
 import QuickView from "@/app/components/global/QuickView";
 
 interface errorType {
@@ -28,8 +28,8 @@ export default function Home() {
     const fetchData = async () => {
       try {
         const [foodResponse, categoryResponse] = await Promise.all([
-          fetch(fetchInProdAndDev("/api/food")),
-          fetch(fetchInProdAndDev("/api/categories")),
+          fetch(apiHandler("/api/food")),
+          fetch(apiHandler("/api/categories")),
         ]);
 
         if (!foodResponse.ok) {
@@ -174,7 +174,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <QuickView />
     </div>
   );
 }

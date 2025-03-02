@@ -4,7 +4,7 @@ import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { useUser } from "@/app/context/UserContext";
-import { fetchInProdAndDev } from "../utils/helpfulFunctions";
+import { apiHandler } from "../utils/helpfulFunctions";
 
 const AuthPage = () => {
   const searchParams = useSearchParams();
@@ -29,7 +29,7 @@ const AuthPage = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    const url = isLogin ? fetchInProdAndDev("/api/login") : fetchInProdAndDev("/api/register");
+    const url = isLogin ? apiHandler("/api/login") : apiHandler("/api/register");
   
     const response = await fetch(url, {
       method: "POST",

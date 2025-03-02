@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import type {Food, TableRowType} from "@/app/utils/types"
 import Image from "next/image";
-import { fetchInProdAndDev } from "@/app/utils/helpfulFunctions";
+import { apiHandler } from "@/app/utils/helpfulFunctions";
 import { toast } from 'sonner';
 import ActionDropdown from "@/app/components/dashboard/ActionDropdown";
 
@@ -59,7 +59,7 @@ const DashboardFoodAll = () => {
     const fetchFoods = async () => {
       try {
         const response = await fetch(
-          fetchInProdAndDev("/api/food")
+          apiHandler("/api/food")
         );
         if (!response.ok) {
           throw new Error("Failed to fetch foods");
@@ -82,7 +82,7 @@ const DashboardFoodAll = () => {
         label: 'Yes',
         onClick: async() => {
           try {
-            const response = await fetch(fetchInProdAndDev(`/api/deleteFood/${id}`), {
+            const response = await fetch(apiHandler(`/api/deleteFood/${id}`), {
               method: 'DELETE',
               headers: {
                 'Content-Type': 'application/json',

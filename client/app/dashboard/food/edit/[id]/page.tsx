@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { pinata } from "@/app/utils/pinata";
 import type { inputDataType } from "@/app/utils/types";
 import EditFoodForm from "@/app/components/dashboard/EditFoodForm";
-import { fetchInProdAndDev } from "@/app/utils/helpfulFunctions";
+import { apiHandler } from "@/app/utils/helpfulFunctions";
 import { useParams } from "next/navigation";
 import { toast } from "sonner";
 
@@ -34,22 +34,16 @@ const DashboardFoodCreate = () => {
   }
 
   const [unchangedFood, setUnchangedFood] = useState<inputDataType>(defaultFoodStructure);
-
   const [formData, setFormData] = useState<inputDataType>(defaultFoodStructure);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, files } = e.target;
-    if (name === "image" && files) {
-      setFormData((prevData) => ({
-        ...prevData,
-        image: files[0],
-      }));
-    } else {
+    const { name, value } = e.target;
+ 
       setFormData((prevData) => ({
         ...prevData,
         [name]: value,
       }));
-    }
+    
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -82,7 +76,7 @@ const DashboardFoodCreate = () => {
       }
 
       const requestData = {
-        food_id: formData.id,
+        id: formData.id,
         name: formData.name,
         description: formData.description,
         price: formData.price,
@@ -109,21 +103,22 @@ const DashboardFoodCreate = () => {
         toast.error("Change couldn't be made, no fields were changed!");
         return;
       }
-      // const response = await fetch(fetchInProdAndDev("/api/food"), {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify(foodData),
-      // });
+      console.log(typeof requestData.category_id)
+      const response = await fetch(apiHandler("/api/updateFood"), {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestData),
+      });
 
-      // const result = await response.json();
+      const result = await response.json();
 
-      // if (response.ok) {
-      //   toast.success(`Food created successfully:${result.message}`);
-      // } else {
-      //   toast.error(`Failed to create food:${result.message}`);
-      // }
+      if (response.ok) {
+        toast.success(result.message);
+      } else {
+        toast.error(result.message);
+      }
     } catch (error) {
       console.error("Error:", error);
       toast.error(`Failed to create food:${error}`);
@@ -133,7 +128,7 @@ const DashboardFoodCreate = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(fetchInProdAndDev(`/api/foodByID/${id}`));
+        const response = await fetch(apiHandler(`/api/foodByID/${id}`));
         const data = (await response.json()) as FoodType;
         setUnchangedFood({
           id: data.food_id,

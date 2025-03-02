@@ -45,3 +45,23 @@ export const deleteFood = async (id: number) => {
     return { success: false, message: "No food item found with the specified ID." };
   }
 };
+
+export const updateFood = async (
+  id: number,
+  name: string,
+  description: string,
+  price: number,
+  category_id: number,
+  image_url: string,
+) => {
+  const [result]: any = await db.execute(
+    "UPDATE foods SET name = ?, description = ?, price = ?, image_url = ?, category_id = ? WHERE food_id = ?",
+    [name, description, price, image_url, category_id, id]
+  );
+  
+  if (result.affectedRows > 0) {
+    return { success: true, message: "Food was updated successfully." };
+  } else {
+    return { success: false, message: "Food wasn't updated, please try again later!" };
+  }
+};

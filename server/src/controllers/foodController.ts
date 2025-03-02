@@ -5,7 +5,8 @@ import {
   getAllCategories,
   getFoodsByCategory,
   deleteFood,
-  getFoodFromID
+  getFoodFromID,
+  updateFood,
 } from "../models/foodModel";
 import { Request, Response } from "express";
 
@@ -142,3 +143,15 @@ export const getFoodByID = async (req: Request, res: Response): Promise<any> => 
   }
 };
 
+export const updateFoodByID = async (req: Request, res: Response): Promise<any> => {
+  try {
+    const {id, name, description, price, category_id, image_url} = req.body;
+
+    const result = await updateFood(id, name, description, price, category_id, image_url);
+
+    return res.status(200).json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json(error);
+  }
+};

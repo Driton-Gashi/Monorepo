@@ -1,7 +1,7 @@
 "use client";
 import type { inputDataType, categoryType } from "@/app/utils/types";
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
-import { fetchInProdAndDev } from "@/app/utils/helpfulFunctions";
+import { apiHandler } from "@/app/utils/helpfulFunctions";
 import Image from "next/image";
 
 interface P {
@@ -24,8 +24,8 @@ const EditFormData = ({
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch(fetchInProdAndDev("/api/categories"));
-        if (!response.ok) throw new Error("Failed to fetch categories");
+        const response = await fetch(apiHandler("/api/categories"));
+        if (!response.ok) throw new Error(" categories");
         const data = await response.json();
         setCategories(data);
       } catch (error) {
@@ -36,13 +36,15 @@ const EditFormData = ({
     if (formData.imageUrl) setHasImageUrl(!!formData.imageUrl);
   }, [formData.imageUrl]);
 
-  // const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const file = e.target.files?.[0];
-  //   if (file) {
-  //     // Handle file upload logic here (e.g., upload to IPFS)
-  //     // Update `formData.imageUrl` with the new URL
-  //   }
-  // };
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+        setFormData((prevData) => ({
+          ...prevData,
+          image: file,
+        }));
+    }
+  };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
@@ -77,7 +79,7 @@ const EditFormData = ({
             <input
               type="file"
               name="image"
-              onChange={handleChange}
+              onChange={handleFileChange}
               accept="image/*"
               className="border block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
             />
