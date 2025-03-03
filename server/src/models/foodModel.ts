@@ -10,6 +10,11 @@ export const getFoodByName = async (foodName: string) => {
   return rows[0];
 };
 
+export const getCategoryByName = async (categoryName: string) => {
+  const [rows]: any = await db.execute("SELECT * FROM categories WHERE name = ?", [categoryName]);
+  return rows[0];
+};
+
 export const getFoodFromID = async (id: number) => {
   const [rows]: any = await db.execute("SELECT * FROM foods WHERE food_id = ?", [id]);
   return rows[0];
@@ -36,6 +41,13 @@ export const createFood = async (name: string, description: string, price: numbe
   );
 };
 
+export const createCategory = async (name: string) => {
+  await db.execute(
+    "INSERT INTO categories (name) VALUES (?)",
+    [name]
+  );
+};
+
 export const deleteFood = async (id: number) => {
   const [result]: any = await db.execute("DELETE FROM foods WHERE food_id = ?", [id]);
   
@@ -43,6 +55,16 @@ export const deleteFood = async (id: number) => {
     return { success: true, message: "Food item deleted successfully." };
   } else {
     return { success: false, message: "No food item found with the specified ID." };
+  }
+};
+
+export const deleteCategory = async (id: number) => {
+  const [result]: any = await db.execute("DELETE FROM categories WHERE id = ?", [id]);
+  
+  if (result.affectedRows > 0) {
+    return { success: true, message: "Category was deleted successfully." };
+  } else {
+    return { success: false, message: "Category couldn't be deleted, please try again later!" };
   }
 };
 

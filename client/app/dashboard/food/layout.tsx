@@ -16,7 +16,7 @@ export default function DashboardFoodLayout({
         <NavLink className={baseClass} href="/dashboard/food/create">
           Create
         </NavLink>
-        <NavLink className={baseClass} href="/dashboard/food/edit">
+        <NavLink title="Choose a specific food to edit" className={`${baseClass} cursor-not-allowed`} href="/dashboard/food/edit">
           Edit
         </NavLink>
       </div>

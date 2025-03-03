@@ -31,25 +31,29 @@ const DashboardFoodCreate = () => {
     category_id: 0,
     image: null,
     imageUrl: "",
-  }
+  };
 
-  const [unchangedFood, setUnchangedFood] = useState<inputDataType>(defaultFoodStructure);
+  const [unchangedFood, setUnchangedFood] =
+    useState<inputDataType>(defaultFoodStructure);
   const [formData, setFormData] = useState<inputDataType>(defaultFoodStructure);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
- 
-      setFormData((prevData) => ({
-        ...prevData,
-        [name]: value,
-      }));
-    
+
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
+      if (!formData.image && !formData.imageUrl) {
+        toast.error("Please add an Image either upload or add an URL");
+        return;
+      }
       if (formData.name.length == 0) {
         toast.error("Name field is Empty!");
         return;
@@ -70,10 +74,6 @@ const DashboardFoodCreate = () => {
         toast.error("Please enter a valid image URL or upload an image");
         return;
       }
-      if (!formData.image && !formData.imageUrl) {
-        toast.error("Please add an Image either upload or add an URL");
-        return;
-      }
 
       const requestData = {
         id: formData.id,
@@ -83,27 +83,26 @@ const DashboardFoodCreate = () => {
         category_id: formData.category_id,
         image_url: "",
       };
-      
-      if (formData.image) {
 
+      if (formData.image) {
         const pinataResponse = await pinata.upload.file(formData.image);
         const image = pinataResponse.IpfsHash;
 
         requestData.image_url = image;
       } else {
-        requestData.image_url = formData.imageUrl ?? "bafkreif5p5ksiqktieivz2t5hcwvyzhv4sgmi3xvhc4kw2p75kukihhm34";
+        requestData.image_url =
+          formData.imageUrl ??
+          "bafkreif5p5ksiqktieivz2t5hcwvyzhv4sgmi3xvhc4kw2p75kukihhm34";
       }
 
-      console.log("Unchanged Food", unchangedFood);
-      console.log("Updated Food", formData);
+      const areEqual =
+        JSON.stringify(unchangedFood) === JSON.stringify(formData);
 
-    const areEqual = JSON.stringify(unchangedFood) === JSON.stringify(formData);
-
-      if(areEqual){
+      if (areEqual) {
         toast.error("Change couldn't be made, no fields were changed!");
         return;
       }
-      console.log(typeof requestData.category_id)
+      console.log(typeof requestData.category_id);
       const response = await fetch(apiHandler("/api/updateFood"), {
         method: "PUT",
         headers: {

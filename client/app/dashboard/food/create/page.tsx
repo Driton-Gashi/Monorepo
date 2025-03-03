@@ -39,6 +39,10 @@ const DashboardFoodCreate = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+      if (!formData.image) {
+        toast.error("Please add an image!");
+        return;
+      }
       if (formData.name.length == 0) {
         toast.error("Name field is Empty!");
         return;
@@ -53,10 +57,6 @@ const DashboardFoodCreate = () => {
       }
       if (formData.category_id == 0) {
         toast.error("Please choose a category!");
-        return;
-      }
-      if (!formData.image) {
-        toast.error("Please add an image!");
         return;
       }
 

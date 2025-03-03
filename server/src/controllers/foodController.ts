@@ -7,6 +7,9 @@ import {
   deleteFood,
   getFoodFromID,
   updateFood,
+  createCategory,
+  getCategoryByName,
+  deleteCategory
 } from "../models/foodModel";
 import { Request, Response } from "express";
 
@@ -30,6 +33,31 @@ export const createNewFood = async (
     res
       .status(200)
       .json({ message: `${name} - ${price}€ was added successfully` });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: `Server error: ${error}` });
+  }
+};
+
+export const createNewCategory = async (
+  req: Request,
+  res: Response
+): Promise<any> => {
+  const { name} = req.body;
+  try {
+    const existingCategory = await getCategoryByName(name);
+
+    if (existingCategory) {
+      return res
+        .status(400)
+        .json({ message: `${name} category already exists` });
+    }
+
+    await createCategory(name);
+
+    res
+      .status(200)
+      .json({ message: `${name} category was added successfully` });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: `Server error: ${error}` });
@@ -116,6 +144,31 @@ export const deleteFoodByID = async (req: Request, res: Response): Promise<any> 
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: `Server error: ${error}` });
+  }
+};
+
+export const deleteCategoryByID = async (req: Request, res: Response): Promise<any> => {
+  try {
+    const { id } = req.params;
+
+    if (!id) {
+      return res.status(400).json({ message: "Category ID is required" });
+    }
+
+    const categoryId = parseInt(id as string, 10);
+    if (isNaN(categoryId)) {
+      return res.status(400).json({ message: "Invalid Category ID" });
+    }
+
+    const result = await deleteCategory(categoryId);
+    if (result.success) {
+      return res.status(200).json(result);
+    } else {
+      return res.status(404).json(result);
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: `You cannot delete all categories!` });
   }
 };
 

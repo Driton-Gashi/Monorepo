@@ -7,6 +7,7 @@ interface P {
   href: string;
   activeClassName?: string;
   className?: string;
+  title?: string;
 }
 
 const NavLink = ({
