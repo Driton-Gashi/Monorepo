@@ -2,9 +2,10 @@
 import { useState, useEffect } from "react";
 import FoodCard from "./components/global/FoodCard";
 import FoodCardSkeleton from "./components/global/FoodCardSkeleton";
-import type { Food, categoryType } from "@/app/utils/types";
+import type { Food, categoryType, popupData } from "@/app/utils/types";
 import Image from "next/image";
 import { apiHandler } from "./utils/helpfulFunctions";
+import QuickView from "./components/global/QuickView";
 
 interface errorType {
   foodError: string;
@@ -22,6 +23,14 @@ export default function Home() {
   const [categories, setCategories] = useState<categoryType[]>([]);
   const [produktetNeShporte, setProduktetNeShporte] = useState<Food[]>([]);
   const [currentCategory, setCurrentCategory] = useState<string | number>("all");
+  const [popupData, setPopupData] = useState<popupData>({
+    id: 0,
+    imageSrc:"",
+    name:"",
+    price:123,
+    imageAlt:"",
+    visible: false,
+  });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -93,9 +102,12 @@ export default function Home() {
     return (
       <>
         {produktetNeShporte.map((food: Food) => (
-          <div key={food.food_id}>
+          <div className="flex gap-2" key={food.food_id}>
+            <Image priority width={50} height={50} alt="" src={`https://${process.env.NEXT_PUBLIC_GATEWAY_URL}/ipfs/${food.image_url}`}/>
+            <div>
             <h2>{food.name}</h2>
-            <p>{food.price}</p>
+            <p>{food.quantity}X {food.price}</p>
+            </div>
           </div>
         ))}
       </>
@@ -105,6 +117,7 @@ export default function Home() {
   return (
     <div className="container m-auto p-6">
       <Image
+      priority
         className="rounded-3xl shadow w-full"
         src="/Banner_Pizza.jpg"
         alt="Pizza Banner"
@@ -154,7 +167,7 @@ export default function Home() {
                   price={food.price}
                   image_url={food.image_url}
                   key={food.food_id}
-                  setProduktetNeShporte={setProduktetNeShporte}
+                  setPopupData={setPopupData}
                 />
               ))}
             </div>
@@ -173,6 +186,7 @@ export default function Home() {
           </div>
         </div>
       </div>
+      <QuickView setProduktetNeShporte={setProduktetNeShporte} popupData={popupData} setPopupData={setPopupData}/>
     </div>
   );
 }

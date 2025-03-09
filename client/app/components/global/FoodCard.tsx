@@ -1,37 +1,21 @@
 import Image from "next/image";
-import type { Food } from "@/app/utils/types";
+import type { Food, popupData } from "@/app/utils/types";
 import { Dispatch, SetStateAction } from "react";
-
 interface foodCard extends Food {
-  setProduktetNeShporte: Dispatch<SetStateAction<Food[]>>;
+  setPopupData: Dispatch<SetStateAction<popupData>>
 }
 
-const FoodCard = ({ name, image_url, price, className, food_id, setProduktetNeShporte }: foodCard) => {
-  const addToCartArray = (food: Food) => {
-    // Retrieve cart items from localStorage
-    const cartItems: Food[] = JSON.parse(localStorage.getItem("cartItems") || "[]");
+const FoodCard = ({ name, image_url, price, className, food_id, setPopupData }: foodCard) => {
 
-    // Check if the food item already exists in the cart
-    const foodExists: boolean = cartItems.some(item => item.food_id === food.food_id);
-
-    // If the food item already exists, return early
-    if (foodExists) {
-      return;
-    }
-
-    // Add the new food item to the cart
-    const updatedCartItems = [...cartItems, food];
-
-    // Update localStorage with the new cart items
-    localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
-
-    // Update the state with the new cart items
-    setProduktetNeShporte(updatedCartItems);
-  };
-
-  const addToCart = (): void => {
-    const food: Food = { food_id, name, price, image_url };
-    addToCartArray(food);
+  const openPopup = (): void => {
+    
+    setPopupData({
+      id: food_id ?? 0,
+      name: name,
+      imageSrc: image_url ?? "",
+      price:price,
+      visible: true,
+    })
   };
 
   return (
@@ -48,7 +32,7 @@ const FoodCard = ({ name, image_url, price, className, food_id, setProduktetNeSh
       <h2>{name}</h2>
       <h2 className="text-red-600 font-bold my-2">{price}€</h2>
       <button
-        onClick={addToCart}
+        onClick={openPopup}
         className="py-2 w-full tex-sm text-red-600 rounded-3xl bg-transparent border-2 border-red-600 transition-colors hover:bg-red-600 hover:text-white"
       >
         Shto ne Shporte

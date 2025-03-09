@@ -5,6 +5,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { useUser } from "@/app/context/UserContext";
 import { apiHandler } from "../utils/helpfulFunctions";
+import { toast } from "sonner";
 
 const AuthPage = () => {
   const searchParams = useSearchParams();
@@ -28,7 +29,43 @@ const AuthPage = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+    if(!isLogin){
+      if(formData.name.length == 0){
+        toast.error("Name is Empty!")
+        return;
+      }
+  
+      if(formData.lastname.length == 0){
+        toast.error("Lastname is Empty!")
+        return;
+      }
+  
+      if(formData.email.length == 0){
+        toast.error("Email is Empty!")
+        return;
+      }
+
+      if(!formData.email.includes("@")){
+        toast.error("Email should contain a \"@\"!")
+        return;
+      }
+      
+      if(formData.password.length == 0){
+        toast.error("Password is Empty!")
+        return;
+      }
+    }else{
+      if(formData.email.length == 0){
+        toast.error("Email is Empty!")
+        return;
+      }
+  
+      if(formData.password.length == 0){
+        toast.error("Password is Empty!")
+        return;
+      }
+    }
+
     const url = isLogin ? apiHandler("/api/login") : apiHandler("/api/register");
   
     const response = await fetch(url, {

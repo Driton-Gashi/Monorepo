@@ -105,16 +105,15 @@ export default function Header() {
             <Link href="/" className="text-sm/6 font-semibold text-gray-900">
               Home
             </Link>
-            <Link href="#" className="text-sm/6 font-semibold text-gray-900">
-              Order
+            <Link href="/dashboard" className="text-sm/6 font-semibold text-gray-900">
+              Dashboard
             </Link>
-            <Link href="#" className="text-sm/6 font-semibold text-gray-900">
+            <Link href="/checkout" className="text-sm/6 font-semibold text-gray-900">
               Checkout
             </Link>
-            {true && (
             <Popover className="relative">
               <PopoverButton className="flex items-center gap-x-1 text-sm/6 font-semibold text-gray-900">
-                Admin
+                Dropdown example
                 <ChevronDownIcon
                   aria-hidden="true"
                   className="size-5 flex-none text-gray-400"
@@ -152,7 +151,7 @@ export default function Header() {
                 </div>
                 <div className="grid grid-cols-2 divide-x divide-gray-900/5 bg-gray-50">
                   {callsToAction.map((item) => (
-                    <a
+                    <Link
                       key={item.name}
                       href={item.href}
                       className="flex items-center justify-center gap-x-2.5 p-3 text-sm/6 font-semibold text-gray-900 hover:bg-gray-100"
@@ -162,12 +161,11 @@ export default function Header() {
                         className="size-5 flex-none text-gray-400"
                       />
                       {item.name}
-                    </a>
+                    </Link>
                   ))}
                 </div>
               </PopoverPanel>
             </Popover>
-)}
           </PopoverGroup>
        
 

@@ -21,6 +21,8 @@ export interface Food {
   category_id?: number;
   image_url?: string;
   className?: string;
+  extra?: string;
+  quantity?: number;
 }
 
 export interface TableRowType{
@@ -35,3 +37,12 @@ export interface TableRowType{
 export interface layoutType{
   children: React.ReactNode;
 }
+
+export interface popupData {
+  id: number;
+  name:string,
+  price: number,
+  imageSrc: string,
+  imageAlt?: string,
+  visible: boolean,
+};

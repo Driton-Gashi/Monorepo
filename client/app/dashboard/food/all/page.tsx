@@ -101,13 +101,11 @@ const DashboardFoodAll = () => {
 
   const searchFunction = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    console.log(value);
     
     setSearchString(value);
     
     if(value == ""){
       setFoods(unfilteredFoods)
-      console.log(unfilteredFoods)
       return
     }
 
@@ -117,7 +115,7 @@ const DashboardFoodAll = () => {
         food.price.toString().toLowerCase().includes(value.toLowerCase()) ||
         food.category_name?.toLowerCase().includes(value.toLowerCase())
     );
-
+    
     setFoods(filtered);
   };
 
@@ -167,7 +165,7 @@ const DashboardFoodAll = () => {
               <table className="min-w-full divide-y divide-gray-200">
                 <TableHead />
                 <tbody className="divide-y divide-gray-200">
-                  {foods.map((food) => (
+                  {foods.length ? foods.map((food) => (
                     <TableRow
                       key={food.food_id}
                       id={food.food_id}
@@ -177,7 +175,9 @@ const DashboardFoodAll = () => {
                       category={food.category_name ?? ''}
                       deleteFunction={() => deleteFood(food.food_id ?? 0)}
                     />
-                  ))}
+                  )) : <tr>
+                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">No Items found</td>
+                    </tr>}
                 </tbody>
               </table>
             </div>
