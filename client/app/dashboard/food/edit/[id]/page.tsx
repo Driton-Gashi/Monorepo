@@ -17,7 +17,7 @@ interface FoodType {
   category_id: number;
 }
 
-const DashboardFoodCreate = () => {
+const DashboardFoodEdit = () => {
   // const { loggedInUserData } = useUser();
   const params = useParams();
   const id = params.id;
@@ -175,4 +175,4 @@ const DashboardFoodCreate = () => {
   );
 };
 
-export default DashboardFoodCreate;
+export default DashboardFoodEdit;

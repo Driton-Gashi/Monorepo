@@ -4,8 +4,9 @@ import FoodCard from "./components/global/FoodCard";
 import FoodCardSkeleton from "./components/global/FoodCardSkeleton";
 import type { Food, categoryType, popupData } from "@/app/utils/types";
 import Image from "next/image";
-import { apiHandler } from "./utils/helpfulFunctions";
+import { apiHandler} from "./utils/helpfulFunctions";
 import QuickView from "./components/global/QuickView";
+import Cart from "./components/cart/Cart";
 
 interface errorType {
   foodError: string;
@@ -22,13 +23,15 @@ export default function Home() {
   });
   const [categories, setCategories] = useState<categoryType[]>([]);
   const [produktetNeShporte, setProduktetNeShporte] = useState<Food[]>([]);
-  const [currentCategory, setCurrentCategory] = useState<string | number>("all");
+  const [currentCategory, setCurrentCategory] = useState<string | number>(
+    "all"
+  );
   const [popupData, setPopupData] = useState<popupData>({
     id: 0,
-    imageSrc:"",
-    name:"",
-    price:123,
-    imageAlt:"",
+    imageSrc: "",
+    name: "",
+    price: 123,
+    imageAlt: "",
     visible: false,
   });
 
@@ -55,7 +58,8 @@ export default function Home() {
         if (!categoryResponse.ok) {
           setError((prevState) => ({
             ...prevState,
-            categoryError: "Failed to fetch categories. Please try again later.",
+            categoryError:
+              "Failed to fetch categories. Please try again later.",
           }));
           throw new Error("Failed to fetch categories");
         }
@@ -74,50 +78,23 @@ export default function Home() {
 
     fetchData();
 
-      const cartItems: Food[] = JSON.parse(localStorage.getItem("cartItems") || "[]");
-      setProduktetNeShporte(cartItems);
+    const cartItems: Food[] = JSON.parse(
+      localStorage.getItem("cartItems") || "[]"
+    );
+    setProduktetNeShporte(cartItems);
   }, []);
 
   const getFoodByCategory = async (id: number) => {
-    const foodsByCategory = allFoods.filter((food)=> food.category_id == id)
-    setFoods(foodsByCategory)
+    const foodsByCategory = allFoods.filter((food) => food.category_id == id);
+    setFoods(foodsByCategory);
   };
-  const Cart = ({ produktetNeShporte }:{
-      produktetNeShporte: Food[];
-  }) => {
-    if (!produktetNeShporte.length) {
-      return (
-        <>
-          <Image
-            className="m-auto mt-10 mb-10"
-            src="/box.png"
-            alt="Empty Cart"
-            width={100}
-            height={100}
-          />
-          <h4 className="text-center mb-6">Ska produkte ne shporte</h4>
-        </>
-      );
-    }
-    return (
-      <>
-        {produktetNeShporte.map((food: Food) => (
-          <div className="flex gap-2" key={food.food_id}>
-            <Image priority width={50} height={50} alt="" src={`https://${process.env.NEXT_PUBLIC_GATEWAY_URL}/ipfs/${food.image_url}`}/>
-            <div>
-            <h2>{food.name}</h2>
-            <p>{food.quantity}X {food.price}</p>
-            </div>
-          </div>
-        ))}
-      </>
-    );
-  };
+
+
 
   return (
     <div className="container m-auto p-6">
       <Image
-      priority
+        priority
         className="rounded-3xl shadow w-full"
         src="/Banner_Pizza.jpg"
         alt="Pizza Banner"
@@ -132,22 +109,41 @@ export default function Home() {
             className="border w-full p-4 rounded-lg text-sm bg-no-repeat"
           />
           <div className="flex flex-wrap gap-2 py-4">
-            {error.categoryError
-              ? `Couldn't get categories because: ${error.categoryError}`
-              : <>
-              <button className={`${currentCategory == "all" ? " bg-red-500 text-white":"text-red-500"} py-2 px-4 rounded-3xl uppercase`} onClick={()=>{
-                setFoods(allFoods)
-                setCurrentCategory("all")
-              }}>All</button>
-              {categories.map((category) => (
-                  <button className={`${currentCategory === category.id ? "bg-red-500 text-white":"text-red-500"} hover:bg-red-500 hover:text-white py-2 px-4 rounded-3xl uppercase`} onClick={() => {
-                    getFoodByCategory(category.id)
-                    setCurrentCategory(category.id)
-                  }} key={category.id}>
+            {error.categoryError ? (
+              `Couldn't get categories because: ${error.categoryError}`
+            ) : (
+              <>
+                <button
+                  className={`${
+                    currentCategory == "all"
+                      ? " bg-red-500 text-white"
+                      : "text-red-500"
+                  } py-2 px-4 rounded-3xl uppercase`}
+                  onClick={() => {
+                    setFoods(allFoods);
+                    setCurrentCategory("all");
+                  }}
+                >
+                  All
+                </button>
+                {categories.map((category) => (
+                  <button
+                    className={`${
+                      currentCategory === category.id
+                        ? "bg-red-500 text-white"
+                        : "text-red-500"
+                    } hover:bg-red-500 hover:text-white py-2 px-4 rounded-3xl uppercase`}
+                    onClick={() => {
+                      getFoodByCategory(category.id);
+                      setCurrentCategory(category.id);
+                    }}
+                    key={category.id}
+                  >
                     {category.name}
                   </button>
                 ))}
-              </>}
+              </>
+            )}
           </div>
           {error.foodError ? (
             `Couldn't get foods because: ${error.foodError}`
@@ -177,16 +173,22 @@ export default function Home() {
           <div className="border-2 border-red-700 rounded-2xl p-6">
             <div className="flex justify-between">
               <h2 className="text-red-600 text-xl font-bold">Porosia Juaj</h2>
-              <Image width={50} height={50} src="/cart.png" alt="Shopping Cart" />
+              <Image
+                width={50}
+                height={50}
+                src="/cart.png"
+                alt="Shopping Cart"
+              />
             </div>
-            <Cart produktetNeShporte={produktetNeShporte} />
-            <hr className="w-20 m-auto border-black" />
-            <h2 className="mt-6 text-center text-2xl">Porosia Minimale</h2>
-            <h2 className="mt-2 text-center text-2xl">5 euro</h2>
+            <Cart setProduktetNeShporte={setProduktetNeShporte} produktetNeShporte={produktetNeShporte} />
           </div>
         </div>
       </div>
-      <QuickView setProduktetNeShporte={setProduktetNeShporte} popupData={popupData} setPopupData={setPopupData}/>
+      <QuickView
+        setProduktetNeShporte={setProduktetNeShporte}
+        popupData={popupData}
+        setPopupData={setPopupData}
+      />
     </div>
   );
 }
