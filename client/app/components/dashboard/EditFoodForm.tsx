@@ -50,7 +50,7 @@ const EditFormData = ({
     <form onSubmit={handleSubmit} className="space-y-6">
       <div>
         <label
-          htmlFor="Image"
+          htmlFor="file"
           className="block text-sm/6 font-medium text-gray-900"
         >
           Image
@@ -67,6 +67,7 @@ const EditFormData = ({
                 onError={() => setIsImageInvalid(true)}
               />
               <input
+                id="file"
                 type="text"
                 name="imageUrl"
                 value={formData.imageUrl}
@@ -79,6 +80,7 @@ const EditFormData = ({
             <input
               type="file"
               name="image"
+              id="file"
               onChange={handleFileChange}
               accept="image/*"
               className="border block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
@@ -90,6 +92,7 @@ const EditFormData = ({
             } -translate-y-1/2 inline-flex items-center me-5 cursor-pointer`}
           >
             <input
+            id="switch"
               type="checkbox"
               className="sr-only peer"
               checked={hasImageUrl}
@@ -112,8 +115,10 @@ const EditFormData = ({
         </label>
         <div className="mt-2">
           <input
+            autoComplete="name"
             type="text"
             name="name"
+            id="name"
             value={formData.name}
             onChange={handleChange}
             placeholder="Product name"
@@ -133,6 +138,7 @@ const EditFormData = ({
           <textarea
             maxLength={300}
             name="description"
+            id="description"
             value={formData.description}
             onChange={(e) => {
               const { name, value } = e.target;
@@ -161,6 +167,7 @@ const EditFormData = ({
           <input
             type="number"
             name="price"
+            id="price"
             value={formData.price}
             min={0.0}
             step="0.10"
@@ -180,6 +187,7 @@ const EditFormData = ({
         </label>
         <div className="mt-2">
           <select
+            id="category"
             value={formData.category_id}
             onChange={(e) => {
               const { value } = e.target;

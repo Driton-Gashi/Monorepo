@@ -6,6 +6,7 @@ import type { inputDataType } from "@/app/utils/types";
 import EditFoodForm from "@/app/components/dashboard/EditFoodForm";
 import { apiHandler } from "@/app/utils/helpfulFunctions";
 import { toast } from "sonner";
+import { useParams } from "next/navigation";
 
 interface FoodType {
   food_id: number;
@@ -16,8 +17,9 @@ interface FoodType {
   category_id: number;
 }
 
-function EditFoodPage({ params }: { params: { id: string } }) {
+function DashboardEditFood() {
     // const { loggedInUserData } = useUser();
+  const params = useParams();
   const id = params.id;
   const [isImageInvalid, setIsImageInvalid] = useState<boolean>(false);
 
@@ -172,4 +174,4 @@ function EditFoodPage({ params }: { params: { id: string } }) {
   );
 };
 
-export default EditFoodPage;
+export default DashboardEditFood;
