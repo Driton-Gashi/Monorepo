@@ -5,7 +5,6 @@ import { pinata } from "@/app/utils/pinata";
 import type { inputDataType } from "@/app/utils/types";
 import EditFoodForm from "@/app/components/dashboard/EditFoodForm";
 import { apiHandler } from "@/app/utils/helpfulFunctions";
-import { useParams } from "next/navigation";
 import { toast } from "sonner";
 
 interface FoodType {
@@ -17,9 +16,8 @@ interface FoodType {
   category_id: number;
 }
 
-const DashboardFoodEdit = () => {
-  // const { loggedInUserData } = useUser();
-  const params = useParams();
+function EditFoodPage({ params }: { params: { id: string } }) {
+    // const { loggedInUserData } = useUser();
   const id = params.id;
   const [isImageInvalid, setIsImageInvalid] = useState<boolean>(false);
 
@@ -174,4 +172,4 @@ const DashboardFoodEdit = () => {
   );
 };
 
-export default DashboardFoodEdit;
+export default EditFoodPage;
