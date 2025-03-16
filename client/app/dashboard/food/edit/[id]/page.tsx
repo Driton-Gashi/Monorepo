@@ -102,7 +102,6 @@ const DashboardFoodEdit = () => {
         toast.error("Change couldn't be made, no fields were changed!");
         return;
       }
-      console.log(typeof requestData.category_id);
       const response = await fetch(apiHandler("/api/updateFood"), {
         method: "PUT",
         headers: {

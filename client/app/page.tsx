@@ -13,7 +13,7 @@ interface errorType {
   categoryError: string;
 }
 
-export default function Home() {
+export default function Home() { 
   const [foods, setFoods] = useState<Food[]>([]);
   const [allFoods, setAllFoods] = useState<Food[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -81,6 +81,7 @@ export default function Home() {
     const cartItems: Food[] = JSON.parse(
       localStorage.getItem("cartItems") || "[]"
     );
+
     setProduktetNeShporte(cartItems);
   }, []);
 
@@ -88,8 +89,6 @@ export default function Home() {
     const foodsByCategory = allFoods.filter((food) => food.category_id == id);
     setFoods(foodsByCategory);
   };
-
-
 
   return (
     <div className="container m-auto p-6">
@@ -185,6 +184,7 @@ export default function Home() {
         </div>
       </div>
       <QuickView
+        produktetNeShporte={produktetNeShporte}
         setProduktetNeShporte={setProduktetNeShporte}
         popupData={popupData}
         setPopupData={setPopupData}

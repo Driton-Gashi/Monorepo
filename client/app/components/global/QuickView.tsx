@@ -1,6 +1,6 @@
 "use client";
 
-import { SetStateAction, Dispatch, useState } from "react";
+import { SetStateAction, Dispatch, useState, useEffect } from "react";
 import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
@@ -10,36 +10,38 @@ interface P {
   popupData: popupData;
   setPopupData: Dispatch<SetStateAction<popupData>>;
   setProduktetNeShporte: Dispatch<SetStateAction<Food[]>>;
+  produktetNeShporte: Food[]
 }
 
 export default function QuickView({
   popupData,
   setPopupData,
   setProduktetNeShporte,
+  produktetNeShporte
 }: P) {
   const [extra, setExtra] = useState<string>("");
   const [quantity, setQuantity] = useState<number>(1);
-  // const [open, setOpen] = useState();
   const closeModal = () => {
     setPopupData((prevData) => ({
       ...prevData,
       visible: false,
     }));
+    setQuantity(1);
+    setExtra("")
   };
 
-  const addToCartArray = (food: Food) => {
-    const cartItems: Food[] = JSON.parse(
-      localStorage.getItem("cartItems") || "[]"
-    );
-    const foodExists: boolean = cartItems.some(
-      (item) => item.food_id === food.food_id
-    );
-    if (foodExists) {
-      return;
+  useEffect(() => {
+    if(produktetNeShporte.length > 0){
+      localStorage.setItem("cartItems", JSON.stringify(produktetNeShporte));
     }
-    const updatedCartItems = [...cartItems, food];
-    localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
-    setProduktetNeShporte(updatedCartItems);
+  }, [produktetNeShporte]);
+
+  const addToCartArray = (food: Food) => {
+    setProduktetNeShporte((prevData) => {
+      const foodExists = prevData.some((item) => item.food_id === food.food_id);
+      if (foodExists) return prevData;
+      return [...prevData, food];
+    });
   };
 
   const addToCart = () => {
@@ -54,6 +56,7 @@ export default function QuickView({
     addToCartArray(food);
     closeModal();
   };
+
   return (
     <Dialog
       open={popupData.visible}

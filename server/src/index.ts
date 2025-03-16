@@ -8,10 +8,8 @@ dotenv.config();
 const app = express();
 
 app.use(cors());
-app.use(express.json()); // Parse JSON bodies
+app.use(express.json());
 
-
-// Use authentication routes
 app.use("/api/", authRoutes);
 app.use("/api/", foodRoutes);
 

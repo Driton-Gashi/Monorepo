@@ -1,39 +1,51 @@
 "use client"
 import Image from "next/image";
 import type { Food } from "@/app/utils/types";
-import { Dispatch, SetStateAction } from "react";
-import { useEffect } from "react";
 
 interface P {
   removeFromCart: (id: number) => void;
   food: Food;
-  setProduktetNeShporte: Dispatch<SetStateAction<Food[]>>;
-  produktetNeShporte: Food[];
+  setProduktetNeShporte: React.Dispatch<React.SetStateAction<Food[]>>;
 }
 
-const CartItem = ({ removeFromCart, food, setProduktetNeShporte, produktetNeShporte }: P) => {
-
-
-  useEffect(() => {
-    localStorage.setItem("cartItems", JSON.stringify(produktetNeShporte));
-  }, [produktetNeShporte]);
+const CartItem = ({ removeFromCart, food, setProduktetNeShporte }: P) => {
 
   const decreaseQuantity = () => {
-    setProduktetNeShporte((prevData) =>
-      prevData
+    setProduktetNeShporte((prevData) => {
+      return prevData
         .map((item) => {
+          if(prevData.length === 1){
+            localStorage.setItem("cartItems", "[]")
+          }
           if (item.food_id === food.food_id) {
             const newQuantity = item.quantity ? item.quantity - 1 : 0;
             return { ...item, quantity: newQuantity };
           }
           return item;
         })
-        .filter((item) => item.quantity && item.quantity > 0)
-    );
+        .filter((item) => item.quantity && item.quantity > 0);
+    });
   };
 
+  const increaseQuantity = ()=>{
+    setProduktetNeShporte(prevData => prevData.map(item => {
+
+      if(item.quantity == 10){
+        return item;
+      }
+
+      if(item.food_id === food.food_id){
+        const newQuantity = item.quantity ? item.quantity + 1 : 0;
+        return { ...item, quantity: newQuantity };
+      }
+      
+      return item;
+    }))
+    
+  }  
+
   return (
-    <div className="mt-2 flex gap-2 relative pt-6">
+    <div className="mt-4 flex gap-2 relative pt-4">
       <div
         onClick={() => removeFromCart(food.food_id ?? 0)}
         className="absolute top-0 right-0 cursor-pointer"
@@ -59,7 +71,7 @@ const CartItem = ({ removeFromCart, food, setProduktetNeShporte, produktetNeShpo
           <span onClick={decreaseQuantity} className="border border-red-700 text-red-700 w-6 h-6 flex justify-center items-center rounded-full cursor-pointer">
             -
           </span>
-          <span className="border bg-red-700 text-white w-6 h-6 flex justify-center items-center rounded-full cursor-pointer">
+          <span onClick={increaseQuantity} className="border bg-red-700 text-white w-6 h-6 flex justify-center items-center rounded-full cursor-pointer">
             +
           </span>
         </div>

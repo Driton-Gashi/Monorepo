@@ -9,7 +9,7 @@ import {
   updateFood,
   createCategory,
   getCategoryByName,
-  deleteCategory
+  deleteCategory,
 } from "../models/foodModel";
 import { Request, Response } from "express";
 
@@ -43,7 +43,7 @@ export const createNewCategory = async (
   req: Request,
   res: Response
 ): Promise<any> => {
-  const { name} = req.body;
+  const { name } = req.body;
   try {
     const existingCategory = await getCategoryByName(name);
 
@@ -114,7 +114,7 @@ export const getFoodsByCategoryId = async (
         .status(400)
         .json({ message: "There's no foods with this category" });
     }
-    
+
     res.status(200).json(foods);
   } catch (error) {
     console.error(error);
@@ -122,7 +122,10 @@ export const getFoodsByCategoryId = async (
   }
 };
 
-export const deleteFoodByID = async (req: Request, res: Response): Promise<any> => {
+export const deleteFoodByID = async (
+  req: Request,
+  res: Response
+): Promise<any> => {
   try {
     const { id } = req.params;
 
@@ -147,7 +150,10 @@ export const deleteFoodByID = async (req: Request, res: Response): Promise<any> 
   }
 };
 
-export const deleteCategoryByID = async (req: Request, res: Response): Promise<any> => {
+export const deleteCategoryByID = async (
+  req: Request,
+  res: Response
+): Promise<any> => {
   try {
     const { id } = req.params;
 
@@ -172,35 +178,57 @@ export const deleteCategoryByID = async (req: Request, res: Response): Promise<a
   }
 };
 
-export const getFoodByID = async (req: Request, res: Response): Promise<any> => {
+export const getFoodByID = async (
+  req: Request,
+  res: Response
+): Promise<any> => {
   try {
     const { id } = req.params;
+    console.log("Requested Food ID:", id);
 
     if (!id) {
+      console.error("Food ID is required");
       return res.status(400).json({ message: "Food ID is required" });
     }
 
     const foodId = parseInt(id as string, 10);
 
     if (isNaN(foodId)) {
+      console.error("Invalid Food ID:", id);
       return res.status(400).json({ message: "Invalid Food ID" });
     }
 
+    console.log("Fetching food data for ID:", foodId);
     const result = await getFoodFromID(foodId);
+    console.log("Food data:", result);
+
+    if (!result) {
+      console.error("Food not found for ID:", foodId);
+      return res.status(404).json({ message: "Food not found" });
+    }
 
     return res.status(200).json(result);
-
   } catch (error) {
-    console.error(error);
+    console.error("Error in getFoodByID:", error);
     res.status(500).json({ message: `Server error: ${error}` });
   }
 };
 
-export const updateFoodByID = async (req: Request, res: Response): Promise<any> => {
+export const updateFoodByID = async (
+  req: Request,
+  res: Response
+): Promise<any> => {
   try {
-    const {id, name, description, price, category_id, image_url} = req.body;
+    const { id, name, description, price, category_id, image_url } = req.body;
 
-    const result = await updateFood(id, name, description, price, category_id, image_url);
+    const result = await updateFood(
+      id,
+      name,
+      description,
+      price,
+      category_id,
+      image_url
+    );
 
     return res.status(200).json(result);
   } catch (error) {
