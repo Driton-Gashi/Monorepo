@@ -25,12 +25,10 @@ export const getCategoryByName = async (categoryName: string) => {
 
 export const getFoodFromID = async (id: number) => {
   try {
-    console.log("Executing database query for ID:", id);
     const [rows]: any = await db.execute(
       "SELECT * FROM foods WHERE food_id = ?",
       [id]
     );
-    console.log("Database query result:", rows);
     return rows[0];
   } catch (error) {
     console.error("Database error:", error);

@@ -200,7 +200,6 @@ export const getFoodByID = async (
 
     console.log("Fetching food data for ID:", foodId);
     const result = await getFoodFromID(foodId);
-    console.log("Food data:", result);
 
     if (!result) {
       console.error("Food not found for ID:", foodId);
