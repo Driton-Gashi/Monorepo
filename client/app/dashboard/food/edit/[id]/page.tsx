@@ -17,7 +17,7 @@ interface FoodType {
   category_id: number;
 }
 
-function DashboardEditFood() {
+const DashboardEditFood = ()=> {
     // const { loggedInUserData } = useUser();
   const params = useParams();
   const id = params.id;
