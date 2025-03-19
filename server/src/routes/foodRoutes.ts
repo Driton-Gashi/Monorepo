@@ -16,7 +16,7 @@ router.post("/food", createNewFood);
 router.get("/food", getFoods);
 router.get("/categories", getCategories);
 router.get("/foodByCategory", getFoodsByCategoryId);
-// router.get("/foodByID/:id", getFoodByID);
+router.get("/foodByID/:id", getFoodByID);
 router.delete("/deleteFood/:id", deleteFoodByID);
 router.put("/updateFood", updateFoodByID);
 router.post("/category", createNewCategory);

@@ -8,6 +8,7 @@ interface P {
   activeClassName?: string;
   className?: string;
   title?: string;
+  hasNoHref?: boolean
 }
 
 const NavLink = ({
@@ -15,6 +16,7 @@ const NavLink = ({
   href,
   activeClassName = "active",
   className = "",
+  hasNoHref = false,
   ...rest
 }: P) => {
   const pathname = usePathname();
@@ -22,7 +24,7 @@ const NavLink = ({
 
   const newClassName = `${isActive ? activeClassName : ""} ${className}`.trim();
   return (
-    <Link href={href} className={newClassName} {...rest}>
+    <Link href={hasNoHref? "#": href} className={newClassName} {...rest}>
       {children}
     </Link>
   );
