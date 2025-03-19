@@ -1,6 +1,6 @@
 "use client";
 
-import type { Food } from "../utils/types";
+import type { Food, Order } from "../utils/types";
 import { useState, useRef } from "react";
 import Cart from "../components/cart/Cart";
 import Image from "next/image";
@@ -8,10 +8,28 @@ import Image from "next/image";
 
 const CheckoutPage = () => {
   const [produktetNeShporte, setProduktetNeShporte] = useState<Food[]>([]);
+   const [orderData, setOrderData] = useState<Order>({
+    user_id: null,
+    name: "",
+    email: "",
+    phone:"",
+    address:"",
+    city:"",
+    extra:"",
+   })
+
+   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setOrderData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
   const formRef = useRef<HTMLFormElement>(null);
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>)=>{
     e.preventDefault();
-    console.log("Hello World")
+    console.log()
   }
 
   const triggerFormSubmit = () => {
@@ -39,10 +57,13 @@ const CheckoutPage = () => {
             Name
           </label>
           <input
-            type="name"
+            type="text"
+            name="name"
             id="name"
             className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
             required
+            value={orderData.name}
+            onChange={handleChange}
           />
         </div>
         
@@ -54,10 +75,13 @@ const CheckoutPage = () => {
             Address
           </label>
           <input
-            type="address"
+            type="text"
+            name="address"
             id="address"
             className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
             required
+            value={orderData.address}
+            onChange={handleChange}
           />
         </div>
 
@@ -69,10 +93,13 @@ const CheckoutPage = () => {
             City
           </label>
           <input
-            type="city"
+            type="text"
+            name="city"
             id="city"
             className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
             required
+            value={orderData.city}
+            onChange={handleChange}
           />
         </div>
 
@@ -84,10 +111,13 @@ const CheckoutPage = () => {
             Phone
           </label>
           <input
-            type="phone"
+            type="text"
+            name="phone"
             id="phone"
             className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
             required
+            value={orderData.city}
+            onChange={handleChange}
           />
         </div>
         <div className="mb-5">
@@ -99,9 +129,12 @@ const CheckoutPage = () => {
           </label>
           <input
             type="email"
+            name="email"
             id="email"
             className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
             required
+            value={orderData.email}
+            onChange={handleChange}
           />
         </div>
 
@@ -114,8 +147,11 @@ const CheckoutPage = () => {
           </label>
           <textarea
             id="extra"
+            name="extra"
             className="min-h-24 bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
             required
+            value={orderData.extra}
+            onChange={handleChange}
           ></textarea>
         </div>
         <button

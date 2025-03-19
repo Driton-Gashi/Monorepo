@@ -46,3 +46,15 @@ export interface popupData {
   imageAlt?: string,
   visible: boolean,
 };
+
+export interface Order {
+  id?: number;
+  user_id: number | null; 
+  name: string;
+  email: string;
+  address: string;
+  city: string;
+  phone: string;
+  extra: string;
+  created_at?: Date;
+}
