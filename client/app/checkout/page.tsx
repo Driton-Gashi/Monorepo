@@ -1,10 +1,10 @@
 "use client";
 
-import type { Food, Order } from "../utils/types";
+import type { Food, Order, OrderItem } from "../utils/types";
 import { useState, useRef } from "react";
 import Cart from "../components/cart/Cart";
 import Image from "next/image";
-
+import { apiHandler } from "../utils/helpfulFunctions";
 
 const CheckoutPage = () => {
   const [produktetNeShporte, setProduktetNeShporte] = useState<Food[]>([]);
@@ -27,10 +27,34 @@ const CheckoutPage = () => {
   };
 
   const formRef = useRef<HTMLFormElement>(null);
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>)=>{
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log()
-  }
+    
+    const cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
+
+    const orderObject: Order = {
+      ...orderData,
+      items: cartItems.map((item: OrderItem)=> (
+        {
+        food_id: item.food_id,
+        quantity: item.quantity,
+        price:  parseFloat((item.price * item.quantity).toFixed(2)),
+        }
+      ))
+    }
+
+    const response = await fetch(apiHandler("/api/order"), {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(orderObject),
+    });
+
+    const result = await response.json();
+    console.log(result);
+  };
 
   const triggerFormSubmit = () => {
     if (formRef.current) {

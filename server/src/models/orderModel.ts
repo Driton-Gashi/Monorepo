@@ -1,15 +1,9 @@
 import db from "../db";
 
-export interface Order {
-  id?: number;
-  user_id: number | null;
-  name: string;
-  email: string;
-  address: string;
-  city: string;
-  phone: string;
-  extra: string;
-  created_at?: Date;
+interface OrderItem {
+  food_id: number;
+  quantity: number;
+  price: number;
 }
 
 const executeQuery = async (
@@ -32,14 +26,16 @@ export const createOrder = async (
   address: string,
   city: string,
   phone: string,
-  extra: string
+  extra: string,
+  items: OrderItem[]
 ): Promise<void> => {
-  let query: string;
-    query = `
-     INSERT INTO orders (user_id, name, email, address, city, phone, extra)
-     VALUES (?, ?, ?, ?, ?);
+  try {
+    const orderQuery = `
+      INSERT INTO orders (user_id, name, email, address, city, phone, extra)
+      VALUES (?, ?, ?, ?, ?, ?, ?);
     `;
-    await executeQuery(query, [
+
+    const orderResult = await executeQuery(orderQuery, [
       user_id,
       name,
       email,
@@ -49,4 +45,27 @@ export const createOrder = async (
       extra,
     ]);
 
+    // Step 2: Get the ID of the newly inserted order
+    const orderId = (orderResult as any).insertId;
+
+    // Step 3: Insert each item into the `order_items` table
+    for (const item of items) {
+      const itemQuery = `
+        INSERT INTO order_items (order_id, food_id, quantity, price)
+        VALUES (?, ?, ?, ?);
+      `;
+
+      await executeQuery(itemQuery, [
+        orderId,
+        item.food_id,
+        item.quantity,
+        item.price,
+      ]);
+    }
+
+    console.log("Order created successfully with ID:", orderId);
+  } catch (error) {
+    console.error("Failed to create order:", error);
+    throw error;
+  }
 };

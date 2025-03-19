@@ -102,7 +102,7 @@ const DashboardEditFood = ()=> {
         toast.error("Change couldn't be made, no fields were changed!");
         return;
       }
-      const response = await fetch(apiHandler("/api/foods"), {
+      const response = await fetch(apiHandler(`api/foods`), {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

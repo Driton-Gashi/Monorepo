@@ -24,20 +24,41 @@ const executeQuery = (query_1, ...args_1) => __awaiter(void 0, [query_1, ...args
         throw error;
     }
 });
-const createOrder = (user_id, name, email, address, city, phone, extra) => __awaiter(void 0, void 0, void 0, function* () {
-    let query;
-    query = `
-     INSERT INTO orders (user_id, name, email, address, city, phone, extra)
-     VALUES (?, ?, ?, ?, ?);
+const createOrder = (user_id, name, email, address, city, phone, extra, items) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const orderQuery = `
+      INSERT INTO orders (user_id, name, email, address, city, phone, extra)
+      VALUES (?, ?, ?, ?, ?, ?, ?);
     `;
-    yield executeQuery(query, [
-        user_id,
-        name,
-        email,
-        address,
-        city,
-        phone,
-        extra,
-    ]);
+        const orderResult = yield executeQuery(orderQuery, [
+            user_id,
+            name,
+            email,
+            address,
+            city,
+            phone,
+            extra,
+        ]);
+        // Step 2: Get the ID of the newly inserted order
+        const orderId = orderResult.insertId;
+        // Step 3: Insert each item into the `order_items` table
+        for (const item of items) {
+            const itemQuery = `
+        INSERT INTO order_items (order_id, food_id, quantity, price)
+        VALUES (?, ?, ?, ?);
+      `;
+            yield executeQuery(itemQuery, [
+                orderId,
+                item.food_id,
+                item.quantity,
+                item.price,
+            ]);
+        }
+        console.log("Order created successfully with ID:", orderId);
+    }
+    catch (error) {
+        console.error("Failed to create order:", error);
+        throw error;
+    }
 });
 exports.createOrder = createOrder;

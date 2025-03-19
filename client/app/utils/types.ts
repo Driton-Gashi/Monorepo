@@ -40,16 +40,22 @@ export interface layoutType{
 
 export interface popupData {
   id: number;
-  name:string,
-  price: number,
-  imageSrc: string,
-  imageAlt?: string,
-  visible: boolean,
-};
+  name:string;
+  price: number;
+  imageSrc: string;
+  imageAlt?: string;
+  visible: boolean;
+}
+
+export interface OrderItem {
+  food_id: number;
+  quantity: number;
+  price: number;
+}
 
 export interface Order {
   id?: number;
-  user_id: number | null; 
+  user_id: number | null;
   name: string;
   email: string;
   address: string;
@@ -57,4 +63,5 @@ export interface Order {
   phone: string;
   extra: string;
   created_at?: Date;
+  items?: OrderItem[];
 }
