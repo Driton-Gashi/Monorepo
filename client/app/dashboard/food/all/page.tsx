@@ -53,7 +53,7 @@ const DashboardFoodAll = () => {
   useEffect(() => {
     const fetchFoods = async () => {
       try {
-        const response = await fetch(apiHandler("/api/food"));
+        const response = await fetch(apiHandler("/api/foods"));
         if (!response.ok) {
           throw new Error("Failed to fetch foods");
         }
@@ -74,7 +74,7 @@ const DashboardFoodAll = () => {
         label: 'Yes',
         onClick: async () => {
           try {
-            const response = await fetch(apiHandler(`/api/deleteFood/${id}`), {
+            const response = await fetch(apiHandler(`/api/foods/${id}`), {
               method: 'DELETE',
               headers: {
                 'Content-Type': 'application/json',

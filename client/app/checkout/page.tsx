@@ -16,6 +16,7 @@ const CheckoutPage = () => {
 
   const triggerFormSubmit = () => {
     if (formRef.current) {
+      
       const hiddenSubmitButton = formRef.current.querySelector(
         "button[type='submit']"
       ) as HTMLButtonElement;

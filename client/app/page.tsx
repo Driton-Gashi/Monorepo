@@ -39,7 +39,7 @@ export default function Home() {
     const fetchData = async () => {
       try {
         const [foodResponse, categoryResponse] = await Promise.all([
-          fetch(apiHandler("/api/food")),
+          fetch(apiHandler("/api/foods")),
           fetch(apiHandler("/api/categories")),
         ]);
 

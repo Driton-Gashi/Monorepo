@@ -102,7 +102,7 @@ const DashboardEditFood = ()=> {
         toast.error("Change couldn't be made, no fields were changed!");
         return;
       }
-      const response = await fetch(apiHandler("/api/updateFood"), {
+      const response = await fetch(apiHandler("/api/foods"), {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -126,7 +126,7 @@ const DashboardEditFood = ()=> {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(apiHandler(`/api/foodByID/${id}`));
+        const response = await fetch(apiHandler(`/api/foods/${id}`));
         const data = (await response.json()) as FoodType;
         setUnchangedFood({
           id: data.food_id,

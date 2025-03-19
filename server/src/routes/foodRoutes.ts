@@ -10,16 +10,20 @@ import {
   createNewCategory,
   deleteCategoryByID
 } from "../controllers/foodController";
+
 const router = express.Router();
 
-router.post("/food", createNewFood);
-router.get("/food", getFoods);
+// Foods
+router.post("/foods", createNewFood);
+router.get("/foods", getFoods);
+router.get("/foods/:id", getFoodByID);
+router.put("/foods/", updateFoodByID);
+router.delete("/foods/:id", deleteFoodByID);
+
+// Categories
+router.post("/categories", createNewCategory);
 router.get("/categories", getCategories);
-router.get("/foodByCategory", getFoodsByCategoryId);
-router.get("/foodByID/:id", getFoodByID);
-router.delete("/deleteFood/:id", deleteFoodByID);
-router.put("/updateFood", updateFoodByID);
-router.post("/category", createNewCategory);
-router.delete("/deleteCategory/:id", deleteCategoryByID);
+router.get("/categories/:categoryId/foods", getFoodsByCategoryId);
+router.delete("/categories/:id", deleteCategoryByID);
 
 export default router;

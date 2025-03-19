@@ -71,7 +71,7 @@ const DashboardFoodCreate = () => {
         image_url: image,
       };
 
-      const response = await fetch(apiHandler("/api/food"), {
+      const response = await fetch(apiHandler("/api/foods"), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

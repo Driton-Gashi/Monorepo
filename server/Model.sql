@@ -22,3 +22,15 @@ CREATE TABLE foods (
   FOREIGN KEY (category_id) REFERENCES categories(id)
 );
 
+CREATE TABLE orders (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    name VARCHAR(255),
+    email VARCHAR(255),
+    address VARCHAR(255) NOT NULL,
+    city VARCHAR(100) NOT NULL,
+    phone VARCHAR(20) NOT NULL,
+    extra TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);

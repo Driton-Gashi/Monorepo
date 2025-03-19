@@ -5,7 +5,7 @@ import {
   getAllCategories,
   getFoodsByCategory,
   deleteFood,
-  getFoodFromID,
+  getFoodById,
   updateFood,
   createCategory,
   getCategoryByName,
@@ -13,225 +13,191 @@ import {
 } from "../models/foodModel";
 import { Request, Response } from "express";
 
-export const createNewFood = async (
-  req: Request,
-  res: Response
-): Promise<any> => {
+const handleError = (res: Response, error: any, message: string = "Server error") => {
+  console.error(error);
+  res.status(500).json({ message: `${message}: ${error.message || error}` });
+};
+
+export const createNewFood = async (req: Request, res: Response): Promise<void> => {
   const { name, description, price, image_url, category_id } = req.body;
+
   try {
-    // Check if food exists
-    const existingFoodName = await getFoodByName(name);
-    if (existingFoodName) {
-      return res
-        .status(400)
-        .json({ message: `${name} already exists in database` });
+    const existingFood = await getFoodByName(name);
+    if (existingFood) {
+      res.status(400).json({ message: `${name} already exists in the database` });
+      return;
     }
 
-    // Create user
     await createFood(name, description, price, image_url, category_id);
-
-    res
-      .status(200)
-      .json({ message: `${name} - ${price}€ was added successfully` });
+    res.status(200).json({ message: `${name} - ${price}€ was added successfully` });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: `Server error: ${error}` });
+    handleError(res, error, "Failed to create food");
   }
 };
 
-export const createNewCategory = async (
-  req: Request,
-  res: Response
-): Promise<any> => {
+export const createNewCategory = async (req: Request, res: Response): Promise<void> => {
   const { name } = req.body;
+
   try {
     const existingCategory = await getCategoryByName(name);
-
     if (existingCategory) {
-      return res
-        .status(400)
-        .json({ message: `${name} category already exists` });
+      res.status(400).json({ message: `${name} category already exists` });
+      return;
     }
 
     await createCategory(name);
-
-    res
-      .status(200)
-      .json({ message: `${name} category was added successfully` });
+    res.status(200).json({ message: `${name} category was added successfully` });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: `Server error: ${error}` });
+    handleError(res, error, "Failed to create category");
   }
 };
 
-export const getCategories = async (
-  req: Request,
-  res: Response
-): Promise<any> => {
+export const getCategories = async (req: Request, res: Response): Promise<void> => {
   try {
     const categories = await getAllCategories();
-    if (!categories) {
-      return res
-        .status(400)
-        .json({ message: "There's no categories in database" });
+    if (!categories || categories.length === 0) {
+      res.status(404).json({ message: "No categories found in the database" });
+      return;
     }
+
     res.status(200).json(categories);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: `Server error: ${error}` });
+    handleError(res, error, "Failed to fetch categories");
   }
 };
 
-export const getFoods = async (req: Request, res: Response): Promise<any> => {
+export const getFoods = async (req: Request, res: Response): Promise<void> => {
   try {
     const foods = await getAllFoods();
-    if (!foods) {
-      return res.status(400).json({ message: "There's no food in database" });
+    if (!foods || foods.length === 0) {
+      res.status(404).json({ message: "No food items found in the database" });
+      return;
     }
 
     res.status(200).json(foods);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: `Server error: ${error}` });
+    handleError(res, error, "Failed to fetch food items");
   }
 };
 
-export const getFoodsByCategoryId = async (
-  req: Request,
-  res: Response
-): Promise<any> => {
+export const getFoodsByCategoryId = async (req: Request, res: Response): Promise<void> => {
+  const { categoryId } = req.params;
+
   try {
-    let { category_id } = req.query;
-
-    if (!category_id) {
-      return res.status(400).json({ message: "Category ID is required" });
+    if (!categoryId) {
+      res.status(400).json({ message: "Category ID is required" });
+      return;
     }
-    const convertedCategory = parseInt(category_id as string, 10);
-    const foods = await getFoodsByCategory(convertedCategory);
 
-    if (!foods) {
-      return res
-        .status(400)
-        .json({ message: "There's no foods with this category" });
+    const convertedCategoryId = parseInt(categoryId, 10);
+    if (isNaN(convertedCategoryId)) {
+      res.status(400).json({ message: "Invalid Category ID" });
+      return;
+    }
+
+    const foods = await getFoodsByCategory(convertedCategoryId);
+    if (!foods || foods.length === 0) {
+      res.status(404).json({ message: "No food items found for this category" });
+      return;
     }
 
     res.status(200).json(foods);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: `Server error: ${error}` });
+    handleError(res, error, "Failed to fetch food items by category");
   }
 };
 
-export const deleteFoodByID = async (
-  req: Request,
-  res: Response
-): Promise<any> => {
-  try {
-    const { id } = req.params;
+export const deleteFoodByID = async (req: Request, res: Response): Promise<void> => {
+  const { id } = req.params;
 
+  try {
     if (!id) {
-      return res.status(400).json({ message: "Food ID is required" });
+      res.status(400).json({ message: "Food ID is required" });
+      return;
     }
 
-    const foodId = parseInt(id as string, 10);
+    const foodId = parseInt(id, 10);
     if (isNaN(foodId)) {
-      return res.status(400).json({ message: "Invalid Food ID" });
+      res.status(400).json({ message: "Invalid Food ID" });
+      return;
     }
 
     const result = await deleteFood(foodId);
     if (result.success) {
-      return res.status(200).json(result);
+      res.status(200).json(result);
     } else {
-      return res.status(404).json(result);
+      res.status(404).json(result);
     }
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: `Server error: ${error}` });
+    handleError(res, error, "Failed to delete food item");
   }
 };
 
-export const deleteCategoryByID = async (
-  req: Request,
-  res: Response
-): Promise<any> => {
-  try {
-    const { id } = req.params;
+export const deleteCategoryByID = async (req: Request, res: Response): Promise<void> => {
+  const { id } = req.params;
 
+  try {
     if (!id) {
-      return res.status(400).json({ message: "Category ID is required" });
+      res.status(400).json({ message: "Category ID is required" });
+      return;
     }
 
-    const categoryId = parseInt(id as string, 10);
+    const categoryId = parseInt(id, 10);
     if (isNaN(categoryId)) {
-      return res.status(400).json({ message: "Invalid Category ID" });
+      res.status(400).json({ message: "Invalid Category ID" });
+      return;
     }
 
     const result = await deleteCategory(categoryId);
     if (result.success) {
-      return res.status(200).json(result);
+      res.status(200).json(result);
     } else {
-      return res.status(404).json(result);
+      res.status(404).json(result);
     }
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: `You cannot delete all categories!` });
+    handleError(res, error, "Failed to delete category");
   }
 };
 
-export const getFoodByID = async (
-  req: Request,
-  res: Response
-): Promise<any> => {
-  try {
-    const { id } = req.params;
-    console.log("Requested Food ID:", id);
+export const getFoodByID = async (req: Request, res: Response): Promise<void> => {
+  const { id } = req.params;
 
+  try {
     if (!id) {
-      console.error("Food ID is required");
-      return res.status(400).json({ message: "Food ID is required" });
+      res.status(400).json({ message: "Food ID is required" });
+      return;
     }
 
-    const foodId = parseInt(id as string, 10);
-
+    const foodId = parseInt(id, 10);
     if (isNaN(foodId)) {
-      console.error("Invalid Food ID:", id);
-      return res.status(400).json({ message: "Invalid Food ID" });
+      res.status(400).json({ message: "Invalid Food ID" });
+      return;
     }
 
-    console.log("Fetching food data for ID:", foodId);
-    const result = await getFoodFromID(foodId);
-
-    if (!result) {
-      console.error("Food not found for ID:", foodId);
-      return res.status(404).json({ message: "Food not found" });
+    const food = await getFoodById(foodId);
+    if (!food) {
+      res.status(404).json({ message: "Food not found" });
+      return;
     }
 
-    return res.status(200).json(result);
+    res.status(200).json(food);
   } catch (error) {
-    console.error("Error in getFoodByID:", error);
-    res.status(500).json({ message: `Server error: ${error}` });
+    handleError(res, error, "Failed to fetch food item");
   }
 };
 
-export const updateFoodByID = async (
-  req: Request,
-  res: Response
-): Promise<any> => {
+export const updateFoodByID = async (req: Request, res: Response): Promise<void> => {
+  const { id, name, description, price, category_id, image_url } = req.body;
+
   try {
-    const { id, name, description, price, category_id, image_url } = req.body;
+    if (!id || !name || !description || !price || !category_id || !image_url) {
+      res.status(400).json({ message: "All fields are required" });
+      return;
+    }
 
-    const result = await updateFood(
-      id,
-      name,
-      description,
-      price,
-      category_id,
-      image_url
-    );
-
-    return res.status(200).json(result);
+    const result = await updateFood(id, name, description, price, category_id, image_url);
+    res.status(200).json(result);
   } catch (error) {
-    console.error(error);
-    res.status(500).json(error);
+    handleError(res, error, "Failed to update food item");
   }
 };

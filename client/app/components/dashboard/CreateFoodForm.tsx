@@ -40,7 +40,7 @@ const CreateFoodForm = ({
       return;
       }
 
-      const response = await fetch(apiHandler("/api/category"),{
+      const response = await fetch(apiHandler("/api/categories"),{
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -65,7 +65,7 @@ const CreateFoodForm = ({
 
   const deleteCategory = async (id: number)=>{
     try {
-      const response = await fetch(apiHandler(`/api/deleteCategory/${id}`), {
+      const response = await fetch(apiHandler(`/api/categories/${id}`), {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
