@@ -38,7 +38,7 @@ const ActionDropdown = ({ deleteFunction, id }: P) => {
         onClick={toggleDropdown}
         id="dropdownMenuIconButton"
         data-dropdown-toggle="dropdownDots"
-        className="border inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-full"
+        className="border inline-flex items-center p-2 text-sm font-medium text-center text-primary-black bg-white rounded-full"
         type="button"
       >
         <svg
@@ -59,7 +59,7 @@ const ActionDropdown = ({ deleteFunction, id }: P) => {
         } z-10 absolute right-0 mt-1 bg-white divide-y shadow-md border rounded-lg`}
       >
         <ul
-          className="text-sm text-gray-700 dark:text-gray-200"
+          className="text-sm text-gray-700"
           aria-labelledby="dropdownMenuIconButton"
         >
           <li>

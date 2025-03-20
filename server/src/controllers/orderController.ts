@@ -11,7 +11,6 @@ export const createNewOrder = async (req: Request, res: Response): Promise<void>
 
   try {
     await createOrder(user_id, name, email, address, city, phone, extra, items );
-
     res.status(200).json({ message: `Order was created successfully` });
 
   } catch (error) {

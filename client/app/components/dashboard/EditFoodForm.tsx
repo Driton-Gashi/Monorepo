@@ -73,7 +73,7 @@ const EditFormData = ({
                 value={formData.imageUrl}
                 onChange={handleChange}
                 placeholder="Image Url"
-                className="border block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900  placeholder:text-gray-400 outline-2 outline-offset-2 outline-indigo-600 sm:text-sm/6"
+                className="border block w-full rounded-md bg-primary-white px-3 py-1.5 text-base text-gray-900  placeholder:text-gray-400 outline-2 outline-offset-2 outline-indigo-600 sm:text-sm/6"
               />
             </>
           ) : (
@@ -83,7 +83,7 @@ const EditFormData = ({
               id="file"
               onChange={handleFileChange}
               accept="image/*"
-              className="border block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+              className="border block w-full rounded-md bg-primary-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
             />
           )}
           <label
@@ -98,7 +98,7 @@ const EditFormData = ({
               checked={hasImageUrl}
               onChange={() => setHasImageUrl((prev) => !prev)}
             />
-            <div className="relative w-11 h-6 bg-gray-200 rounded-full border shadow dark:bg-white peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-red-600 dark:peer-checked:bg-red-600"></div>
+            <div className="relative w-11 h-6 bg-gray-200 rounded-full border shadow dark:bg-primary-white peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-primary-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-primary-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary-red dark:peer-checked:bg-primary-red"></div>
             <span className="ms-3 text-sm font-medium text-gray-900">
               {hasImageUrl ? "Upload" : "Img Url"}
             </span>
@@ -122,7 +122,7 @@ const EditFormData = ({
             value={formData.name}
             onChange={handleChange}
             placeholder="Product name"
-            className="border block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900  placeholder:text-gray-400 outline-2 outline-offset-2 outline-indigo-600 sm:text-sm/6"
+            className="border block w-full rounded-md bg-primary-white px-3 py-1.5 text-base text-gray-900  placeholder:text-gray-400 outline-2 outline-offset-2 outline-indigo-600 sm:text-sm/6"
           />
         </div>
       </div>
@@ -148,7 +148,7 @@ const EditFormData = ({
               }));
             }}
             placeholder="Product description"
-            className="border block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900  placeholder:text-gray-400 outline-2 outline-offset-2 outline-indigo-600 sm:text-sm/6"
+            className="border block w-full rounded-md bg-primary-white px-3 py-1.5 text-base text-gray-900  placeholder:text-gray-400 outline-2 outline-offset-2 outline-indigo-600 sm:text-sm/6"
           ></textarea>
           <p className="text-sm text-gray-500 text-right">
             {formData.description.length}/300
@@ -173,7 +173,7 @@ const EditFormData = ({
             step="0.10"
             onChange={handleChange}
             placeholder="Product price"
-            className="border block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+            className="border block w-full rounded-md bg-primary-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
           />
         </div>
       </div>
@@ -197,7 +197,7 @@ const EditFormData = ({
               }));
             }}
             name="category_id"
-            className="border block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+            className="border block w-full rounded-md bg-primary-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
           >
             <option value={0}>Choose a category</option>
             {categories.map((category) => (
@@ -212,7 +212,7 @@ const EditFormData = ({
       <div>
         <button
           type="submit"
-          className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-primary-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         >
           Update
         </button>

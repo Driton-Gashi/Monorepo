@@ -68,10 +68,10 @@ const CartItem = ({ removeFromCart, food, setProduktetNeShporte }: P) => {
           {food.quantity}X {food.price}€
         </p>
         <div className="flex absolute top-1/2 right-0 -translate-y-1/2 gap-1">
-          <span onClick={decreaseQuantity} className="border border-red-700 text-red-700 w-6 h-6 flex justify-center items-center rounded-full cursor-pointer">
+          <span onClick={decreaseQuantity} className="border border-primary-red text-primary-red w-6 h-6 flex justify-center items-center rounded-full cursor-pointer">
             -
           </span>
-          <span onClick={increaseQuantity} className="border bg-red-700 text-white w-6 h-6 flex justify-center items-center rounded-full cursor-pointer">
+          <span onClick={increaseQuantity} className="border bg-primary-red text-primary-white w-6 h-6 flex justify-center items-center rounded-full cursor-pointer">
             +
           </span>
         </div>

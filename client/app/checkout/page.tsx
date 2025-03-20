@@ -3,8 +3,8 @@
 import type { Food, Order, OrderItem } from "../utils/types";
 import { useState, useRef } from "react";
 import Cart from "../components/cart/Cart";
-import Image from "next/image";
 import { apiHandler } from "../utils/helpfulFunctions";
+import { toast } from "sonner";
 
 const CheckoutPage = () => {
   const [produktetNeShporte, setProduktetNeShporte] = useState<Food[]>([]);
@@ -31,29 +31,42 @@ const CheckoutPage = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     
-    const cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
+    try {
+      const cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
 
-    const orderObject: Order = {
-      ...orderData,
-      items: cartItems.map((item: OrderItem)=> (
-        {
-        food_id: item.food_id,
-        quantity: item.quantity,
-        price:  parseFloat((item.price * item.quantity).toFixed(2)),
-        }
-      ))
+      const orderObject: Order = {
+        ...orderData,
+        items: cartItems.map((item: OrderItem)=> (
+          {
+          food_id: item.food_id,
+          quantity: item.quantity,
+          price:  parseFloat((item.price * item.quantity).toFixed(2)),
+          }
+        ))
+      }
+  
+      const response = await fetch(apiHandler("/api/orde"), {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(orderObject),
+      });
+  
+      const result = await response.json();
+  
+      if(response.ok){
+        toast.success(`${result.message}`)
+        return;
+      }
+      toast.error(`${result.message}`)
+      
+    } catch (error: unknown) {
+      console.error(error);
+      if(error instanceof Error){
+        toast.error(error.message)
+      }
     }
-
-    const response = await fetch(apiHandler("/api/order"), {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(orderObject),
-    });
-
-    const result = await response.json();
-    console.log(result);
   };
 
   const triggerFormSubmit = () => {
@@ -185,10 +198,23 @@ const CheckoutPage = () => {
           invisible Submit Button :)
         </button>
       </form>
-      <div className="border-2 border-red-700 rounded-2xl p-6 w-full">
+      <div className="border-2 borderprimary-red rounded-2xl p-6 w-full">
         <div className="flex justify-between">
-          <h2 className="text-red-600 text-xl font-bold">Porosia Juaj</h2>
-          <Image width={50} height={50} src="/cart.png" alt="Shopping Cart" />
+          <h2 className="text-primary-red text-xl font-bold">Porosia Juaj</h2>
+          <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="size-12 fill-primary-red"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
+          />
+        </svg>
         </div>
         <Cart
           setProduktetNeShporte={setProduktetNeShporte}

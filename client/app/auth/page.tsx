@@ -90,7 +90,7 @@ const AuthPage = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-md w-96">
+      <div className="bg-primary-white p-8 rounded-lg shadow-md w-96">
         <h2 className="text-2xl font-bold mb-6 text-center">
           {isLogin ? "Login" : "Register"}
         </h2>
@@ -166,7 +166,7 @@ const AuthPage = () => {
           </div>
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600 transition duration-200"
+            className="w-full bg-primary-red text-white p-2 rounded-lg hover:bg-primary-orange transition duration-200"
           >
             {isLogin ? "Login" : "Register"}
           </button>
@@ -183,7 +183,7 @@ const AuthPage = () => {
               });
             }}
             href={`?mode=${isLogin ? "signup" : "login"}`}
-            className="text-blue-500 hover:underline focus:outline-none"
+            className="text-primary-red hover:underline focus:outline-none"
           >
             {isLogin ? "Register" : "Login"}
           </Link>

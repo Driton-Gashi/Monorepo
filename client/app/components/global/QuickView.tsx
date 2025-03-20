@@ -122,9 +122,9 @@ export default function QuickView({
                           console.log(prevState)
                           if(prevState == 1) return 1
                           return prevState - 1
-                        })} className="border border-red-700 text-red-700 w-8 h-8 flex justify-center items-center rounded-full cursor-pointer">-</span>
+                        })} className="border border-primary-red text-primary-red w-8 h-8 flex justify-center items-center rounded-full cursor-pointer">-</span>
                         <span className="text-xl">{quantity}X</span>
-                        <span onClick={()=>setQuantity((prevState)=>prevState + 1)} className="border bg-red-700 text-white w-8 h-8 flex justify-center items-center rounded-full cursor-pointer">+</span>
+                        <span onClick={()=>setQuantity((prevState)=>prevState + 1)} className="border bg-primary-red text-white w-8 h-8 flex justify-center items-center rounded-full cursor-pointer">+</span>
                       </div>
                       <button
                         onClick={addToCart}

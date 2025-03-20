@@ -102,7 +102,7 @@ const CreateFoodForm = ({
             name="image"
             onChange={handleChange}
             accept="image/*"
-            className={`${isCreateCategoryOpen && "cursor-not-allowed"} border block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6`}
+            className={`${isCreateCategoryOpen && "cursor-not-allowed"} border block w-full rounded-md bg-primary-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-primary-red sm:text-sm/6`}
           />
         </div>
       </div>
@@ -122,7 +122,7 @@ const CreateFoodForm = ({
             value={formData.name}
             onChange={handleChange}
             placeholder="Product name"
-            className={`${isCreateCategoryOpen && "cursor-not-allowed"} border block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900  placeholder:text-gray-400 outline-2 outline-offset-2 outline-indigo-600 sm:text-sm/6`}
+            className={`${isCreateCategoryOpen && "cursor-not-allowed"} border block w-full rounded-md bg-primary-white px-3 py-1.5 text-base text-gray-900  placeholder:text-gray-400 outline-2 outline-offset-2 outline-primary-red sm:text-sm/6`}
           />
         </div>
       </div>
@@ -148,7 +148,7 @@ const CreateFoodForm = ({
               }));
             }}
             placeholder="Product description"
-            className={`${isCreateCategoryOpen && "cursor-not-allowed"} border block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900  placeholder:text-gray-400 outline-2 outline-offset-2 outline-indigo-600 sm:text-sm/6`}
+            className={`${isCreateCategoryOpen && "cursor-not-allowed"} border block w-full rounded-md bg-primary-white px-3 py-1.5 text-base text-gray-900  placeholder:text-gray-400 outline-2 outline-offset-2 outline-primary-red sm:text-sm/6`}
           ></textarea>
         </div>
       </div>
@@ -170,7 +170,7 @@ const CreateFoodForm = ({
             step="0.10"
             onChange={handleChange}
             placeholder="Product price"
-            className={`${isCreateCategoryOpen && "cursor-not-allowed"} border block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6`}
+            className={`${isCreateCategoryOpen && "cursor-not-allowed"} border block w-full rounded-md bg-primary-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-primary-red sm:text-sm/6`}
           />
         </div>
       </div>
@@ -181,8 +181,8 @@ const CreateFoodForm = ({
           {categories.map((category)=>(
             <div
             key={category.id}
-            className="inline-flex items-center justify-between space-x-1 bg-red-100 text-red-800 px-2 py-0.5 rounded-md text-sm">
-            <svg onClick={()=> deleteCategory(category.id)} className="cursor-pointer h-4 w-4 text-red-900"
+            className="inline-flex items-center justify-between space-x-1 bg-red-100 text-primary-red px-2 py-0.5 rounded-md text-sm">
+            <svg onClick={()=> deleteCategory(category.id)} className="cursor-pointer h-4 w-4 text-primary-red"
                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
             </svg>
@@ -199,9 +199,9 @@ const CreateFoodForm = ({
             value={categoryName}
             onChange={(e)=>setCategoryName(e.target.value)}
             placeholder="Category name"
-            className="border block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900  placeholder:text-gray-400 outline-2 outline-offset-2 outline-indigo-600 sm:text-sm/6"
+            className="border block w-full rounded-md bg-primary-white px-3 py-1.5 text-base text-gray-900  placeholder:text-gray-400 outline-2 outline-offset-2 outline-primary-red sm:text-sm/6"
           />
-          <button type="submit" className="bg-indigo-600 text-white rounded-md border shadow-sm py-2 px-6 text-sm/6">Create</button>
+          <button type="submit" className="bg-primary-red text-primary-white rounded-md border shadow-sm py-2 px-6 text-sm/6">Create</button>
           <div
             onClick={()=>setIsCreateCategoryOpen(false)}
               title="create category"
@@ -231,7 +231,7 @@ const CreateFoodForm = ({
                 }));
               }}
               name="category_id"
-              className="border block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+              className="border block w-full rounded-md bg-primary-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-primary-red sm:text-sm/6"
             >
               <option value={0}>Choose a category</option>
               {categories.map((category) => (
@@ -255,7 +255,7 @@ const CreateFoodForm = ({
         <button
           disabled={isCreateCategoryOpen}
           type="submit"
-          className={`${isCreateCategoryOpen && 'cursor-not-allowed !bg-gray-100 !text-gray-800'} flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600`}
+          className={`${isCreateCategoryOpen && 'cursor-not-allowed !bg-gray-100 !text-primary-black'} flex w-full justify-center rounded-md bg-primary-red px-3 py-1.5 text-sm/6 font-semibold text-primary-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-red`}
         >
           Create
         </button>
