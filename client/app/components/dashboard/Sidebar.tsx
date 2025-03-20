@@ -7,8 +7,7 @@ const Sidebar = ({...props}) => {
   const pathName = usePathname() ;
   const isDashboard = pathName == "/dashboard";
   const isDashboardFood = pathName == "/dashboard/food/all" || pathName == "/dashboard/food/create" || pathName.includes("dashboard/food/edit")
-  console.log(isDashboardFood)
-  return (
+    return (
     <aside {...props}>
     <div className="flex flex-col justify-between h-full">
       <div className="flex-grow">
