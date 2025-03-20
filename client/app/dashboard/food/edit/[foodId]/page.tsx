@@ -20,7 +20,7 @@ interface FoodType {
 const DashboardEditFood = ()=> {
     // const { loggedInUserData } = useUser();
     const params = useParams();
-   const id = params.id;
+   const id = params.foodId;
    console.log(id)
   const [isImageInvalid, setIsImageInvalid] = useState<boolean>(false);
 
