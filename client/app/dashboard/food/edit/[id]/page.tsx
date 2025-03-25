@@ -20,12 +20,8 @@ interface FoodType {
 const DashboardEditFood = ()=> {
     // const { loggedInUserData } = useUser();
     const params = useParams();
-    let id= 17;
-    if(typeof params.id == "string"){
-     id = parseInt(params.id);
-    } 
+    const id = params.id;
    
-   console.log(id)
   const [isImageInvalid, setIsImageInvalid] = useState<boolean>(false);
 
   const defaultFoodStructure = {
@@ -107,7 +103,7 @@ const DashboardEditFood = ()=> {
         toast.error("Change couldn't be made, no fields were changed!");
         return;
       }
-      const response = await fetch(apiHandler(`api/foods`), {
+      const response = await fetch(apiHandler(`/api/foods`), {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -124,7 +120,7 @@ const DashboardEditFood = ()=> {
       }
     } catch (error) {
       console.error("Error:", error);
-      toast.error(`Failed to create food:${error}`);
+      toast.error(`Failed to Edit food:${error}`);
     }
   };
 
@@ -149,10 +145,11 @@ const DashboardEditFood = ()=> {
           imageUrl: data.image_url,
           category_id: data.category_id,
         });
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      } catch (error: any) {
-        // console.error(error);
-        toast.error(error.message);
+      } catch (error: unknown) {
+        console.error(error);
+        if (error instanceof Error) {
+          toast.error(error.message);
+        }
       }
     };
 

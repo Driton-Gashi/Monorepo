@@ -6,7 +6,11 @@ interface User {
   name: string;
   lastname: string;
   email: string;
+  role: string;
   password: string;
+  address: string;
+  city: string;
+  phone: string;
 }
 
 // Helper function for executing queries and handling errors
@@ -32,7 +36,7 @@ export const createUser = async (
   name: string,
   lastname: string,
   email: string,
-  hashedPassword: string
+  hashedPassword: string,
 ): Promise<void> => {
   const query = `
     INSERT INTO users (name, lastname, email, password)

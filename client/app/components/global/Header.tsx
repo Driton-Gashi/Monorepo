@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import Image from "next/image";
 import {
   Dialog,
   DialogPanel,
@@ -28,6 +27,7 @@ import {
 import Link from "next/link";
 import { redirect, usePathname } from "next/navigation";
 import { useUser } from "@/app/context/UserContext";
+import { toast } from "sonner";
 
 const products = [
   {
@@ -69,15 +69,23 @@ const callsToAction = [
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
   const { loggedInUserData, setLoggedInUserData } = useUser();
-  const pathname = usePathname()
-  const isDashboard = pathname.includes("/dashboard")
+  const pathname = usePathname();
+  const isDashboard = pathname.includes("/dashboard");
   const logout = (): void => {
-    setLoggedInUserData(false);
-    redirect("/auth?mode=login");
+    toast("Are you sure you want to logout?", {
+      action: {
+        label: "Yes",
+        onClick: async () => {
+          toast.success("You Logged out!");
+          setLoggedInUserData(false);
+          setMobileMenuOpen(false)
+          setTimeout(() => redirect("/auth?mode=login"), 1000);
+        },
+      },
+    });
   };
-  
-  if(isDashboard) return null;
 
+  if (isDashboard) return null;
   return (
     <header className="bg-white">
       <nav
@@ -87,7 +95,9 @@ export default function Header() {
         <div className="flex lg:flex-1">
           <Link href="/" className="-m-1.5 p-1.5">
             <span className="sr-only">Your Company</span>
-            <h2 className="text-5xl font-bold">Driton<span className="text-[#E63946]">.</span></h2>
+            <h2 className="text-5xl font-bold">
+              Driton<span className="text-[#E63946]">.</span>
+            </h2>
           </Link>
         </div>
         <div className="flex lg:hidden">
@@ -100,74 +110,79 @@ export default function Header() {
             <Bars3Icon aria-hidden="true" className="size-6" />
           </button>
         </div>
-        
-          <PopoverGroup className="hidden lg:flex lg:gap-x-12">
-            <Link href="/" className="text-sm/6 font-semibold text-gray-900">
-              Home
-            </Link>
-            <Link href="/dashboard" className="text-sm/6 font-semibold text-gray-900">
-              Dashboard
-            </Link>
-            <Link href="/checkout" className="text-sm/6 font-semibold text-gray-900">
-              Checkout
-            </Link>
-            <Popover className="relative">
-              <PopoverButton className="flex items-center gap-x-1 text-sm/6 font-semibold text-gray-900">
-                Dropdown example
-                <ChevronDownIcon
-                  aria-hidden="true"
-                  className="size-5 flex-none text-gray-400"
-                />
-              </PopoverButton>
 
-              <PopoverPanel
-                transition
-                className="absolute top-full -left-8 z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white ring-1 shadow-lg ring-gray-900/5 transition data-closed:translate-y-1 data-closed:opacity-0 data-enter:duration-200 data-enter:ease-out data-leave:duration-150 data-leave:ease-in"
-              >
-                <div className="p-4">
-                  {products.map((item) => (
-                    <div
-                      key={item.name}
-                      className="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm/6 hover:bg-gray-50"
-                    >
-                      <div className="flex size-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
-                        <item.icon
-                          aria-hidden="true"
-                          className="size-6 text-gray-600 group-hover:text-indigo-600"
-                        />
-                      </div>
-                      <div className="flex-auto">
-                        <a
-                          href={item.href}
-                          className="block font-semibold text-gray-900"
-                        >
-                          {item.name}
-                          <span className="absolute inset-0" />
-                        </a>
-                        <p className="mt-1 text-gray-600">{item.description}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                <div className="grid grid-cols-2 divide-x divide-gray-900/5 bg-gray-50">
-                  {callsToAction.map((item) => (
-                    <Link
-                      key={item.name}
-                      href={item.href}
-                      className="flex items-center justify-center gap-x-2.5 p-3 text-sm/6 font-semibold text-gray-900 hover:bg-gray-100"
-                    >
+        <PopoverGroup className="hidden lg:flex lg:gap-x-12">
+          <Link href="/" className="text-sm/6 font-semibold text-gray-900">
+            Home
+          </Link>
+          <Link
+            href="/dashboard"
+            className="text-sm/6 font-semibold text-gray-900"
+          >
+            Dashboard
+          </Link>
+          <Link
+            href="/checkout"
+            className="text-sm/6 font-semibold text-gray-900"
+          >
+            Checkout
+          </Link>
+          <Popover className="relative">
+            <PopoverButton className="flex items-center gap-x-1 text-sm/6 font-semibold text-gray-900">
+              Dropdown example
+              <ChevronDownIcon
+                aria-hidden="true"
+                className="size-5 flex-none text-gray-400"
+              />
+            </PopoverButton>
+
+            <PopoverPanel
+              transition
+              className="absolute top-full -left-8 z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white ring-1 shadow-lg ring-gray-900/5 transition data-closed:translate-y-1 data-closed:opacity-0 data-enter:duration-200 data-enter:ease-out data-leave:duration-150 data-leave:ease-in"
+            >
+              <div className="p-4">
+                {products.map((item) => (
+                  <div
+                    key={item.name}
+                    className="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm/6 hover:bg-gray-50"
+                  >
+                    <div className="flex size-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
                       <item.icon
                         aria-hidden="true"
-                        className="size-5 flex-none text-gray-400"
+                        className="size-6 text-gray-600 group-hover:text-indigo-600"
                       />
-                      {item.name}
-                    </Link>
-                  ))}
-                </div>
-              </PopoverPanel>
-            </Popover>
-          </PopoverGroup>
-       
+                    </div>
+                    <div className="flex-auto">
+                      <a
+                        href={item.href}
+                        className="block font-semibold text-gray-900"
+                      >
+                        {item.name}
+                        <span className="absolute inset-0" />
+                      </a>
+                      <p className="mt-1 text-gray-600">{item.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="grid grid-cols-2 divide-x divide-gray-900/5 bg-gray-50">
+                {callsToAction.map((item) => (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    className="flex items-center justify-center gap-x-2.5 p-3 text-sm/6 font-semibold text-gray-900 hover:bg-gray-100"
+                  >
+                    <item.icon
+                      aria-hidden="true"
+                      className="size-5 flex-none text-gray-400"
+                    />
+                    {item.name}
+                  </Link>
+                ))}
+              </div>
+            </PopoverPanel>
+          </Popover>
+        </PopoverGroup>
 
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           {loggedInUserData ? (
@@ -186,12 +201,12 @@ export default function Header() {
               </button>
             </>
           ) : (
-              <Link
-                href="/auth?mode=login"
-                className="text-sm/6 font-semibold text-gray-900"
-              >
-                Log in <span aria-hidden="true">&rarr;</span>
-              </Link>
+            <Link
+              href="/auth?mode=login"
+              className="text-sm/6 font-semibold text-gray-900"
+            >
+              Log in <span aria-hidden="true">&rarr;</span>
+            </Link>
           )}
         </div>
       </nav>
@@ -205,11 +220,9 @@ export default function Header() {
           <div className="flex items-center justify-between">
             <a href="#" className="-m-1.5 p-1.5">
               <span className="sr-only">Your Company</span>
-              <Image
-                alt=""
-                src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600"
-                className="h-8 w-auto"
-              />
+              <h2 className="text-2xl font-bold">
+                Driton<span className="text-[#E63946]">.</span>
+              </h2>
             </a>
             <button
               type="button"
@@ -223,9 +236,23 @@ export default function Header() {
           <div className="mt-6 flow-root">
             <div className="-my-6 divide-y divide-gray-500/10">
               <div className="space-y-2 py-6">
+                <Link
+                 onClick={() => setMobileMenuOpen(false)}
+                  href="/"
+                  className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
+                >
+                  Home
+                </Link>
+                <Link
+                 onClick={() => setMobileMenuOpen(false)}
+                  href="/checkout"
+                  className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
+                >
+                  Checkout
+                </Link>
                 <Disclosure as="div" className="-mx-3">
                   <DisclosureButton className="group flex w-full items-center justify-between rounded-lg py-2 pr-3.5 pl-3 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">
-                    Product
+                    Dropdown Menu
                     <ChevronDownIcon
                       aria-hidden="true"
                       className="size-5 flex-none group-data-open:rotate-180"
@@ -244,32 +271,32 @@ export default function Header() {
                     ))}
                   </DisclosurePanel>
                 </Disclosure>
-                <a
-                  href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
-                >
-                  Features
-                </a>
-                <a
-                  href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
-                >
-                  Marketplace
-                </a>
-                <a
-                  href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
-                >
-                  Company
-                </a>
               </div>
               <div className="py-6">
-                <a
-                  href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
-                >
-                  Log in
-                </a>
+                {loggedInUserData ? (
+                  <>
+                    <Link
+                      href="/dashboard"
+                      className="text-sm/6 font-semibold text-gray-900 mr-4 border-r border-blue-950 pr-4 border-opacity-50"
+                    >
+                      Dashboard
+                    </Link>
+                    <button
+                      onClick={logout}
+                      className="text-sm/6 font-semibold text-gray-900"
+                    >
+                      Logout <span aria-hidden="true">&rarr;</span>
+                    </button>
+                  </>
+                ) : (
+                  <Link
+                    onClick={() => setMobileMenuOpen(false)}
+                    href="/auth?mode=login"
+                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
+                  >
+                    Log in <span aria-hidden="true">&rarr;</span>
+                  </Link>
+                )}
               </div>
             </div>
           </div>

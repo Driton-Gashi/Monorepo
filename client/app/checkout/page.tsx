@@ -45,7 +45,7 @@ const CheckoutPage = () => {
         ))
       }
   
-      const response = await fetch(apiHandler("/api/orde"), {
+      const response = await fetch(apiHandler("/api/order"), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -153,7 +153,7 @@ const CheckoutPage = () => {
             id="phone"
             className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
             required
-            value={orderData.city}
+            value={orderData.phone}
             onChange={handleChange}
           />
         </div>

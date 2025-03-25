@@ -82,9 +82,11 @@ const AuthPage = () => {
       setLoggedInUserData({
         ...result.userData
       })
-      redirect("/dashboard")
+      toast.success(result.message)
+      setTimeout(()=> redirect("/dashboard"),1500)
     } else {
       console.log("Authentication failed:", result.message);
+      toast.error(result.message)
     }
   };
 

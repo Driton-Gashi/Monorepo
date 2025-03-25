@@ -1,9 +1,15 @@
 "use client";
 import { createContext, useContext, useState } from "react";
 interface User {
-  id: string;
+  id: number;
   name: string;
+  lastname: string;
   email: string;
+  role: string;
+  password: string;
+  address: string;
+  city: string;
+  phone: string;
 }
 
 interface UserContextType {

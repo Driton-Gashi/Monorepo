@@ -55,6 +55,10 @@ export const loginUser = async (req: Request, res: Response): Promise<any> => {
         name: user.name,
         lastname: user.lastname,
         email: user.email,
+        role: user.role,
+        address: user.address,
+        city: user.city,
+        phone: user.phone,
       },
       process.env.JWT_SECRET ?? "",
       { expiresIn: "1h" }
