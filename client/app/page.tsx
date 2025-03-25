@@ -106,7 +106,6 @@ export default function Home() {
           food.category_name?.toLowerCase().includes(searchString.toLowerCase())
       );
 
-      setCurrentCategory("all");
       setFoods(filtered);
     };
     searchFunction();
@@ -126,6 +125,10 @@ export default function Home() {
         <div className="w-2/3 p-6">
           <div className="relative">
             <input
+            onFocus={()=>{
+              setCurrentCategory("all");
+              setFoods(allFoods)
+            }}
               type="text"
               placeholder="Search by name, price, category..."
               className="border w-full p-4 rounded-lg text-sm bg-no-repeat"

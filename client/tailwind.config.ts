@@ -14,6 +14,9 @@ export default {
         'primary-black': "var(--primary-black)",
         'primary-orange': "var(--primary-orange)",
       },
+      height:{
+        'screen-without-header': 'calc(100vh - 96px)',
+      }
     },
   },
   plugins: [],
