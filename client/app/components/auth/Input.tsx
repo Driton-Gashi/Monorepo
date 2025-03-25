@@ -5,7 +5,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
-  { error, className = '', ...props },
+  {className = '', ...props },
   ref
 ) {
   return (
@@ -15,9 +15,6 @@ const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
         className={`w-full px-4 py-2 rounded border border-gray-300 focus:border-primary-red focus:ring-1 focus:ring-primary-red focus:outline-none ${className}`}
         {...props}
       />
-      {error && (
-        <p className="mt-1 text-sm text-red-600">{error}</p>
-      )}
     </div>
   );
 });

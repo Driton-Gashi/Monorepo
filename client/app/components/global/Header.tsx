@@ -79,7 +79,7 @@ export default function Header() {
           toast.success("You Logged out!");
           setLoggedInUserData(false);
           setMobileMenuOpen(false)
-          setTimeout(() => redirect("/auth?mode=login"), 1000);
+          setTimeout(() => redirect("/auth/login"), 1000);
         },
       },
     });
@@ -202,7 +202,7 @@ export default function Header() {
             </>
           ) : (
             <Link
-              href="/auth?mode=login"
+              href="/auth/login"
               className="text-sm/6 font-semibold text-gray-900"
             >
               Log in <span aria-hidden="true">&rarr;</span>
@@ -291,7 +291,7 @@ export default function Header() {
                 ) : (
                   <Link
                     onClick={() => setMobileMenuOpen(false)}
-                    href="/auth?mode=login"
+                    href="/auth/login"
                     className="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
                   >
                     Log in <span aria-hidden="true">&rarr;</span>

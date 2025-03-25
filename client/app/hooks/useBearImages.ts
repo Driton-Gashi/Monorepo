@@ -10,7 +10,7 @@ interface BearImages {
 const generateImagePaths = (prefix: string, count: number): string[] => {
   return Array.from({ length: count }, (_, i) =>{
     
-    return  `/assets/img/${prefix}_${i}.png`
+    return  `/assets/img/watch_bear_red/${prefix}_${i}.png`
   });
 };
 

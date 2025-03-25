@@ -23,9 +23,8 @@ export function useBearAnimation({
 
   const prevFocus = useRef(currentFocus);
   const prevShowPassword = useRef(showPassword);
-  const timeouts = useRef<NodeJS.Timeout[]>([]); // Changed to NodeJS.Timeout for Next.js
+  const timeouts = useRef<NodeJS.Timeout[]>([]);
 
-  // Cleanup timeouts on unmount
   useEffect(() => {
     return () => {
       timeouts.current.forEach(timeout => clearTimeout(timeout));
@@ -33,7 +32,6 @@ export function useBearAnimation({
   }, []);
 
   useEffect(() => {
-    // Clear existing timeouts
     timeouts.current.forEach(timeout => clearTimeout(timeout));
     timeouts.current = [];
 
@@ -63,7 +61,6 @@ export function useBearAnimation({
       });
     };
 
-    // For password input, animate through hide bear images
     const animateWatchingBearImages = () => {
       const progress = Math.min(emailLength / 30, 1);
       const index = Math.min(
@@ -74,7 +71,6 @@ export function useBearAnimation({
       setIsAnimating(false);
     };
 
-    // Animation Logic based on Focus and ShowPassword
     if (currentFocus === 'EMAIL') {
       if (prevFocus.current === 'PASSWORD') {
         // Reverse hideBearImages when moving from PASSWORD to EMAIL
