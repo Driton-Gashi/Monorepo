@@ -2,6 +2,7 @@ import type { inputDataType, categoryType } from "@/app/utils/types";
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { apiHandler } from "@/app/utils/helpfulFunctions";
 import { toast } from "sonner";
+import Input from "../global/Input";
 
 interface P {
   formData: inputDataType;
@@ -87,7 +88,7 @@ const CreateFoodForm = ({
   }
 
   return (
-    <form onSubmit={isCreateCategoryOpen ? createCategorySubmit: handleSubmit} className="space-y-6">
+    <form onSubmit={isCreateCategoryOpen ? createCategorySubmit: handleSubmit} className="space-y-2">
       <div>
         <label
           htmlFor="Image"
@@ -96,13 +97,13 @@ const CreateFoodForm = ({
           Image
         </label>
         <div className="mt-2">
-          <input
+          <Input
           disabled={isCreateCategoryOpen}
             type="file"
             name="image"
             onChange={handleChange}
             accept="image/*"
-            className={`${isCreateCategoryOpen && "cursor-not-allowed"} border block w-full rounded-md bg-primary-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-primary-red sm:text-sm/6`}
+            className={`${isCreateCategoryOpen && "cursor-not-allowed"}  sm:text-sm/6`}
           />
         </div>
       </div>
@@ -115,14 +116,14 @@ const CreateFoodForm = ({
           Name
         </label>
         <div className="mt-2">
-          <input
+          <Input
           disabled={isCreateCategoryOpen}
             type="text"
             name="name"
             value={formData.name}
             onChange={handleChange}
             placeholder="Product name"
-            className={`${isCreateCategoryOpen && "cursor-not-allowed"} border block w-full rounded-md bg-primary-white px-3 py-1.5 text-base text-gray-900  placeholder:text-gray-400 outline-2 outline-offset-2 outline-primary-red sm:text-sm/6`}
+            className={`${isCreateCategoryOpen && "cursor-not-allowed"}  sm:text-sm/6`}
           />
         </div>
       </div>
@@ -147,8 +148,9 @@ const CreateFoodForm = ({
                 [name]: value,
               }));
             }}
+            
             placeholder="Product description"
-            className={`${isCreateCategoryOpen && "cursor-not-allowed"} border block w-full rounded-md bg-primary-white px-3 py-1.5 text-base text-gray-900  placeholder:text-gray-400 outline-2 outline-offset-2 outline-primary-red sm:text-sm/6`}
+            className={`${isCreateCategoryOpen && "cursor-not-allowed"} w-full px-4 py-2 rounded border border-gray-300 focus:border-primary-red focus:ring-1 focus:ring-primary-red focus:outline-none sm:text-sm/6 resize-none h-16`}
           ></textarea>
         </div>
       </div>
@@ -161,7 +163,7 @@ const CreateFoodForm = ({
           Price
         </label>
         <div className="mt-2">
-          <input
+          <Input
           disabled={isCreateCategoryOpen}
             type="number"
             name="price"   
@@ -170,7 +172,7 @@ const CreateFoodForm = ({
             step="0.10"
             onChange={handleChange}
             placeholder="Product price"
-            className={`${isCreateCategoryOpen && "cursor-not-allowed"} border block w-full rounded-md bg-primary-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-primary-red sm:text-sm/6`}
+            className={`${isCreateCategoryOpen && "cursor-not-allowed"}  sm:text-sm/6`}
           />
         </div>
       </div>
@@ -193,13 +195,13 @@ const CreateFoodForm = ({
           ))}
           </div>
         <div className="mt-2 flex gap-4 relative">
-          <input
+          <Input
             type="text"
             name="category"
             value={categoryName}
             onChange={(e)=>setCategoryName(e.target.value)}
             placeholder="Category name"
-            className="border block w-full rounded-md bg-primary-white px-3 py-1.5 text-base text-gray-900  placeholder:text-gray-400 outline-2 outline-offset-2 outline-primary-red sm:text-sm/6"
+            className=" sm:text-sm/6"
           />
           <button type="submit" className="bg-primary-red text-primary-white rounded-md border shadow-sm py-2 px-6 text-sm/6">Create</button>
           <div
@@ -231,7 +233,7 @@ const CreateFoodForm = ({
                 }));
               }}
               name="category_id"
-              className="border block w-full rounded-md bg-primary-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-primary-red sm:text-sm/6"
+              className="w-full px-4 py-2 rounded border border-gray-300 focus:border-primary-red focus:ring-1 focus:ring-primary-red focus:outline-none sm:text-sm/6"
             >
               <option value={0}>Choose a category</option>
               {categories.map((category) => (
@@ -255,7 +257,7 @@ const CreateFoodForm = ({
         <button
           disabled={isCreateCategoryOpen}
           type="submit"
-          className={`${isCreateCategoryOpen && 'cursor-not-allowed !bg-gray-100 !text-primary-black'} flex w-full justify-center rounded-md bg-primary-red px-3 py-1.5 text-sm/6 font-semibold text-primary-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-red`}
+          className={`${isCreateCategoryOpen && 'cursor-not-allowed !bg-gray-100 !text-primary-black'} mt-4 flex w-full justify-center rounded-md bg-primary-red px-3 py-1.5 text-sm/6 font-semibold text-primary-white shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-red`}
         >
           Create
         </button>

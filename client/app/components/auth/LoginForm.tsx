@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useBearImages } from '@/app/hooks/useBearImages';
 import { useBearAnimation } from '@/app/hooks/useBearAnimation';
 import BearAvatar from './BearAvatar';
-import Input from './Input';
+import Input from '../global/Input';
 import Image from 'next/image';
 import { toast } from 'sonner';
 import { apiHandler } from '@/app/utils/helpfulFunctions';

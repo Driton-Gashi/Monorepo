@@ -4,7 +4,7 @@ import { toast } from "sonner";
 import { useUser } from "@/app/context/UserContext";
 import { apiHandler } from "@/app/utils/helpfulFunctions";
 import { redirect } from "next/navigation";
-import Input from "./Input";
+import Input from "../global/Input";
 import Image from "next/image";
 
 const RegisterForm = () => {

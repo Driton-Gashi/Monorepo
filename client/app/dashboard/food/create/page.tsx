@@ -95,12 +95,12 @@ const DashboardFoodCreate = () => {
   return (
     <>
         <div className="border-t w-full">
-          <h2 className="mt-8 text-center text-2xl/9 font-bold tracking-tight text-gray-900">
+          <h2 className="mt-4 text-center text-2xl/9 font-bold tracking-tight text-gray-900">
             Create New Food
           </h2>
         </div>
 
-        <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-sm">
+        <div className="mt-4 sm:mx-auto sm:w-full sm:max-w-sm">
           <CreateFoodForm formData={formData} setFormData={setFormData} handleSubmit={handleSubmit} handleChange={handleChange} />
         </div>
     </>

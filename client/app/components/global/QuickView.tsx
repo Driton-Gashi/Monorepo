@@ -10,14 +10,14 @@ interface P {
   popupData: popupData;
   setPopupData: Dispatch<SetStateAction<popupData>>;
   setProduktetNeShporte: Dispatch<SetStateAction<Food[]>>;
-  produktetNeShporte: Food[]
+  produktetNeShporte: Food[];
 }
 
 export default function QuickView({
   popupData,
   setPopupData,
   setProduktetNeShporte,
-  produktetNeShporte
+  produktetNeShporte,
 }: P) {
   const [extra, setExtra] = useState<string>("");
   const [quantity, setQuantity] = useState<number>(1);
@@ -27,11 +27,11 @@ export default function QuickView({
       visible: false,
     }));
     setQuantity(1);
-    setExtra("")
+    setExtra("");
   };
 
   useEffect(() => {
-    if(produktetNeShporte.length > 0){
+    if (produktetNeShporte.length > 0) {
       localStorage.setItem("cartItems", JSON.stringify(produktetNeShporte));
     }
   }, [produktetNeShporte]);
@@ -102,7 +102,7 @@ export default function QuickView({
                     aria-labelledby="information-heading"
                     className="mt-2"
                   >
-                    <p className="text-2xl text-gray-900">{popupData.price}</p>
+                    <p className="text-2xl text-gray-900">{popupData.price}€</p>
                   </section>
 
                   <section aria-labelledby="options-heading" className="mt-10">
@@ -115,21 +115,38 @@ export default function QuickView({
                         value={extra}
                         onChange={(e) => setExtra(e.target.value)}
                         placeholder=""
-                        className={`border block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900  placeholder:text-gray-400 outline-2 outline-offset-2 outline-indigo-600 sm:text-sm/6`}
+                        className={`border block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900  placeholder:text-gray-400 outline-2 outline-offset-2 outline-primary-bg-primary-red sm:text-sm/6`}
                       ></textarea>
                       <div className="mt-6 flex gap-4 items-center">
-                        <span onClick={()=>setQuantity((prevState)=>{
-                          console.log(prevState)
-                          if(prevState == 1) return 1
-                          return prevState - 1
-                        })} className="border border-primary-red text-primary-red w-8 h-8 flex justify-center items-center rounded-full cursor-pointer">-</span>
+                        <span
+                          onClick={() =>
+                            setQuantity((prevState) => {
+                              console.log(prevState);
+                              if (prevState == 1) return 1;
+                              return prevState - 1;
+                            })
+                          }
+                          className="border border-primary-red text-primary-red w-8 h-8 flex justify-center items-center rounded-full cursor-pointer"
+                        >
+                          -
+                        </span>
                         <span className="text-xl">{quantity}X</span>
-                        <span onClick={()=>setQuantity((prevState)=>prevState + 1)} className="border bg-primary-red text-white w-8 h-8 flex justify-center items-center rounded-full cursor-pointer">+</span>
+                        <span
+                          onClick={() =>
+                            setQuantity((prevState) => {
+                              if (prevState == 10) return prevState;
+                              return prevState + 1;
+                            })
+                          }
+                          className="border bg-primary-red text-white w-8 h-8 flex justify-center items-center rounded-full cursor-pointer"
+                        >
+                          +
+                        </span>
                       </div>
                       <button
                         onClick={addToCart}
                         type="submit"
-                        className="mt-6 mb-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-hidden"
+                        className="mt-6 mb-10 flex w-full items-center justify-center rounded-md border border-transparent bg-primary-red px-8 py-3 text-base font-medium text-white hover:bg-primary-red focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-hidden"
                       >
                         Add to Cart
                       </button>
@@ -137,7 +154,9 @@ export default function QuickView({
                   </section>
                 </div>
               </div>
-              <div className="absolute bottom-4 right-8 bg-green-100 text-green-800 text-sm font-medium px-5 py-2.5 rounded-sm dark:bg-green-900 dark:text-green-300">Total: {(popupData.price * quantity).toFixed(2)}$</div>
+              <div className="absolute bottom-4 right-8 text-sm font-medium px-5 py-2.5 rounded-sm bg-primary-black text-primary-white">
+                Total: {(popupData.price * quantity).toFixed(2)}€
+              </div>
             </div>
           </DialogPanel>
         </div>
