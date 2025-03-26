@@ -78,7 +78,7 @@ export default function Header() {
         onClick: async () => {
           toast.success("You Logged out!");
           setLoggedInUserData(false);
-          setMobileMenuOpen(false)
+          setMobileMenuOpen(false);
           setTimeout(() => redirect("/auth/login"), 1000);
         },
       },
@@ -115,17 +115,14 @@ export default function Header() {
           <Link href="/" className="text-sm/6 font-semibold text-gray-900">
             Home
           </Link>
-          <Link
-            href="/dashboard"
-            className="text-sm/6 font-semibold text-gray-900"
-          >
-            Dashboard
+          <Link href="#cart" className="text-sm/6 font-semibold text-gray-900">
+            Cart
           </Link>
-          <Link
-            href="/checkout"
-            className="text-sm/6 font-semibold text-gray-900"
-          >
-            Checkout
+          <Link href="#" className="text-sm/6 font-semibold text-gray-900">
+            Jobs
+          </Link>
+          <Link href="#" className="text-sm/6 font-semibold text-gray-900">
+            Menu
           </Link>
           <Popover className="relative">
             <PopoverButton className="flex items-center gap-x-1 text-sm/6 font-semibold text-gray-900">
@@ -237,14 +234,14 @@ export default function Header() {
             <div className="-my-6 divide-y divide-gray-500/10">
               <div className="space-y-2 py-6">
                 <Link
-                 onClick={() => setMobileMenuOpen(false)}
+                  onClick={() => setMobileMenuOpen(false)}
                   href="/"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
                 >
                   Home
                 </Link>
                 <Link
-                 onClick={() => setMobileMenuOpen(false)}
+                  onClick={() => setMobileMenuOpen(false)}
                   href="/checkout"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
                 >

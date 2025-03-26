@@ -1,12 +1,7 @@
-"use client"
-import { useUser } from "@/app/context/UserContext"
 import LoginForm from "../../components/auth/LoginForm"
-import { redirect } from "next/navigation";
 import Link from "next/link";
 
 const LoginPage = () => {
-  const { loggedInUserData } = useUser();
-  if(loggedInUserData) redirect("/dashboard")
 
   return (
     <div className="w-[400px] mx-auto h-screen-without-header flex justify-center items-center flex-col">
