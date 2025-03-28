@@ -20,6 +20,7 @@ const BearAvatar = memo(function BearAvatar({ currentImage, size = 130 }: BearAv
         }}
         tabIndex={-1}
         alt="Animated bear avatar"
+        priority
       />
     </div>
   );
