@@ -9,14 +9,13 @@ import { toast } from "sonner";
 import { apiHandler } from "@/app/utils/helpfulFunctions";
 import { useUser } from "@/app/context/UserContext";
 import { redirect } from "next/navigation";
-const EyeIconSrc = "/assets/icons/eye_on.svg";
-const EyeOffIconSrc = "/assets/icons/eye_off.svg";
 
 export default function LoginForm() {
   // Animation Logic
   const [values, setValues] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
   const [showThumbUpBear, setShowThumbUpBear] = useState<boolean>(false);
+  const [showCryingBear, setShowCryingBear] = useState<boolean>(false);
   const { watchBearImages, hideBearImages, peakBearImages } = useBearImages();
   const { currentBearImage, setCurrentFocus, currentFocus, isAnimating } =
     useBearAnimation({
@@ -43,16 +42,19 @@ export default function LoginForm() {
     e.preventDefault();
     if (values.email.length == 0) {
       toast.error("Email is Empty!");
+      setShowCryingBear(true);
       return;
     }
 
     if (!values.email.includes("@")) {
       toast.error('Email should contain a "@"!');
+      setShowCryingBear(true);
       return;
     }
 
     if (values.password.length == 0) {
       toast.error("Password is Empty!");
+      setShowCryingBear(true);
       return;
     }
 
@@ -78,6 +80,7 @@ export default function LoginForm() {
       }, 2000);
     } else {
       toast.error(result.message);
+      setShowCryingBear(true);
     }
   };
 
@@ -90,7 +93,7 @@ export default function LoginForm() {
         <div className="absolute inset-0 flex items-center justify-center">
           {showThumbUpBear ? (
             <Image
-              src="/assets/img/bear/thumb_up_bear.png"
+              src="/assets/img/bear/bear_red/thumb_up_bear.png"
               className="transition-all duration-200 ease-in-out"
               width={130}
               height={130}
@@ -100,6 +103,21 @@ export default function LoginForm() {
               }}
               tabIndex={-1}
               alt="Animated bear avatar"
+              priority
+            />
+          ) : showCryingBear ? (
+            <Image
+              src="/assets/img/bear/bear_red/crying_bear.png"
+              className="transition-all duration-200 ease-in-out"
+              width={130}
+              height={130}
+              style={{
+                objectFit: "contain",
+                transform: "translate3d(0,0,0)",
+              }}
+              tabIndex={-1}
+              alt="Animated bear avatar"
+              priority
             />
           ) : (
             currentBearImage && (
@@ -116,7 +134,10 @@ export default function LoginForm() {
         name="email"
         type="email"
         autoFocus
-        onFocus={() => setCurrentFocus("EMAIL")}
+        onFocus={() => {
+          setCurrentFocus("EMAIL");
+          setShowCryingBear(false);
+        }}
         autoComplete="email"
         value={values.email}
         onChange={handleInputChange}
@@ -126,7 +147,10 @@ export default function LoginForm() {
           placeholder="Password"
           name="password"
           type={showPassword ? "text" : "password"}
-          onFocus={() => setCurrentFocus("PASSWORD")}
+          onFocus={() => {
+            setCurrentFocus("PASSWORD");
+            setShowCryingBear(false);
+          }}
           autoComplete="current-password"
           value={values.password}
           onChange={handleInputChange}
@@ -140,7 +164,7 @@ export default function LoginForm() {
         >
           {showPassword ? (
             <Image
-              src={EyeOffIconSrc}
+              src={"/assets/icons/eye_off.svg"}
               alt="Hide password"
               width={20}
               height={20}
@@ -148,7 +172,7 @@ export default function LoginForm() {
             />
           ) : (
             <Image
-              src={EyeIconSrc}
+              src={"/assets/icons/eye_on.svg"}
               alt="Show password"
               width={20}
               height={20}
