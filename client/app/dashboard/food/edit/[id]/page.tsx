@@ -6,6 +6,8 @@ import EditFoodForm from "@/app/components/dashboard/EditFoodForm";
 import { apiHandler } from "@/app/utils/helpfulFunctions";
 import { toast } from "sonner";
 import { useParams } from "next/navigation";
+import { useUser } from "@/app/context/UserContext";
+import { redirect } from "next/navigation";
 
 interface FoodType {
   food_id: number;
@@ -17,6 +19,11 @@ interface FoodType {
 }
 
 const DashboardEditFood = ()=> {
+const {loggedInUserData} = useUser();
+  if(!loggedInUserData || loggedInUserData.role != "admin"){
+    redirect("/")
+  }
+
     const params = useParams();
     const id = params.id;
    

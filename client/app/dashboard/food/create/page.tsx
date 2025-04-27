@@ -7,9 +7,15 @@ import type {
 import { toast } from "sonner";
 import CreateFoodForm from "@/app/components/dashboard/CreateFoodForm";
 import { apiHandler } from "@/app/utils/helpfulFunctions";
+import { useUser } from "@/app/context/UserContext";
+import { redirect } from "next/navigation";
 
 const DashboardFoodCreate = () => {
- 
+  const {loggedInUserData} = useUser();
+  if(!loggedInUserData || loggedInUserData.role != "admin"){
+    redirect("/")
+  }
+
   const [formData, setFormData] = useState<inputDataType>({
     name: "",
     description: "",

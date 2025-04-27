@@ -119,10 +119,9 @@ export const verifyToken = async (
   const token = req.params.token;
   try {
     const user = jwt.verify(token, process.env.JWT_SECRET);
-    
     return res.status(200).json({user: user})
   } catch (error) {
     console.error("Admin verification error:", error);
-    res.status(500).json({ message: "Server error during admin verification" });
+    res.status(500).json({ message: "Nah nah nah 🤪 You can't fool me!" });
   }
 };

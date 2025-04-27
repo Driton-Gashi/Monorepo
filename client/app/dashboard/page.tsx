@@ -1,8 +1,13 @@
 "use client"
 import { useUser } from "../context/UserContext";
+import { redirect } from "next/navigation";
 
 const Dashboard = () => {
   const {loggedInUserData} = useUser();
+  
+  if(!loggedInUserData || loggedInUserData.role != "admin"){
+    redirect("/")
+  }
   return (
     <>
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">

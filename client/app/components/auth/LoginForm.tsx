@@ -12,7 +12,7 @@ import { useUser } from "@/app/context/UserContext";
 import { jwtDecode } from "jwt-decode";
 
 export default function LoginForm() {
-  const {setLoggedInUserData} = useUser();
+  const {setLoggedInUserData, loggedInUserData} = useUser();
   const [values, setValues] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
   const [showThumbUpBear, setShowThumbUpBear] = useState<boolean>(false);
@@ -75,7 +75,11 @@ export default function LoginForm() {
       toast.success(result.message);
       setShowThumbUpBear(true);
       setTimeout(() => {
-        redirect("/dashboard");
+        if(loggedInUserData && loggedInUserData.role === "admin"){
+          redirect("/dashboard")
+        }else{
+          redirect("/")
+        } 
         setShowThumbUpBear(false);
       }, 2000);
     } else {

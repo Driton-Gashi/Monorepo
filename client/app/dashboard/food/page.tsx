@@ -1,15 +1,9 @@
 "use client"
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 import Image from "next/image";
 
 const DashboardFood = () => {
-  const router = useRouter();
-
-  useEffect(() => {
-    router.push("/dashboard/food/all");
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  redirect("/dashboard/food/all")
 
   return <Image width={100} height={100} alt="" src="/loader.gif"/>;
 };

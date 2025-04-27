@@ -1,6 +1,7 @@
 "use client";
 import { createContext, useContext, useState, useEffect } from "react";
 import { apiHandler } from "../utils/helpfulFunctions";
+import { toast } from "sonner";
 
 interface User {
   id?: number;
@@ -56,6 +57,10 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       const response = await fetch(apiHandler(`/api/verify-token/${token}`))
       const result = await response.json();
+      if(result.message) {
+        localStorage.removeItem("token");
+        toast.error(result.message);
+      }
       return result.user;
     } catch (error) {
       console.error("You can't continue please try to login again: "+ error);

@@ -5,8 +5,15 @@ import Image from "next/image";
 import { apiHandler } from "@/app/utils/helpfulFunctions";
 import { toast } from 'sonner';
 import ActionDropdown from "@/app/components/dashboard/ActionDropdown";
+import { useUser } from "@/app/context/UserContext";
+import { redirect } from "next/navigation";
 
 const TableHead = () => {
+  const {loggedInUserData} = useUser();
+  if(!loggedInUserData || loggedInUserData.role != "admin"){
+    redirect("/")
+  }
+  
   const thClass = "px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase";
   return (
     <thead className="bg-gray-50">

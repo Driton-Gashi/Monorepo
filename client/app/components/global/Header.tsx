@@ -182,14 +182,21 @@ export default function Header() {
         </PopoverGroup>
 
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          {(loggedInUserData && loggedInUserData.role === "admin") ? (
+          {loggedInUserData ? (
             <>
-              <Link
-                href="/dashboard"
-                className="text-sm/6 font-semibold text-gray-900 mr-4 border-r border-blue-950 pr-4 border-opacity-50"
-              >
-                Dashboard
-              </Link>
+             {
+              loggedInUserData  && loggedInUserData.role === "admin" ?  <Link
+              href="/dashboard"
+              className="text-sm/6 font-semibold text-gray-900 mr-4 border-r border-blue-950 pr-4 border-opacity-50"
+            >
+              Dashboard
+            </Link> : <Link
+              href="/dashboard/profile"
+              className="text-sm/6 font-semibold text-gray-900 mr-4 border-r border-blue-950 pr-4 border-opacity-50"
+            >
+              Profile
+            </Link>
+             }
               <button
                 onClick={logout}
                 className="text-sm/6 font-semibold text-gray-900"

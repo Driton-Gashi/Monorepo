@@ -1,8 +1,10 @@
 "use client";
 import NavLink from "../global/NavLink";
 import { usePathname } from "next/navigation";
+import { useUser } from "@/app/context/UserContext";
 
 const Sidebar = ({ ...props }) => {
+  const {loggedInUserData} = useUser();
   const pathName = usePathname();
   const isDashboard = pathName == "/dashboard";
   const isDashboardFood =
@@ -20,7 +22,7 @@ const Sidebar = ({ ...props }) => {
           </div>
           <div className="p-4">
             <ul className="space-y-1">
-              <li>
+              {(loggedInUserData && loggedInUserData.role === "admin") && <><li>
                 <NavLink
                   href="/dashboard"
                   className={`flex items-center bg-white ${
@@ -71,7 +73,7 @@ const Sidebar = ({ ...props }) => {
                   </svg>
                   Foods
                 </NavLink>
-              </li>
+              </li></>} 
               <li>
                 <NavLink
                   href="/dashboard/profile"
