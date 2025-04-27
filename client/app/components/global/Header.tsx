@@ -70,7 +70,7 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
   const pathname = usePathname();
   const isDashboard = pathname.includes("/dashboard");
-  const {loggedInUserData, setLoggedInUserData}= useUser();
+  const { loggedInUserData, setLoggedInUserData } = useUser();
   const logout = (): void => {
     toast("Are you sure you want to logout?", {
       action: {
@@ -79,8 +79,8 @@ export default function Header() {
           toast.success("You Logged out!");
           setMobileMenuOpen(false);
           setTimeout(() => redirect("/auth/login"), 1000);
-          localStorage.removeItem("token")
-          setLoggedInUserData(false)
+          localStorage.removeItem("token");
+          setLoggedInUserData(false);
         },
       },
     });
@@ -184,19 +184,21 @@ export default function Header() {
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           {loggedInUserData ? (
             <>
-             {
-              loggedInUserData  && loggedInUserData.role === "admin" ?  <Link
-              href="/dashboard"
-              className="text-sm/6 font-semibold text-gray-900 mr-4 border-r border-blue-950 pr-4 border-opacity-50"
-            >
-              Dashboard
-            </Link> : <Link
-              href="/dashboard/profile"
-              className="text-sm/6 font-semibold text-gray-900 mr-4 border-r border-blue-950 pr-4 border-opacity-50"
-            >
-              Profile
-            </Link>
-             }
+              {loggedInUserData && loggedInUserData.role === "admin" ? (
+                <Link
+                  href="/dashboard"
+                  className="text-sm/6 font-semibold text-gray-900 mr-4 border-r border-blue-950 pr-4 border-opacity-50"
+                >
+                  Dashboard
+                </Link>
+              ) : (
+                <Link
+                  href="/dashboard/profile"
+                  className="text-sm/6 font-semibold text-gray-900 mr-4 border-r border-blue-950 pr-4 border-opacity-50"
+                >
+                  Profile
+                </Link>
+              )}
               <button
                 onClick={logout}
                 className="text-sm/6 font-semibold text-gray-900"
@@ -277,14 +279,23 @@ export default function Header() {
                 </Disclosure>
               </div>
               <div className="py-6">
-                {(loggedInUserData && loggedInUserData.role === "admin") ? (
+                {loggedInUserData ? (
                   <>
-                    <Link
-                      href="/dashboard"
-                      className="text-sm/6 font-semibold text-gray-900 mr-4 border-r border-blue-950 pr-4 border-opacity-50"
-                    >
-                      Dashboard
-                    </Link>
+                    {loggedInUserData && loggedInUserData.role === "admin" ? (
+                      <Link
+                        href="/dashboard"
+                        className="text-sm/6 font-semibold text-gray-900 mr-4 border-r border-blue-950 pr-4 border-opacity-50"
+                      >
+                        Dashboard
+                      </Link>
+                    ) : (
+                      <Link
+                        href="/dashboard/profile"
+                        className="text-sm/6 font-semibold text-gray-900 mr-4 border-r border-blue-950 pr-4 border-opacity-50"
+                      >
+                        Profile
+                      </Link>
+                    )}
                     <button
                       onClick={logout}
                       className="text-sm/6 font-semibold text-gray-900"

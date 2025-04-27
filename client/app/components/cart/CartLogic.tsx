@@ -26,12 +26,13 @@ const CartLogic = ({
   useEffect(() => {
     const cartItems = localStorage.getItem("cartItems");
     if (cartItems && cartItems.length > 0) {
+      console.log(JSON.parse(cartItems))
       setProduktetNeShporte(JSON.parse(cartItems));
     }
   }, [setProduktetNeShporte]);
 
   useEffect(() => {
-    if (produktetNeShporte.length >= 0) {
+    if (produktetNeShporte.length > 0) {
       localStorage.setItem("cartItems", JSON.stringify(produktetNeShporte));
     }
   }, [produktetNeShporte]);
