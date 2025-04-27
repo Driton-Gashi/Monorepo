@@ -1,9 +1,8 @@
 "use client"
-import { useUser } from "@/app/context/UserContext";
+import { useUser } from "../context/UserContext";
 
 const Dashboard = () => {
-  const { loggedInUserData } = useUser();
-
+  const {loggedInUserData} = useUser();
   return (
     <>
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -23,6 +22,7 @@ const Dashboard = () => {
                         <div className="font-bold text-xl text-gray-800 leading-none">
                           Good day, <br />
                           {loggedInUserData && loggedInUserData.name}
+                          {loggedInUserData && loggedInUserData.role}
                         </div>
                         <div className="mt-5">
                           <button

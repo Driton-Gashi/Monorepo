@@ -1,5 +1,4 @@
 "use client";
-// import { useUser } from "@/app/context/UserContext";
 import { useState, useEffect } from "react";
 import { pinata } from "@/app/utils/pinata";
 import type { inputDataType } from "@/app/utils/types";
@@ -18,7 +17,6 @@ interface FoodType {
 }
 
 const DashboardEditFood = ()=> {
-    // const { loggedInUserData } = useUser();
     const params = useParams();
     const id = params.id;
    

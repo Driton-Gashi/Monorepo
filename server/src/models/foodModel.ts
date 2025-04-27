@@ -100,7 +100,6 @@ export const deleteFood = async (id: number): Promise<{ success: boolean; messag
   }
 };
 
-// Category-related functions
 export const getAllCategories = async (): Promise<Category[]> => {
   const query = "SELECT * FROM categories";
   return executeQuery(query);

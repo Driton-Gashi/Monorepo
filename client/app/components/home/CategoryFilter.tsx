@@ -62,7 +62,7 @@ const CategoryFilter = ({
             currentCategory === category.id
               ? "bg-primary-red text-primary-white"
               : "text-primary-red"
-          } hover:bg-primary-red hover:text-primary-white py-2 px-4 rounded-3xl uppercase`}
+          } hover:bg-primary-red hover:text-primary-white py-2 mx-1 px-4 rounded-3xl uppercase`}
           onClick={() => {
             getFoodByCategory(category.id);
             setCurrentCategory(category.id);

@@ -10,6 +10,7 @@ import CategoryFilter from "./components/home/CategoryFilter";
 import FoodList from "./components/home/FoodList";
 
 export default function Home() {
+
   const [foods, setFoods] = useState<Food[]>([]);
   const [allFoods, setAllFoods] = useState<Food[]>([]);
   const [loading, setLoading] = useState<boolean>(true);

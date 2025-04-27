@@ -7,11 +7,12 @@ import Input from "../global/Input";
 import Image from "next/image";
 import { toast } from "sonner";
 import { apiHandler } from "@/app/utils/helpfulFunctions";
-import { useUser } from "@/app/context/UserContext";
 import { redirect } from "next/navigation";
+import { useUser } from "@/app/context/UserContext";
+import { jwtDecode } from "jwt-decode";
 
 export default function LoginForm() {
-  // Animation Logic
+  const {setLoggedInUserData} = useUser();
   const [values, setValues] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
   const [showThumbUpBear, setShowThumbUpBear] = useState<boolean>(false);
@@ -37,7 +38,6 @@ export default function LoginForm() {
     setValues((prev) => ({ ...prev, [name]: value }));
   };
 
-  const { setLoggedInUserData } = useUser();
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (values.email.length == 0) {
@@ -60,6 +60,7 @@ export default function LoginForm() {
 
     const response = await fetch(apiHandler("/api/login"), {
       method: "POST",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
@@ -69,9 +70,8 @@ export default function LoginForm() {
     const result = await response.json();
 
     if (response.ok) {
-      setLoggedInUserData({
-        ...result.userData,
-      });
+      localStorage.setItem("token", result.token)
+      setLoggedInUserData(jwtDecode(result.token))
       toast.success(result.message);
       setShowThumbUpBear(true);
       setTimeout(() => {

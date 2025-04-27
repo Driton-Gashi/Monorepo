@@ -1,15 +1,14 @@
 "use client"
 import { useState } from "react";
 import { toast } from "sonner";
-import { useUser } from "@/app/context/UserContext";
 import { apiHandler } from "@/app/utils/helpfulFunctions";
 import { redirect } from "next/navigation";
 import Input from "../global/Input";
 import Image from "next/image";
+import { jwtDecode } from "jwt-decode";
 
 const RegisterForm = () => {
 
-    const { setLoggedInUserData } = useUser();
   const [showThumbUpBear, setShowThumbUpBear] = useState<boolean>(false);
   const [showCryingBear, setShowCryingBear] = useState<boolean>(false);
       
@@ -72,9 +71,8 @@ const RegisterForm = () => {
       const result = await response.json();
   
       if (response.ok) {
-        setLoggedInUserData({
-          ...result.userData
-        })
+        console.log(result)
+        console.log(jwtDecode(result.token))
         toast.success(result.message)
         setShowThumbUpBear(true);
       setTimeout(() => {

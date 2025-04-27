@@ -26,8 +26,8 @@ import {
 } from "@heroicons/react/20/solid";
 import Link from "next/link";
 import { redirect, usePathname } from "next/navigation";
-import { useUser } from "@/app/context/UserContext";
 import { toast } from "sonner";
+import { useUser } from "@/app/context/UserContext";
 
 const products = [
   {
@@ -68,18 +68,19 @@ const callsToAction = [
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
-  const { loggedInUserData, setLoggedInUserData } = useUser();
   const pathname = usePathname();
   const isDashboard = pathname.includes("/dashboard");
+  const {loggedInUserData, setLoggedInUserData}= useUser();
   const logout = (): void => {
     toast("Are you sure you want to logout?", {
       action: {
         label: "Yes",
         onClick: async () => {
           toast.success("You Logged out!");
-          setLoggedInUserData(false);
           setMobileMenuOpen(false);
           setTimeout(() => redirect("/auth/login"), 1000);
+          localStorage.removeItem("token")
+          setLoggedInUserData(false)
         },
       },
     });
@@ -132,7 +133,6 @@ export default function Header() {
                 className="size-5 flex-none text-gray-400"
               />
             </PopoverButton>
-
             <PopoverPanel
               transition
               className="absolute top-full -left-8 z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white ring-1 shadow-lg ring-gray-900/5 transition data-closed:translate-y-1 data-closed:opacity-0 data-enter:duration-200 data-enter:ease-out data-leave:duration-150 data-leave:ease-in"
@@ -182,7 +182,7 @@ export default function Header() {
         </PopoverGroup>
 
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          {loggedInUserData ? (
+          {(loggedInUserData && loggedInUserData.role === "admin") ? (
             <>
               <Link
                 href="/dashboard"
@@ -270,7 +270,7 @@ export default function Header() {
                 </Disclosure>
               </div>
               <div className="py-6">
-                {loggedInUserData ? (
+                {(loggedInUserData && loggedInUserData.role === "admin") ? (
                   <>
                     <Link
                       href="/dashboard"

@@ -41,7 +41,6 @@ const CartItem = ({ removeFromCart, food, setProduktetNeShporte }: P) => {
       
       return item;
     }))
-    
   }  
 
   return (
