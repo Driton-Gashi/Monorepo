@@ -4,13 +4,27 @@ import cors from "cors";
 import userRoutes from "./routes/userRoutes";
 import foodRoutes from "./routes/foodRoutes";
 import orderRoutes from "./routes/orderRoutes"
+import { CorsOptions } from "cors";
 
 dotenv.config();
 
 const app = express();
 
-const corsOptions = {
-  origin: true,
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://app.dritongashi.com'
+];
+
+const corsOptions: CorsOptions = {
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    } else {
+      return callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
