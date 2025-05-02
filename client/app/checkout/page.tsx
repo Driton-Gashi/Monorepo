@@ -7,7 +7,7 @@ import { apiHandler } from "../utils/helpfulFunctions";
 import { toast } from "sonner";
 
 const CheckoutPage = () => {
-  const [produktetNeShporte, setProduktetNeShporte] = useState<Food[]>([]);
+  const [produktetNeShporte, setProduktetNeShporte] = useState<Food[]>(JSON.parse(localStorage.getItem("cartItems") ?? "[]"));
    const [orderData, setOrderData] = useState<Order>({
     user_id: null,
     name: "",

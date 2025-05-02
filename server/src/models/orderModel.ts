@@ -61,7 +61,6 @@ export const createOrder = async (
       ]);
     }
 
-    console.log("Order created successfully with ID:", orderId);
   } catch (error) {
     console.error("Failed to create order:", error);
     throw error;

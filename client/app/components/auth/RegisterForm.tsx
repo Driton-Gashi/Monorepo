@@ -71,8 +71,6 @@ const RegisterForm = () => {
       const result = await response.json();
   
       if (response.ok) {
-        console.log(result)
-        console.log(jwtDecode(result.token))
         toast.success(result.message)
         setShowThumbUpBear(true);
       setTimeout(() => {

@@ -17,26 +17,19 @@ const CartLogic = ({
   setProduktetNeShporte,
   triggerFormSubmit,
 }: P) => {
+
   const removeFromCart = (id: number) => {
-    setProduktetNeShporte((prevState) =>
-      prevState.filter((item) => item.food_id !== id)
-    );
+    setProduktetNeShporte((prevState) => {
+      const updatedCart = prevState.filter((item) => item.food_id !== id);
+      localStorage.setItem("cartItems", JSON.stringify(updatedCart));
+      return updatedCart;
+    });
   };
 
   useEffect(() => {
-    const cartItems = localStorage.getItem("cartItems");
-    if (cartItems && cartItems.length > 0) {
-      console.log(JSON.parse(cartItems))
-      setProduktetNeShporte(JSON.parse(cartItems));
-    }
-  }, [setProduktetNeShporte]);
-
-  useEffect(() => {
-    if (produktetNeShporte.length > 0) {
-      localStorage.setItem("cartItems", JSON.stringify(produktetNeShporte));
-    }
+    localStorage.setItem("cartItems", JSON.stringify(produktetNeShporte));
   }, [produktetNeShporte]);
-
+  
   if (!produktetNeShporte.length) {
     return (
       <>
@@ -72,6 +65,7 @@ const CartLogic = ({
       </>
     );
   }
+  
   return (
     <>
       {produktetNeShporte.map((food: Food) => (

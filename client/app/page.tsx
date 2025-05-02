@@ -14,7 +14,7 @@ export default function Home() {
   const [foods, setFoods] = useState<Food[]>([]);
   const [allFoods, setAllFoods] = useState<Food[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [produktetNeShporte, setProduktetNeShporte] = useState<Food[]>([]);
+  const [produktetNeShporte, setProduktetNeShporte] = useState<Food[]>(JSON.parse(localStorage.getItem("cartItems") ?? "[]"));
   const [currentCategory, setCurrentCategory] = useState<string | number>(
     "all"
   );
@@ -44,10 +44,6 @@ export default function Home() {
       }
     };
     fetchData();
-    const cartItems: Food[] = JSON.parse(
-      localStorage.getItem("cartItems") || "[]"
-    );
-    setProduktetNeShporte(cartItems);
   }, []);
 
   return (

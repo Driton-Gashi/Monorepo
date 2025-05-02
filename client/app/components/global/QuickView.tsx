@@ -121,7 +121,6 @@ export default function QuickView({
                         <span
                           onClick={() =>
                             setQuantity((prevState) => {
-                              console.log(prevState);
                               if (prevState == 1) return 1;
                               return prevState - 1;
                             })

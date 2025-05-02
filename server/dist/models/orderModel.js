@@ -52,7 +52,6 @@ const createOrder = (user_id, name, email, address, city, phone, extra, items) =
                 item.price,
             ]);
         }
-        console.log("Order created successfully with ID:", orderId);
     }
     catch (error) {
         console.error("Failed to create order:", error);

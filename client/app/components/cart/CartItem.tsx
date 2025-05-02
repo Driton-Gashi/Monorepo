@@ -12,11 +12,8 @@ const CartItem = ({ removeFromCart, food, setProduktetNeShporte }: P) => {
 
   const decreaseQuantity = () => {
     setProduktetNeShporte((prevData) => {
-      return prevData
+      const updatedCart = prevData
         .map((item) => {
-          if(prevData.length === 1){
-            localStorage.setItem("cartItems", "[]")
-          }
           if (item.food_id === food.food_id) {
             const newQuantity = item.quantity ? item.quantity - 1 : 0;
             return { ...item, quantity: newQuantity };
@@ -24,8 +21,13 @@ const CartItem = ({ removeFromCart, food, setProduktetNeShporte }: P) => {
           return item;
         })
         .filter((item) => item.quantity && item.quantity > 0);
+  
+      localStorage.setItem("cartItems", JSON.stringify(updatedCart));
+  
+      return updatedCart;
     });
   };
+  
 
   const increaseQuantity = ()=>{
     setProduktetNeShporte(prevData => prevData.map(item => {
