@@ -86,7 +86,6 @@ const deleteFood = (id) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.deleteFood = deleteFood;
-// Category-related functions
 const getAllCategories = () => __awaiter(void 0, void 0, void 0, function* () {
     const query = "SELECT * FROM categories";
     return executeQuery(query);

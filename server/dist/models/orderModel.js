@@ -39,9 +39,7 @@ const createOrder = (user_id, name, email, address, city, phone, extra, items) =
             phone,
             extra,
         ]);
-        // Step 2: Get the ID of the newly inserted order
         const orderId = orderResult.insertId;
-        // Step 3: Insert each item into the `order_items` table
         for (const item of items) {
             const itemQuery = `
         INSERT INTO order_items (order_id, food_id, quantity, price)

@@ -1,6 +1,7 @@
 import type { Food } from "./types";
 // Function to fetch in Development and Production
 export const apiHandler = (path: string): string => {
+  console.log(process.env.NEXT_PUBLIC_API_URL)
   let fetchPath = process.env.NEXT_PUBLIC_API_URL ?? "";
   fetchPath += path;
   return fetchPath;

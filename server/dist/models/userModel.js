@@ -14,7 +14,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createUser = exports.findUserByEmail = void 0;
 const db_1 = __importDefault(require("../db"));
-// Helper function for executing queries and handling errors
 const executeQuery = (query_1, ...args_1) => __awaiter(void 0, [query_1, ...args_1], void 0, function* (query, params = []) {
     try {
         const [rows] = yield db_1.default.execute(query, params);
@@ -25,19 +24,18 @@ const executeQuery = (query_1, ...args_1) => __awaiter(void 0, [query_1, ...args
         throw error;
     }
 });
-// Find a user by email
 const findUserByEmail = (email) => __awaiter(void 0, void 0, void 0, function* () {
     const query = "SELECT * FROM users WHERE email = ?";
     const rows = yield executeQuery(query, [email]);
     return rows[0] || null;
 });
 exports.findUserByEmail = findUserByEmail;
-// Create a new user
 const createUser = (name, lastname, email, hashedPassword) => __awaiter(void 0, void 0, void 0, function* () {
     const query = `
     INSERT INTO users (name, lastname, email, password)
     VALUES (?, ?, ?, ?)
   `;
-    yield executeQuery(query, [name, lastname, email, hashedPassword]);
+    const insertedId = yield executeQuery(query, [name, lastname, email, hashedPassword]);
+    return insertedId.insertId;
 });
 exports.createUser = createUser;

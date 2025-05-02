@@ -8,4 +8,5 @@ const userController_1 = require("../controllers/userController");
 const router = express_1.default.Router();
 router.post("/register", userController_1.registerUser);
 router.post("/login", userController_1.loginUser);
+router.get("/verify-token/:token", userController_1.verifyToken);
 exports.default = router;
