@@ -1,13 +1,13 @@
 "use client";
 
 import type { Food, Order, OrderItem } from "../utils/types";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Cart from "../components/cart/Cart";
 import { apiHandler } from "../utils/helpfulFunctions";
 import { toast } from "sonner";
 
 const CheckoutPage = () => {
-  const [produktetNeShporte, setProduktetNeShporte] = useState<Food[]>(JSON.parse(localStorage.getItem("cartItems") ?? "[]"));
+  const [produktetNeShporte, setProduktetNeShporte] = useState<Food[]>([]);
    const [orderData, setOrderData] = useState<Order>({
     user_id: null,
     name: "",
@@ -80,6 +80,13 @@ const CheckoutPage = () => {
       }
     }
   };
+
+  useEffect(() => {
+    const storedCartItems = localStorage.getItem("cartItems");
+    if (storedCartItems) {
+      setProduktetNeShporte(JSON.parse(storedCartItems));
+    }
+  }, []);
 
   return (
     <div className="container m-auto px-6">

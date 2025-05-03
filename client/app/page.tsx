@@ -11,11 +11,10 @@ import FoodList from "./components/home/FoodList";
 import { toast } from "sonner";
 
 export default function Home() {
-
   const [foods, setFoods] = useState<Food[]>([]);
   const [allFoods, setAllFoods] = useState<Food[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [produktetNeShporte, setProduktetNeShporte] = useState<Food[]>(JSON.parse(localStorage.getItem("cartItems") ?? "[]"));
+  const [produktetNeShporte, setProduktetNeShporte] = useState<Food[]>([]);
   const [currentCategory, setCurrentCategory] = useState<string | number>(
     "all"
   );
@@ -32,29 +31,31 @@ export default function Home() {
     const fetchData = async () => {
       try {
         const foodResponse = await fetch(apiHandler("/api/foods"));
-        
+
         if (!foodResponse.ok) {
           throw new Error("Food fetching response is not ok!");
         }
         const foodData = await foodResponse.json();
 
-      if(foodData?.message){
-        toast.error(foodData?.message);
-        return;
-      }
+        if (foodData?.message) {
+          toast.error(foodData?.message);
+          return;
+        }
 
         setFoods(foodData);
         setAllFoods(foodData);
-      } catch (error:unknown) {
-
-        if(error instanceof Error){
-          toast.error(error.message)
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          toast.error(error.message);
         }
       } finally {
         setLoading(false);
       }
     };
     fetchData();
+
+    const storedCartItems = localStorage.getItem("cartItems");
+    if (storedCartItems) setProduktetNeShporte(JSON.parse(storedCartItems));
   }, []);
 
   return (
@@ -82,10 +83,17 @@ export default function Home() {
               setFoods={setFoods}
             />
           </div>
-          <FoodList foods={foods} loading={loading} setPopupData={setPopupData}/>
+          <FoodList
+            foods={foods}
+            loading={loading}
+            setPopupData={setPopupData}
+          />
         </div>
         <div className="w-full lg:w-2/5 py-6">
-          <Cart produktetNeShporte={produktetNeShporte} setProduktetNeShporte={setProduktetNeShporte}/>
+          <Cart
+            produktetNeShporte={produktetNeShporte}
+            setProduktetNeShporte={setProduktetNeShporte}
+          />
         </div>
       </div>
       <QuickView
