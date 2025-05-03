@@ -5,7 +5,6 @@ import { apiHandler } from "@/app/utils/helpfulFunctions";
 import { redirect } from "next/navigation";
 import Input from "../global/Input";
 import Image from "next/image";
-import { jwtDecode } from "jwt-decode";
 
 const RegisterForm = () => {
 
