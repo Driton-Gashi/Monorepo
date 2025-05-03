@@ -62,7 +62,6 @@ const CheckoutPage = () => {
       toast.error(`${result.message}`)
       
     } catch (error: unknown) {
-      console.error(error);
       if(error instanceof Error){
         toast.error(error.message)
       }

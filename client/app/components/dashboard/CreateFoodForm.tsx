@@ -3,12 +3,14 @@ import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { apiHandler } from "@/app/utils/helpfulFunctions";
 import { toast } from "sonner";
 import Input from "../global/Input";
+import Button from "../global/Button";
 
 interface P {
   formData: inputDataType;
   handleSubmit: (e: React.FormEvent) => Promise<void>;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   setFormData: Dispatch<SetStateAction<inputDataType>>;
+  fileInputRef: React.RefObject<HTMLInputElement | null>;
 }
 
 const CreateFoodForm = ({
@@ -16,26 +18,32 @@ const CreateFoodForm = ({
   handleSubmit,
   handleChange,
   setFormData,
+  fileInputRef,
 }: P) => {
   const [categories, setCategories] = useState<categoryType[]>([]);
   const [isCreateCategoryOpen, setIsCreateCategoryOpen] =
     useState<boolean>(false);
-    const [hasCreatedNewCategory, setHasCreateNewCategory] = useState<boolean>(false);
   const [categoryName, setCategoryName] = useState<string>("");
 
   useEffect(() => {
     const fetchCategories = async () => {
       const response = await fetch(apiHandler("/api/categories"));
+
       const data = await response.json();
+      if(data?.message){
+        toast.error(data?.message)
+        return;
+      }
+
       setCategories(data);
     };
     fetchCategories();
-    setHasCreateNewCategory(false)
-  }, [isCreateCategoryOpen, hasCreatedNewCategory]);
+  }, [isCreateCategoryOpen]);
 
   const createCategorySubmit = async (e: React.FormEvent)=>{
     e.preventDefault();
     try {
+
       if(!categoryName){
       toast.error("Category name is empty!")
       return;
@@ -53,14 +61,14 @@ const CreateFoodForm = ({
 
       if (response.ok) {
         toast.success(`${result.message}`);
-        setHasCreateNewCategory(true);
         setCategoryName("")
       } else {
         toast.error(`${result.message}`);
       }
 
     } catch (error) {
-      toast.error(error as string)
+      if(error instanceof Error)
+      toast.error(error.message)
     }
   }
 
@@ -82,8 +90,10 @@ const CreateFoodForm = ({
       }else{
         toast.error(result.message)
       }
-    } catch (error) {
-      toast.error(error as string)
+    } catch (error: unknown) {
+      if(error instanceof Error){
+        toast.error(error.message)
+      }
     }
   }
 
@@ -98,6 +108,7 @@ const CreateFoodForm = ({
         </label>
         <div className="mt-2">
           <Input
+          ref={fileInputRef}
           disabled={isCreateCategoryOpen}
             type="file"
             name="image"
@@ -203,7 +214,7 @@ const CreateFoodForm = ({
             placeholder="Category name"
             className=" sm:text-sm/6"
           />
-          <button type="submit" className="bg-primary-red text-primary-white rounded-md border shadow-sm py-2 px-6 text-sm/6">Create</button>
+          <Button type="submit" className="bg-primary-red text-primary-white rounded-md border shadow-sm py-2 px-6 text-sm/6">Create</Button>
           <div
             onClick={()=>setIsCreateCategoryOpen(false)}
               title="create category"

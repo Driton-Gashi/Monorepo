@@ -8,6 +8,7 @@ import Cart from "./components/cart/Cart";
 import SearchInput from "./components/home/SearchInput";
 import CategoryFilter from "./components/home/CategoryFilter";
 import FoodList from "./components/home/FoodList";
+import { toast } from "sonner";
 
 export default function Home() {
 
@@ -31,14 +32,24 @@ export default function Home() {
     const fetchData = async () => {
       try {
         const foodResponse = await fetch(apiHandler("/api/foods"));
+        
         if (!foodResponse.ok) {
-          throw new Error("Failed to fetch foods");
+          throw new Error("Food fetching response is not ok!");
         }
         const foodData = await foodResponse.json();
+
+      if(foodData?.message){
+        toast.error(foodData?.message);
+        return;
+      }
+
         setFoods(foodData);
         setAllFoods(foodData);
-      } catch (error) {
-        console.error(error);
+      } catch (error:unknown) {
+
+        if(error instanceof Error){
+          toast.error(error.message)
+        }
       } finally {
         setLoading(false);
       }

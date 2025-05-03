@@ -24,7 +24,7 @@ export const createNewFood = async (req: Request, res: Response): Promise<void> 
   try {
     const existingFood = await getFoodByName(name);
     if (existingFood) {
-      res.status(400).json({ message: `${name} already exists in the database` });
+      res.status(409).json({ message: `${name} already exists in the database` });
       return;
     }
 
@@ -56,7 +56,7 @@ export const getCategories = async (req: Request, res: Response): Promise<void> 
   try {
     const categories = await getAllCategories();
     if (!categories || categories.length === 0) {
-      res.status(404).json({ message: "No categories found in the database" });
+      res.status(200).json({ message: "No categories found in the database" });
       return;
     }
 
@@ -69,11 +69,12 @@ export const getCategories = async (req: Request, res: Response): Promise<void> 
 export const getFoods = async (req: Request, res: Response): Promise<void> => {
   try {
     const foods = await getAllFoods();
+
     if (!foods || foods.length === 0) {
-      res.status(404).json({ message: "No food items found in the database" });
+      res.status(200).json({ message: "No food items found in the database" });
       return;
     }
-
+    
     res.status(200).json(foods);
   } catch (error) {
     handleError(res, error, "Failed to fetch food items");

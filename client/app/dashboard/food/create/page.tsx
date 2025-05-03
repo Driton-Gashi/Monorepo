@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { pinata } from "@/app/utils/pinata";
 import type {
   inputDataType
@@ -15,6 +15,8 @@ const DashboardFoodCreate = () => {
   if(!loggedInUserData || loggedInUserData.role != "admin"){
     redirect("/")
   }
+
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const [formData, setFormData] = useState<inputDataType>({
     name: "",
@@ -82,17 +84,28 @@ const DashboardFoodCreate = () => {
         },
         body: JSON.stringify(foodData),
       });
-
+      
       const result = await response.json();
+      
+      if (response.status === 409) {
+        toast.error(result?.message);
+        return;
+      }
 
       if (response.ok) {
-        toast.success(`Food created successfully:${result.message}`);
-      } else {
-        toast.error(`Failed to create food:${result.message}`);
+        toast.success(`${result.message}`);
+        setFormData({
+          name: "",
+          description: "",
+          price: 0.0,
+          category_id: 0,
+          image: null,
+        })
+        // clear the input file
+        if(fileInputRef.current) fileInputRef.current.value = "";
       }
     } catch (error) {
-      console.error("Error:", error);
-      toast.error(`Failed to create food:${error}`);
+      toast.error(`${error}`);
     }
   };
 
@@ -105,7 +118,7 @@ const DashboardFoodCreate = () => {
         </div>
 
         <div className="mt-4 sm:mx-auto sm:w-full sm:max-w-sm">
-          <CreateFoodForm formData={formData} setFormData={setFormData} handleSubmit={handleSubmit} handleChange={handleChange} />
+          <CreateFoodForm formData={formData} setFormData={setFormData} handleSubmit={handleSubmit} handleChange={handleChange} fileInputRef={fileInputRef}/>
         </div>
     </>
   );

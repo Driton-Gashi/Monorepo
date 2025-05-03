@@ -1,6 +1,7 @@
 import type { Food, categoryType } from "@/app/utils/types";
 import { useState, useEffect } from "react";
 import { apiHandler } from "@/app/utils/helpfulFunctions";
+import { toast } from "sonner";
 
 interface P {
   setFoods: React.Dispatch<React.SetStateAction<Food[]>>;
@@ -28,10 +29,14 @@ const CategoryFilter = ({
         const categoryResponse = await fetch(apiHandler("/api/categories"));
 
         if (!categoryResponse.ok) {
-          throw new Error("Failed to fetch categories");
+          throw new Error("Category Fetching response is not ok");
         }
 
         const categoryData = await categoryResponse.json();
+        if(categoryData?.message){
+          toast.error(categoryData?.message)
+          return;
+        }
         setCategories(categoryData);
       } catch (error) {
         console.error(error);

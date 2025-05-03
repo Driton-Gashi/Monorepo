@@ -20,7 +20,7 @@ const createNewFood = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     try {
         const existingFood = yield (0, foodModel_1.getFoodByName)(name);
         if (existingFood) {
-            res.status(400).json({ message: `${name} already exists in the database` });
+            res.status(409).json({ message: `${name} already exists in the database` });
             return;
         }
         yield (0, foodModel_1.createFood)(name, description, price, image_url, category_id);
@@ -51,7 +51,7 @@ const getCategories = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     try {
         const categories = yield (0, foodModel_1.getAllCategories)();
         if (!categories || categories.length === 0) {
-            res.status(404).json({ message: "No categories found in the database" });
+            res.status(200).json({ message: "No categories found in the database" });
             return;
         }
         res.status(200).json(categories);
@@ -65,7 +65,7 @@ const getFoods = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const foods = yield (0, foodModel_1.getAllFoods)();
         if (!foods || foods.length === 0) {
-            res.status(404).json({ message: "No food items found in the database" });
+            res.status(200).json({ message: "No food items found in the database" });
             return;
         }
         res.status(200).json(foods);
