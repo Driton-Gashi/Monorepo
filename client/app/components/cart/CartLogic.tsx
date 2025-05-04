@@ -1,35 +1,22 @@
 "use client";
 import type { Food } from "@/app/utils/types";
-import { Dispatch, SetStateAction } from "react";
 import CartItem from "./CartItem";
 import { totalPrice } from "@/app/utils/helpfulFunctions";
-import { useEffect } from "react";
 import Link from "next/link";
+import { useCart } from "@/app/hooks/useCart";
 
 interface P {
-  produktetNeShporte: Food[];
-  setProduktetNeShporte: Dispatch<SetStateAction<Food[]>>;
   triggerFormSubmit?: () => void;
 }
 
-const CartLogic = ({
-  produktetNeShporte,
-  setProduktetNeShporte,
-  triggerFormSubmit,
-}: P) => {
+const CartLogic = ({ triggerFormSubmit }: P) => {
+  const produktetNeShporte = useCart((state) => state.produktetNeShporte);
+  const removeItem = useCart((state) => state.removeFromCart);
 
   const removeFromCart = (id: number) => {
-    setProduktetNeShporte((prevState) => {
-      const updatedCart = prevState.filter((item) => item.food_id !== id);
-      localStorage.setItem("cartItems", JSON.stringify(updatedCart));
-      return updatedCart;
-    });
+    removeItem(id);
   };
 
-  useEffect(() => {
-    localStorage.setItem("cartItems", JSON.stringify(produktetNeShporte));
-  }, [produktetNeShporte]);
-  
   if (!produktetNeShporte.length) {
     return (
       <>
@@ -65,12 +52,11 @@ const CartLogic = ({
       </>
     );
   }
-  
+
   return (
     <>
       {produktetNeShporte.map((food: Food) => (
         <CartItem
-          setProduktetNeShporte={setProduktetNeShporte}
           food={food}
           removeFromCart={removeFromCart}
           key={food.food_id}

@@ -42,14 +42,15 @@ const createOrder = (user_id, name, email, address, city, phone, extra, items) =
         const orderId = orderResult.insertId;
         for (const item of items) {
             const itemQuery = `
-        INSERT INTO order_items (order_id, food_id, quantity, price)
-        VALUES (?, ?, ?, ?);
+        INSERT INTO order_items (order_id, food_id, quantity, price, extra)
+        VALUES (?, ?, ?, ?, ?);
       `;
             yield executeQuery(itemQuery, [
                 orderId,
                 item.food_id,
                 item.quantity,
                 item.price,
+                item.extra,
             ]);
         }
     }

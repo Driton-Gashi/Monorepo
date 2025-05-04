@@ -4,6 +4,7 @@ interface OrderItem {
   food_id: number;
   quantity: number;
   price: number;
+  extra:string;
 }
 
 const executeQuery = async (
@@ -49,8 +50,8 @@ export const createOrder = async (
 
     for (const item of items) {
       const itemQuery = `
-        INSERT INTO order_items (order_id, food_id, quantity, price)
-        VALUES (?, ?, ?, ?);
+        INSERT INTO order_items (order_id, food_id, quantity, price, extra)
+        VALUES (?, ?, ?, ?, ?);
       `;
 
       await executeQuery(itemQuery, [
@@ -58,6 +59,7 @@ export const createOrder = async (
         item.food_id,
         item.quantity,
         item.price,
+        item.extra,
       ]);
     }
 

@@ -9,12 +9,14 @@ import SearchInput from "./components/home/SearchInput";
 import CategoryFilter from "./components/home/CategoryFilter";
 import FoodList from "./components/home/FoodList";
 import { toast } from "sonner";
+import { useCart } from "@/app/hooks/useCart";
 
 export default function Home() {
   const [foods, setFoods] = useState<Food[]>([]);
   const [allFoods, setAllFoods] = useState<Food[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [produktetNeShporte, setProduktetNeShporte] = useState<Food[]>([]);
+  const produktetNeShporte = useCart((state) => state.produktetNeShporte);
+  const setProduktetNeShporte = useCart((state) => state.setProduktetNeShporte);
   const [currentCategory, setCurrentCategory] = useState<string | number>(
     "all"
   );
@@ -55,8 +57,14 @@ export default function Home() {
     fetchData();
 
     const storedCartItems = localStorage.getItem("cartItems");
-    if (storedCartItems) setProduktetNeShporte(JSON.parse(storedCartItems));
-  }, []);
+    if (storedCartItems) {
+      setProduktetNeShporte(JSON.parse(storedCartItems));
+    }
+  }, [setProduktetNeShporte]);
+
+  useEffect(() => {
+    localStorage.setItem("cartItems", JSON.stringify(produktetNeShporte));
+  }, [produktetNeShporte]);
 
   return (
     <div className="container m-auto p-6">
@@ -90,18 +98,10 @@ export default function Home() {
           />
         </div>
         <div className="w-full lg:w-2/5 py-6">
-          <Cart
-            produktetNeShporte={produktetNeShporte}
-            setProduktetNeShporte={setProduktetNeShporte}
-          />
+          <Cart />
         </div>
       </div>
-      <QuickView
-        produktetNeShporte={produktetNeShporte}
-        setProduktetNeShporte={setProduktetNeShporte}
-        popupData={popupData}
-        setPopupData={setPopupData}
-      />
+      <QuickView popupData={popupData} setPopupData={setPopupData} />
     </div>
   );
 }

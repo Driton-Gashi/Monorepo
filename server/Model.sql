@@ -46,6 +46,7 @@ CREATE TABLE foods (
       food_id INT NOT NULL,
       quantity INT NOT NULL,
       price DECIMAL(10, 2) NOT NULL,
+      extra VARCHAR(250) NOT NULL,
       FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
       FOREIGN KEY (food_id) REFERENCES foods(food_id) ON DELETE CASCADE,
       UNIQUE (order_id, food_id)

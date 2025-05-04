@@ -1,26 +1,24 @@
 "use client";
 
-import { SetStateAction, Dispatch, useState, useEffect } from "react";
+import { useState } from "react";
 import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import type { popupData, Food } from "@/app/utils/types";
+import { useCart } from "@/app/hooks/useCart";
 
 interface P {
   popupData: popupData;
-  setPopupData: Dispatch<SetStateAction<popupData>>;
-  setProduktetNeShporte: Dispatch<SetStateAction<Food[]>>;
-  produktetNeShporte: Food[];
+  setPopupData: React.Dispatch<React.SetStateAction<popupData>>;
 }
 
-export default function QuickView({
-  popupData,
-  setPopupData,
-  setProduktetNeShporte,
-  produktetNeShporte,
-}: P) {
+export default function QuickView({ popupData, setPopupData }: P) {
   const [extra, setExtra] = useState<string>("");
   const [quantity, setQuantity] = useState<number>(1);
+
+  const produktetNeShporte = useCart((state) => state.produktetNeShporte);
+  const setProduktetNeShporte = useCart((state) => state.setProduktetNeShporte);
+
   const closeModal = () => {
     setPopupData((prevData) => ({
       ...prevData,
@@ -28,20 +26,6 @@ export default function QuickView({
     }));
     setQuantity(1);
     setExtra("");
-  };
-
-  useEffect(() => {
-    if (produktetNeShporte.length > 0) {
-      localStorage.setItem("cartItems", JSON.stringify(produktetNeShporte));
-    }
-  }, [produktetNeShporte]);
-
-  const addToCartArray = (food: Food) => {
-    setProduktetNeShporte((prevData) => {
-      const foodExists = prevData.some((item) => item.food_id === food.food_id);
-      if (foodExists) return prevData;
-      return [...prevData, food];
-    });
   };
 
   const addToCart = () => {
@@ -53,7 +37,15 @@ export default function QuickView({
       food_id: popupData.id,
       quantity: quantity,
     };
-    addToCartArray(food);
+
+    const alreadyInCart = produktetNeShporte.some(
+      (item) => item.food_id === food.food_id
+    );
+
+    if (!alreadyInCart) {
+      setProduktetNeShporte([...produktetNeShporte, food]);
+    }
+
     closeModal();
   };
 
@@ -98,14 +90,11 @@ export default function QuickView({
                     {popupData.name}
                   </h2>
 
-                  <section
-                    aria-labelledby="information-heading"
-                    className="mt-2"
-                  >
+                  <section className="mt-2">
                     <p className="text-2xl text-gray-900">{popupData.price}€</p>
                   </section>
 
-                  <section aria-labelledby="options-heading" className="mt-10">
+                  <section className="mt-10">
                     <div>
                       <label htmlFor="extra">KËRKESA SHTESË</label>
                       <textarea
@@ -114,16 +103,13 @@ export default function QuickView({
                         name="description"
                         value={extra}
                         onChange={(e) => setExtra(e.target.value)}
-                        placeholder=""
-                        className={`border block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900  placeholder:text-gray-400 outline-2 outline-offset-2 outline-primary-bg-primary-red sm:text-sm/6`}
+                        className="border block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 placeholder:text-gray-400 outline-2 outline-offset-2 outline-primary-bg-primary-red sm:text-sm/6"
                       ></textarea>
+
                       <div className="mt-6 flex gap-4 items-center">
                         <span
                           onClick={() =>
-                            setQuantity((prevState) => {
-                              if (prevState == 1) return 1;
-                              return prevState - 1;
-                            })
+                            setQuantity((prev) => Math.max(1, prev - 1))
                           }
                           className="border border-primary-red text-primary-red w-8 h-8 flex justify-center items-center rounded-full cursor-pointer"
                         >
@@ -132,16 +118,14 @@ export default function QuickView({
                         <span className="text-xl">{quantity}X</span>
                         <span
                           onClick={() =>
-                            setQuantity((prevState) => {
-                              if (prevState == 10) return prevState;
-                              return prevState + 1;
-                            })
+                            setQuantity((prev) => Math.min(10, prev + 1))
                           }
                           className="border bg-primary-red text-white w-8 h-8 flex justify-center items-center rounded-full cursor-pointer"
                         >
                           +
                         </span>
                       </div>
+
                       <button
                         onClick={addToCart}
                         type="submit"

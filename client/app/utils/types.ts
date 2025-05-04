@@ -51,6 +51,7 @@ export interface OrderItem {
   food_id: number;
   quantity: number;
   price: number;
+  extra: string;
 }
 
 export interface Order {
