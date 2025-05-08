@@ -34,12 +34,11 @@ const CategoryFilter = ({
 
         const categoryData = await categoryResponse.json();
         if(categoryData?.message){
-          toast.error(categoryData?.message)
           return;
         }
         setCategories(categoryData);
-      } catch (error) {
-        console.error(error);
+      } catch (error: unknown) {
+        if(error instanceof Error) toast.error(error.message)
       }
     };
 
@@ -61,7 +60,7 @@ const CategoryFilter = ({
       >
         All
       </button>
-      {categories.map((category) => (
+      {categories.length ? (categories.map((category) => (
         <button
           className={`${
             currentCategory === category.id
@@ -76,7 +75,11 @@ const CategoryFilter = ({
         >
           {category.name}
         </button>
-      ))}
+      ))):<>
+      <button className="text-primary-red hover:bg-primary-red hover:text-primary-white py-2 mx-1 px-4 rounded-3xl uppercase">test#1</button>
+      <button className="text-primary-red hover:bg-primary-red hover:text-primary-white py-2 mx-1 px-4 rounded-3xl uppercase">test#2</button>
+      <button className="text-primary-red hover:bg-primary-red hover:text-primary-white py-2 mx-1 px-4 rounded-3xl uppercase">test#3</button>
+      </>}
     </div>
   );
 };

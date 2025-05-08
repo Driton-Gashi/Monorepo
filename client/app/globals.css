@@ -9,6 +9,10 @@
   --primary-orange: #DC5F00;
 }
 
+input:focus{
+  outline-color: var(--primary-red);
+}
+
 body {
   font-family: var(--font-poppins);
 }

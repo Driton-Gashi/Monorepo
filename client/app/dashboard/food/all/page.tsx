@@ -64,9 +64,14 @@ const DashboardFoodAll = () => {
         if (!response.ok) {
           throw new Error("Failed to fetch foods");
         }
-        const data = await response.json();
-        setFoods(data);
-        setUnfilteredFoods(data)
+        const foodsData = await response.json();
+
+        if (foodsData?.message) {
+          return;
+        }
+
+        setFoods(foodsData);
+        setUnfilteredFoods(foodsData)
       } catch (error) {
         console.error(error);
       }

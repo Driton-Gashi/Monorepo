@@ -30,8 +30,8 @@ const CreateFoodForm = ({
       const response = await fetch(apiHandler("/api/categories"));
 
       const data = await response.json();
+
       if(data?.message){
-        toast.error(data?.message)
         return;
       }
 
@@ -234,25 +234,30 @@ const CreateFoodForm = ({
             Category
           </label>
           <div className="mt-2 relative">
-            <select
-              value={formData.category_id}
-              onChange={(e) => {
-                const { name, value } = e.target;
-                setFormData((prevData) => ({
-                  ...prevData,
-                  [name]: value,
-                }));
-              }}
-              name="category_id"
-              className="w-full px-4 py-2 rounded border border-gray-300 focus:border-primary-red focus:ring-1 focus:ring-primary-red focus:outline-none sm:text-sm/6"
-            >
-              <option value={0}>Choose a category</option>
-              {categories.map((category) => (
-                <option className="relative" key={category.id} value={category.id}>
-                  {category.name}
-                </option>
-              ))}
-            </select>
+            {
+              categories.length ? (<select
+                value={formData.category_id}
+                onChange={(e) => {
+                  const { name, value } = e.target;
+                  setFormData((prevData) => ({
+                    ...prevData,
+                    [name]: value,
+                  }));
+                }}
+                name="category_id"
+                className="w-full px-4 py-2 rounded border border-gray-300 focus:border-primary-red focus:ring-1 focus:ring-primary-red focus:outline-none sm:text-sm/6"
+              >
+                <option value={0}>Choose a category</option>
+                {categories.map((category) => (
+                  <option className="relative" key={category.id} value={category.id}>
+                    {category.name}
+                  </option>
+                ))}
+              </select>) : <select disabled className="cursor-not-allowed w-full px-4 py-2 rounded border border-gray-300 focus:border-primary-red focus:ring-1 focus:ring-primary-red focus:outline-none sm:text-sm/6">
+                <option value="">No Categories found!</option>
+              </select>
+            }
+            
             <div
             onClick={()=>setIsCreateCategoryOpen(true)}
               title="create new category"

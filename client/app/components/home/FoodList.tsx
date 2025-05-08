@@ -19,7 +19,7 @@ const FoodList = ({loading, foods, setPopupData}:P) => {
         </div>
       ) : (
         <div className="flex flex-wrap gap-[8%]">
-          {foods.map((food) => (
+          {foods.length ? (foods.map((food) => (
             <FoodCard
               className="w-1/4"
               food_id={food.food_id}
@@ -29,7 +29,7 @@ const FoodList = ({loading, foods, setPopupData}:P) => {
               key={food.food_id}
               setPopupData={setPopupData}
             />
-          ))}
+          ))): "No Food Items found"}
         </div>
       )}
     </>

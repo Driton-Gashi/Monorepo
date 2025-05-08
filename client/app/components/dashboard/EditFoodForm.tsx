@@ -3,6 +3,7 @@ import type { inputDataType, categoryType } from "@/app/utils/types";
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { apiHandler } from "@/app/utils/helpfulFunctions";
 import Image from "next/image";
+import Input from "../global/Input";
 
 interface P {
   formData: inputDataType;
@@ -66,14 +67,14 @@ const EditFormData = ({
                 onLoad={() => setIsImageInvalid(false)}
                 onError={() => setIsImageInvalid(true)}
               />
-              <input
+              <Input
                 id="file"
                 type="text"
                 name="imageUrl"
                 value={formData.imageUrl}
                 onChange={handleChange}
                 placeholder="Image Url"
-                className="border block w-full rounded-md bg-primary-white px-3 py-1.5 text-base text-gray-900  placeholder:text-gray-400 outline-2 outline-offset-2 outline-indigo-600 sm:text-sm/6"
+                className="sm:text-sm/6"
               />
             </>
           ) : (
@@ -114,7 +115,7 @@ const EditFormData = ({
           Name
         </label>
         <div className="mt-2">
-          <input
+          <Input
             autoComplete="name"
             type="text"
             name="name"
@@ -122,7 +123,7 @@ const EditFormData = ({
             value={formData.name}
             onChange={handleChange}
             placeholder="Product name"
-            className="border block w-full rounded-md bg-primary-white px-3 py-1.5 text-base text-gray-900  placeholder:text-gray-400 outline-2 outline-offset-2 outline-indigo-600 sm:text-sm/6"
+            className="sm:text-sm/6"
           />
         </div>
       </div>
@@ -148,7 +149,7 @@ const EditFormData = ({
               }));
             }}
             placeholder="Product description"
-            className="border block w-full rounded-md bg-primary-white px-3 py-1.5 text-base text-gray-900  placeholder:text-gray-400 outline-2 outline-offset-2 outline-indigo-600 sm:text-sm/6"
+            className=" w-full px-4 py-2 rounded border border-gray-300 focus:border-primary-red focus:ring-1 focus:ring-primary-red focus:outline-none sm:text-sm/6 resize-none h-16"
           ></textarea>
           <p className="text-sm text-gray-500 text-right">
             {formData.description.length}/300
@@ -164,7 +165,7 @@ const EditFormData = ({
           Price
         </label>
         <div className="mt-2">
-          <input
+          <Input
             type="number"
             name="price"
             id="price"
@@ -173,7 +174,7 @@ const EditFormData = ({
             step="0.10"
             onChange={handleChange}
             placeholder="Product price"
-            className="border block w-full rounded-md bg-primary-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+            className="sm:text-sm/6"
           />
         </div>
       </div>
@@ -186,33 +187,37 @@ const EditFormData = ({
           Category
         </label>
         <div className="mt-2">
-          <select
-            id="category"
-            value={formData.category_id}
-            onChange={(e) => {
-              const { value } = e.target;
-              setFormData((prevData) => ({
-                ...prevData,
-                category_id: Number(value),
-              }));
-            }}
-            name="category_id"
-            className="border block w-full rounded-md bg-primary-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-          >
-            <option value={0}>Choose a category</option>
-            {categories.map((category) => (
-              <option key={category.id} value={category.id}>
-                {category.name}
-              </option>
-            ))}
-          </select>
+          {
+            categories.length ? (<select
+              id="category"
+              value={formData.category_id}
+              onChange={(e) => {
+                const { value } = e.target;
+                setFormData((prevData) => ({
+                  ...prevData,
+                  category_id: Number(value),
+                }));
+              }}
+              name="category_id"
+              className="w-full px-4 py-2 rounded border border-gray-300 focus:border-primary-red focus:ring-1 focus:ring-primary-red focus:outline-none sm:text-sm/6"
+            >
+              <option value={0}>Choose a category</option>
+              {categories.map((category) => (
+                <option key={category.id} value={category.id}>
+                  {category.name}
+                </option>
+              ))}
+            </select>) :<select disabled className="cursor-not-allowed w-full px-4 py-2 rounded border border-gray-300 focus:border-primary-red focus:ring-1 focus:ring-primary-red focus:outline-none sm:text-sm/6">
+                <option value="">No Categories found!</option>
+              </select>
+          }
         </div>
       </div>
 
       <div>
         <button
           type="submit"
-          className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-primary-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          className="mt-4 flex w-full justify-center rounded-md bg-primary-red px-3 py-1.5 text-sm/6 font-semibold text-primary-white shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-red"
         >
           Update
         </button>

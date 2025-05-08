@@ -98,7 +98,7 @@ export const getFoodsByCategoryId = async (req: Request, res: Response): Promise
 
     const foods = await getFoodsByCategory(convertedCategoryId);
     if (!foods || foods.length === 0) {
-      res.status(404).json({ message: "No food items found for this category" });
+      res.status(404).json({ message: "No food items found with this category" });
       return;
     }
 

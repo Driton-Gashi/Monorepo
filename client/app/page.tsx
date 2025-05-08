@@ -4,6 +4,7 @@ import type { Food, popupData } from "@/app/utils/types";
 import Image from "next/image";
 import { apiHandler } from "./utils/helpfulFunctions";
 import QuickView from "./components/global/QuickView";
+import Container from "./components/global/Container";
 import Cart from "./components/cart/Cart";
 import SearchInput from "./components/home/SearchInput";
 import CategoryFilter from "./components/home/CategoryFilter";
@@ -40,7 +41,6 @@ export default function Home() {
         const foodData = await foodResponse.json();
 
         if (foodData?.message) {
-          toast.error(foodData?.message);
           return;
         }
 
@@ -67,17 +67,17 @@ export default function Home() {
   }, [produktetNeShporte]);
 
   return (
-    <div className="container m-auto p-6">
+    <Container className="pt-0">
       <Image
         priority
-        className="rounded-3xl shadow w-full"
+        className="rounded-3xl shadow w-full h-52 md:h-auto object-cover"
         src="/Banner_Pizza.jpg"
         alt="Pizza Banner"
         width={976}
         height={226}
       />
-      <div className="flex pt-6 pb-6 gap-6">
-        <div className="w-full lg:w-3/5 py-6">
+      <div className="flex pt-2 lg:pt-6 pb-6 md:gap-6 flex-col md:flex-row sm:gap-0">
+        <div className="w-full lg:w-3/5 py-3 md:py-6">
           <SearchInput
             allFoods={allFoods}
             setCurrentCategory={setCurrentCategory}
@@ -97,11 +97,11 @@ export default function Home() {
             setPopupData={setPopupData}
           />
         </div>
-        <div className="w-full lg:w-2/5 py-6">
+        <div className="w-full lg:w-2/5 py-3 md:py-6">
           <Cart />
         </div>
       </div>
       <QuickView popupData={popupData} setPopupData={setPopupData} />
-    </div>
+    </Container>
   );
 }

@@ -3,13 +3,13 @@
 import type { Order } from "../utils/types";
 import { useState, useRef } from "react";
 import Cart from "../components/cart/Cart";
+import Container from "../components/global/Container";
 import { apiHandler } from "../utils/helpfulFunctions";
 import { toast } from "sonner";
 import { useCart } from "../hooks/useCart";
 
 const CheckoutPage = () => {
   const produktetNeShporte = useCart((state) => state.produktetNeShporte);
-
   const [orderData, setOrderData] = useState<Order>({
     user_id: null,
     name: "",
@@ -86,8 +86,8 @@ const CheckoutPage = () => {
   };
 
   return (
-    <div className="container m-auto px-6">
-      <div className="flex justify-center gap-6 items-start">
+    <Container className="mt-6">
+      <div className="flex justify-center flex-col md:flex-row gap-4 md:gap-8 lg:gap-10 items-start">
         <form onSubmit={handleSubmit} ref={formRef} className="w-full">
           <div className="mb-5">
             <label htmlFor="name" className="block mb-2 text-sm font-medium text-black">
@@ -182,10 +182,9 @@ const CheckoutPage = () => {
             Invisible Submit Button :)
           </button>
         </form>
-
         <Cart className="w-full" triggerFormSubmit={triggerFormSubmit} />
       </div>
-    </div>
+    </Container>
   );
 };
 

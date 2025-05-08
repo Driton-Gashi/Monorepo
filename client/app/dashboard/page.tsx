@@ -26,8 +26,7 @@ const Dashboard = () => {
                       <div className="p-4 bg-green-100 rounded-xl">
                         <div className="font-bold text-xl text-gray-800 leading-none">
                           Good day, <br />
-                          {loggedInUserData && loggedInUserData.name}
-                          {loggedInUserData && loggedInUserData.role}
+                          {loggedInUserData && loggedInUserData.name} ({loggedInUserData && loggedInUserData.role})
                         </div>
                         <div className="mt-5">
                           <button
