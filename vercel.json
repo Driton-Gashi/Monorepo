@@ -1,5 +1,6 @@
 {
   "version": 2,
+  "buildCommand": "npm --prefix server run build",
   "builds": [
     {
       "src": "client/package.json",

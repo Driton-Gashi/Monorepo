@@ -89,7 +89,7 @@ const getFoodsByCategoryId = (req, res) => __awaiter(void 0, void 0, void 0, fun
         }
         const foods = yield (0, foodModel_1.getFoodsByCategory)(convertedCategoryId);
         if (!foods || foods.length === 0) {
-            res.status(404).json({ message: "No food items found with this category" });
+            res.status(200).json({ message: "No food items found with this category" });
             return;
         }
         res.status(200).json(foods);
