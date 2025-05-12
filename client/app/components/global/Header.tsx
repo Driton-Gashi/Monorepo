@@ -150,13 +150,13 @@ export default function Header() {
                       />
                     </div>
                     <div className="flex-auto">
-                      <a
+                      <Link
                         href={item.href}
                         className="block font-semibold text-gray-900"
                       >
                         {item.name}
                         <span className="absolute inset-0" />
-                      </a>
+                      </Link>
                       <p className="mt-1 text-gray-600">{item.description}</p>
                     </div>
                   </div>
@@ -224,12 +224,11 @@ export default function Header() {
         <div className="fixed inset-0 z-10" />
         <DialogPanel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
           <div className="flex items-center justify-between">
-            <a href="#" className="-m-1.5 p-1.5">
-              <span className="sr-only">Your Company</span>
+            <Link href="/" className="-m-1.5 p-1.5">
               <h2 className="text-2xl font-bold">
                 Driton<span className="text-[#E63946]">.</span>
               </h2>
-            </a>
+            </Link>
             <button
               type="button"
               onClick={() => setMobileMenuOpen(false)}

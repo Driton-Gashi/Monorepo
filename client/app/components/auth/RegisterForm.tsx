@@ -112,7 +112,7 @@ const RegisterForm = () => {
               alt="Animated bear avatar"
               priority
             />
-          ): <Image height={130} width={130} src="/assets/img/watch_bear_red/watch_bear_0.png" alt=""/>
+          ): <Image height={130} width={130} src="/assets/img/bear/bear_red/watch_bear_0.png" alt=""/>
           }
           
         </div>

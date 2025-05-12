@@ -10,6 +10,8 @@ import { useCart } from "../hooks/useCart";
 
 const CheckoutPage = () => {
   const produktetNeShporte = useCart((state) => state.produktetNeShporte);
+  console.log(produktetNeShporte);
+  
   const [orderData, setOrderData] = useState<Order>({
     user_id: null,
     name: "",
