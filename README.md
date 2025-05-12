@@ -1,7 +1,17 @@
 
 # 🍽️ Food Ordering App (Monorepo)
 
-A full-stack food ordering platform built with a modern web stack. This monorepo includes a **Next.js (TypeScript)** client and a **Node.js (Express, TypeScript, MySQL)** backend.
+
+![Next.js](https://img.shields.io/badge/Next.js-000?logo=next.js&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?logo=typescript&logoColor=white)
+![Express](https://img.shields.io/badge/Express.js-404D59?logo=express)
+![MySQL](https://img.shields.io/badge/MySQL-00758F?logo=mysql&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?logo=tailwind-css&logoColor=white)
+![JWT](https://img.shields.io/badge/JWT-black?logo=jsonwebtokens)
+![Vercel](https://img.shields.io/badge/Deployed_on-Vercel-black?logo=vercel)
+
+
+A full-stack food ordering platform built with a modern web stack. This monorepo includes a **Next.js (TypeScript)** client and a **Node.js (Express, MySQL)** backend.
 
 🔗 **Live Demo**: [app.dritongashi.com](https://app.dritongashi.com/)  
 📦 **Source Code**: [GitHub Repository](https://github.com/Driton-Gashi/Monorepo)
@@ -85,7 +95,7 @@ Password: test
 ## 🌍 Deployment
 
 This project is deployed on **Vercel** and live at:  
-👉 [http://app.dritongashi.com](http://app.dritongashi.com)
+👉 [https://app.dritongashi.com](https://app.dritongashi.com)
 
 ---
 
