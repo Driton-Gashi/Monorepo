@@ -10,14 +10,11 @@ import SearchInput from "./components/home/SearchInput";
 import CategoryFilter from "./components/home/CategoryFilter";
 import FoodList from "./components/home/FoodList";
 import { toast } from "sonner";
-import { useCart } from "@/app/hooks/useCart";
 
 export default function Home() {
   const [foods, setFoods] = useState<Food[]>([]);
   const [allFoods, setAllFoods] = useState<Food[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const produktetNeShporte = useCart((state) => state.produktetNeShporte);
-  const setProduktetNeShporte = useCart((state) => state.setProduktetNeShporte);
   const [currentCategory, setCurrentCategory] = useState<string | number>(
     "all"
   );
@@ -55,16 +52,7 @@ export default function Home() {
       }
     };
     fetchData();
-
-    const storedCartItems = localStorage.getItem("cartItems");
-    if (storedCartItems) {
-      setProduktetNeShporte(JSON.parse(storedCartItems));
-    }
-  }, [setProduktetNeShporte]);
-
-  useEffect(() => {
-    localStorage.setItem("cartItems", JSON.stringify(produktetNeShporte));
-  }, [produktetNeShporte]);
+  }, []);
 
   return (
     <Container className="pt-0">
