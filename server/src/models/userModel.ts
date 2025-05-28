@@ -30,3 +30,20 @@ export const createUser = async (
  const insertedId = await executeQuery(query, [name, lastname, email, hashedPassword]);
  return insertedId.insertId;
 };
+
+export const updateUser = async (
+  id: number,
+  name: string,
+  lastname: string,
+  email: string,
+  address: string,
+  city: string,
+  phone: string
+): Promise<void> => {
+  const query = `
+    UPDATE users 
+    SET name = ?, lastname = ?, email = ?, address = ?, city = ?, phone = ?
+    WHERE id = ?
+  `;
+  await executeQuery(query, [name, lastname, email, address, city, phone, id]);
+};
