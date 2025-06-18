@@ -71,9 +71,10 @@ const ProfilePage = () => {
       } else {
         toast.error(data.message);
       }
-    } catch (error) {
-      toast.error("An error occurred while updating profile");
-    }
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+          toast.error(error.message);
+        }
   };
 
   return (
