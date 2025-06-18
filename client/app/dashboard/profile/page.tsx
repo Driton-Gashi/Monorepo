@@ -74,7 +74,6 @@ const ProfilePage = () => {
     } catch (error: unknown) {
         if (error instanceof Error) {
           toast.error(error.message);
-        }
   };
 
   return (
